@@ -36,7 +36,7 @@ library(ltmc)
 # working_dir <- drive_ls(path = as_id("0BxUZSA1Gn1HZamlITk9DZzc1c1E"))
 working_dir <- googledrive::drive_ls('LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space') #human readable path to directory
 data_list <- working_dir %>% filter(grepl('(?i)\\.csv', name))
-save_data_dir <- here("Manuscripts/MS3/data/L3_datasets/")
+save_data_dir <- here("data/L3_datasets_local/")
 setwd(save_data_dir)
 
 #######################################################
@@ -163,7 +163,7 @@ for(i in 1:nrow(data_list)){
       d.in.long <- d.in.long %>% group_by(
         OBSERVATION_TYPE, SITE_ID, DATE, 
         VARIABLE_NAME, VARIABLE_UNITS) %>%
-        summarise(VALUE = mean(VALUE)) %>% data.frame()
+        summarise(VALUE = mean(as.numeric(VALUE))) %>% data.frame()
     }
     
 
@@ -345,48 +345,16 @@ for(i in 1:nrow(data_list)){
 #           row.names = FALSE)
 
 #####################################
-# code to write as results as a .csv
-write_path <- '~/LTER Metacommunities/LTER-DATA/L4-derived_data/'
-
-# check write path
-my_file_list <- drive_ls(write_path)
 
 write_filename <- paste0('L4_metacommunity_variability_analysis_results_', Sys.Date(), '.csv')
 write_filename_local <- paste0('L4_local_variability_analysis_results_', Sys.Date(), '.csv')
 
 # temp write local
-readr::write_csv(analysis_results, file = here(paste0("Manuscripts/MS3/data/",write_filename)))
-readr::write_csv(local_analysis_results, file = here(paste0("Manuscripts/MS3/data/",write_filename_local)))
+readr::write_csv(analysis_results, file = here(paste0("data/",write_filename)))
+readr::write_csv(local_analysis_results, file = here(paste0("data/",write_filename_local)))
 
-# write local file to google drive
-# conditional depending on if we need to overwrite or create new
-if(!write_filename %in% my_file_list$name){
-  drive_upload(write_filename, 
-               path = write_path, 
-               name = write_filename, 
-               type = NULL,
-               verbose = TRUE)
-}else{
-  google_id <- my_file_list %>% filter(name == write_filename) %>% select(id) %>% unlist()
-  drive_update(file = as_id(google_id), 
-               media = write_filename)
-}
-
-if(!write_filename_local %in% my_file_list$name){
-  drive_upload(write_filename_local, 
-               path = write_path, 
-               name = write_filename_local, 
-               type = NULL,
-               verbose = TRUE)
-}else{
-  google_id <- my_file_list %>% filter(name == write_filename_local) %>% select(id) %>% unlist()
-  drive_update(file = as_id(google_id), 
-               media = write_filename_local)
-}
-
-# remove local file
-#file.remove(write_filename)
-
+setwd(here())
+#
 
 # #######################################################
 # # -- Make figures

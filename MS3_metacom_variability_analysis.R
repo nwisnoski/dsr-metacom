@@ -5,8 +5,9 @@ library(patchwork)
 library(broom)
 library(ggrepel)
 library(lme4)
+library(lmerTest)
 library(sjPlot)
-library(MuMIn)
+library(RLRsim)
 
 theme_set(theme_base() + 
             theme(plot.background = element_blank(),
@@ -16,10 +17,10 @@ theme_set(theme_base() +
 pal <- colorspace::darken(RColorBrewer::brewer.pal(n = 10, name = "Set3"), amount = .2)
 
 # 1. IMPORT DATA SETS ------------------------------------------------------------
-metacom_var <- read_csv(here("Manuscripts/MS3/data/L4_metacommunity_variability_analysis_results_2022-02-10.csv"))
-local_var <- read_csv(here("Manuscripts/MS3/data/L4_local_variability_analysis_results_2022-02-10.csv"))
-env_var <- read_csv(here("Manuscripts/MS3/data/lter_centroid_satdata.csv"))
-data_list <- read_csv(here("Manuscripts/MS3/data/L3_DATA_list.csv"))
+metacom_var <- read_csv(here("data/L4_metacommunity_variability_analysis_results_2023-04-03.csv"))
+local_var <- read_csv(here("data/L4_local_variability_analysis_results_2023-04-03.csv"))
+env_var <- read_csv(here("data/lter_centroid_satdata.csv"))
+data_list <- read_csv(here("data/L3_DATA_list.csv"))
 
 metacom_var <- data_list %>% 
   rename(dataset_file_name = l3_filename) %>% 
@@ -68,13 +69,13 @@ local_divstab_regs <-  local_var %>%
 # This shows patterns within metacommunities about local community richness and variability
 # Then compares across all sites, to show that sometimes these local relationships are stronger than others
 
-local_div_stab_comp_alpha_mod <- lm(BD ~ site_mean_alpha_div, data = local_divstab_regs)
+local_div_stab_comp_alpha_mod <- lm(log10(BD) ~ site_mean_alpha_div, data = local_divstab_regs)
 local_div_stab_comp_alpha_fit <- glance(local_div_stab_comp_alpha_mod)
 (p_val <- as.character(round(local_div_stab_comp_alpha_fit$p.value,2))) # 0.16
 (r2 <- as.character(round(local_div_stab_comp_alpha_fit$r.squared,2))) # 0.
 
 
-local_div_stab_agg_alpha_mod <- lm(CV ~ site_mean_alpha_div, data = local_divstab_regs)
+local_div_stab_agg_alpha_mod <- lm(log10(CV) ~ site_mean_alpha_div, data = local_divstab_regs)
 local_div_stab_agg_alpha_fit <- glance(local_div_stab_agg_alpha_mod)
 (p_val <- as.character(round(local_div_stab_agg_alpha_fit$p.value,2))) # 0.
 (r2 <- as.character(round(local_div_stab_agg_alpha_fit$r.squared,2))) # 0.09
@@ -83,18 +84,19 @@ local_div_stab_agg_alpha_fit <- glance(local_div_stab_agg_alpha_mod)
 ### mixed effects models
 local_dataset_for_mods <- local_var %>% select(dataset_id, `LTER site`, SITE_ID, organism_group, metric, metric_value) %>% 
   pivot_wider(names_from = "metric", values_from = "metric_value") 
+local_dataset_for_mods <- local_dataset_for_mods %>% group_by(dataset_id) %>% 
+  mutate(alpha_div_centered = site_mean_alpha_div - mean(site_mean_alpha_div))
 
-local_comp_mod_lmm <- glmer(BD ~ site_mean_alpha_div + (site_mean_alpha_div|dataset_id), data = local_dataset_for_mods, family = "gaussian")
+local_comp_mod_lmm <- lmer(BD ~ site_mean_alpha_div + (site_mean_alpha_div|dataset_id) * (1|organism_group), data = local_dataset_for_mods)
 summary(local_comp_mod_lmm)
 plot(local_comp_mod_lmm)
 
-local_agg_mod_lmm <- glmer(CV ~ site_mean_alpha_div + (site_mean_alpha_div|dataset_id), data = local_dataset_for_mods, family = "gaussian")
+local_agg_mod_lmm <- lmer(CV ~ 1 + (alpha_div_centered|dataset_id), data = local_dataset_for_mods)
 summary(local_agg_mod_lmm)
 plot(local_agg_mod_lmm)
-
-
-summary(local_agg_mod_lmm)
 coef(local_agg_mod_lmm)
+confint(local_agg_mod_lmm, method = "boot")
+exactRLRT(lmer(CV ~ 1 + (1|dataset_id), data = local_dataset_for_mods))
 
 summary(local_comp_mod_lmm)
 coef(local_comp_mod_lmm)
@@ -117,6 +119,7 @@ local_divstab_comp_fig <- local_var %>% select(dataset_id, `LTER site`, SITE_ID,
   #geom_smooth(method = "lm", se = F, color = "black", size = 2, linetype = "dashed") +
   labs(x = expression(paste("Mean ", alpha, "-diversity")), y = expression(paste("Comp. ", alpha, "-variability (", BD^h[alpha],")")), color = "Organism group") + 
   scale_color_manual(values = pal) +
+  #scale_y_log10() +
   annotate("text", x = 40, y = 0.8, label = bquote(atop(paste(R[m]^2, "= 0.0009", ),
                                                         paste(R[c]^2, "= 0.620"))))
 local_divstab_comp_fig
@@ -131,6 +134,7 @@ local_divstab_agg_fig <- local_var %>% select(dataset_id, `LTER site`, SITE_ID, 
   geom_smooth(method = "lm", se = F, color = "black", size = 1.5) +
   labs(x = expression(paste("Mean ", alpha, "-diversity")), y = expression(paste("Agg. ", alpha, "-variability (CV)")), color = "Organism group") + 
   scale_color_manual(values = pal) +
+  #scale_y_log10() +
   annotate("text", x = 40, y = 1.5, label = bquote(atop(paste(R[m]^2, "= 0.0932", ),
                                                         paste(R[c]^2, "= 0.8479"))))
 local_divstab_agg_fig

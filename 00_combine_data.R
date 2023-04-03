@@ -23,12 +23,12 @@ for (package in c('tidyverse', 'PerformanceAnalytics', 'ggthemes',
 # 1. IMPORT DATA SETS ------------------------------------------------------------
 
 # Metacommunity characteristics and site data
-metacom.data <- read.csv(here("Manuscripts/MS3/data/L3_DATA_list.csv"))
+metacom.data <- read.csv(here("data/L3_DATA_list.csv"))
 # Change name of "LTEr.name" to match environmantal data
 colnames(metacom.data)[5] <- "site"
 
 # Environmental data
-env.data <- read.csv(here("Manuscripts/MS3/data/lter_centroid_satdata.csv"))
+env.data <- read.csv(here("data/lter_centroid_satdata.csv"))
 
 # Change site name for USVI so matching in both data sets
 env.data$site <- as.character(env.data$site)
@@ -180,8 +180,8 @@ comb.data <- comb.data %>%
   select(-c(lst_temporal_sd, sst_temporal_sd, elevation_spatial_sd_slope_60km, bathymetry_spatial_sd_slope_60km))
 
 
-# Read in the metacommunity variability responses sent by Eric Sokal
-response <- read.csv(here("Manuscripts/MS3/data/L4_metacommunity_variability_analysis_results_2022-02-10.csv"))
+# Read in the metacommunity variability responses sent by Eric Sokol
+response <- read.csv(here("data/L4_metacommunity_variability_analysis_results_2023-04-03.csv"))
 
 # Check conrguence between data sets in this file with data available from the
 # environmental file
@@ -200,4 +200,4 @@ all.data <- comb.data %>%
 length(unique(all.data$l3_filename))
 #28 data sets
 
-write.csv(all.data, here("Manuscripts/MS3/output/metacom_data_for_models.csv"))
+write.csv(all.data, here("output/metacom_data_for_models_2023-04-03.csv"))
