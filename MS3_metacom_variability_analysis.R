@@ -442,7 +442,7 @@ phi_compare_fig <- comp_agg_fig + phi_compare +
   plot_layout(guides = "collect", nrow = 1)
 ggsave("figs/agg_comp_panel.png", plot = phi_compare_fig, bg = "white", width = 8, height = 6, dpi = 600)
 
-# 5. PARTITIONING DSRs
+# 5. PARTITIONING DSRs --------------------------------------------------------
 comp_mod <- psem(
   lm(gamma_var_rate ~ phi_var + alpha_var_rate, data = metacom_divstab_comp_dat),
   lm(phi_var ~ beta_div_mean, data = metacom_divstab_comp_dat),
@@ -494,7 +494,7 @@ dsr_com <- metacom_divstab_comp_dat %>%
 dsr_tot <- left_join(dsr_ag, dsr_com)
 
 tot_mod <- psem(
-  lm(cv_gamma ~ cv_alpha + cv_phi + bd_alpha + bd_phi, data = dsr_tot),
+  lm(cv_gamma ~ cv_alpha + cv_phi + bd_alpha + bd_phi + bd_gamma, data = dsr_tot),
   lm(bd_gamma ~ bd_alpha + bd_phi, data = dsr_tot),
   lm(cv_phi ~ beta_div_mean + bd_phi, data = dsr_tot),
   lm(cv_alpha ~ alpha_div_mean + bd_alpha, data = dsr_tot),
@@ -513,3 +513,5 @@ plot(
   show = "std",
   digits = 3,
   add_edge_label_spaces = TRUE)
+
+# 6. ENVIRONMENTS AND TRAITS -------------------------------------------------
