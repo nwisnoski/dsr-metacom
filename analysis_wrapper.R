@@ -35,11 +35,11 @@ library(ltmc)
 
 # working_dir <- drive_ls(path = as_id("0BxUZSA1Gn1HZamlITk9DZzc1c1E"))
 working_dir <- googledrive::drive_ls('LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space') #human readable path to directory
-data_list <- working_dir %>% filter(grepl('(?i)\\.csv', name))
+data_list <- working_dir %>% filter(grepl('(?i)\\.csv', name)) %>% filter(name != "L3-ntl-zooplankton-stanleyLottig.csv")
 save_data_dir <- here("data/L3_datasets_local/")
 setwd(save_data_dir)
 
-#######################################################
+######################################################
 # -- Loop through data sets and call functions
 #######################################################
 
@@ -260,11 +260,11 @@ for(i in 1:nrow(data_list)){
         variability_type = 'divpart_time_series',
         standardization_method = 'q_order_0',
         div.part %>% summarize(
-          alpha_div_mean = mean(alpha_div),
+          alpha_div_mean = mean(alpha_div, na.rm = TRUE),
           alpha_div_cv = ltmc::cv(alpha_div),
-          beta_div_mean = mean(beta_div),
+          beta_div_mean = mean(beta_div, na.rm = TRUE),
           beta_div_cv = ltmc::cv(beta_div),
-          gamma_div_mean = mean(gamma_div),
+          gamma_div_mean = mean(gamma_div, na.rm = TRUE),
           gamma_div_cv = ltmc::cv(gamma_div)
         )) %>%
         tidyr::gather(metric, metric_value, -c(variability_type, standardization_method))

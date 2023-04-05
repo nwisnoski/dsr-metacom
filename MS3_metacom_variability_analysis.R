@@ -1,13 +1,15 @@
 library(here)
-library(tidyverse)
-library(ggthemes)
-library(patchwork)
 library(broom)
 library(ggrepel)
 library(lme4)
 library(lmerTest)
 library(sjPlot)
 library(RLRsim)
+library(MuMIn)
+library(piecewiseSEM)
+library(tidyverse)
+library(patchwork)
+library(ggthemes)
 
 theme_set(theme_base() + 
             theme(plot.background = element_blank(),
@@ -17,8 +19,9 @@ theme_set(theme_base() +
 pal <- colorspace::darken(RColorBrewer::brewer.pal(n = 10, name = "Set3"), amount = .2)
 
 # 1. IMPORT DATA SETS ------------------------------------------------------------
-metacom_var <- read_csv(here("data/L4_metacommunity_variability_analysis_results_2023-04-03.csv"))
-local_var <- read_csv(here("data/L4_local_variability_analysis_results_2023-04-03.csv"))
+#source("analysis_wrapper.R")
+metacom_var <- read_csv(here("data/L4_metacommunity_variability_analysis_results_2023-04-05.csv"))
+local_var <- read_csv(here("data/L4_local_variability_analysis_results_2023-04-05.csv"))
 env_var <- read_csv(here("data/lter_centroid_satdata.csv"))
 data_list <- read_csv(here("data/L3_DATA_list.csv"))
 
@@ -69,14 +72,16 @@ local_divstab_regs <-  local_var %>%
 # This shows patterns within metacommunities about local community richness and variability
 # Then compares across all sites, to show that sometimes these local relationships are stronger than others
 
-local_div_stab_comp_alpha_mod <- lm(log10(BD) ~ site_mean_alpha_div, data = local_divstab_regs)
+local_div_stab_comp_alpha_mod <- lm(BD ~ site_mean_alpha_div, data = local_divstab_regs)
 local_div_stab_comp_alpha_fit <- glance(local_div_stab_comp_alpha_mod)
+summary(local_div_stab_comp_alpha_mod)
 (p_val <- as.character(round(local_div_stab_comp_alpha_fit$p.value,2))) # 0.16
 (r2 <- as.character(round(local_div_stab_comp_alpha_fit$r.squared,2))) # 0.
 
 
-local_div_stab_agg_alpha_mod <- lm(log10(CV) ~ site_mean_alpha_div, data = local_divstab_regs)
+local_div_stab_agg_alpha_mod <- lm(CV ~ site_mean_alpha_div, data = local_divstab_regs)
 local_div_stab_agg_alpha_fit <- glance(local_div_stab_agg_alpha_mod)
+summary(local_div_stab_agg_alpha_mod)
 (p_val <- as.character(round(local_div_stab_agg_alpha_fit$p.value,2))) # 0.
 (r2 <- as.character(round(local_div_stab_agg_alpha_fit$r.squared,2))) # 0.09
 
@@ -85,64 +90,64 @@ local_div_stab_agg_alpha_fit <- glance(local_div_stab_agg_alpha_mod)
 local_dataset_for_mods <- local_var %>% select(dataset_id, `LTER site`, SITE_ID, organism_group, metric, metric_value) %>% 
   pivot_wider(names_from = "metric", values_from = "metric_value") 
 local_dataset_for_mods <- local_dataset_for_mods %>% group_by(dataset_id) %>% 
-  mutate(alpha_div_centered = site_mean_alpha_div - mean(site_mean_alpha_div))
+  mutate(alpha_div_centered = site_mean_alpha_div - mean(site_mean_alpha_div),
+         alpha_div_scaled = scale(site_mean_alpha_div))
 
-local_comp_mod_lmm <- lmer(BD ~ site_mean_alpha_div + (site_mean_alpha_div|dataset_id) * (1|organism_group), data = local_dataset_for_mods)
+local_comp_mod_lmm <- lmer(BD ~ alpha_div_scaled + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
 summary(local_comp_mod_lmm)
 plot(local_comp_mod_lmm)
+coef(local_comp_mod_lmm)
+confint(local_comp_mod_lmm, method = "boot")
 
-local_agg_mod_lmm <- lmer(CV ~ 1 + (alpha_div_centered|dataset_id), data = local_dataset_for_mods)
+
+local_agg_mod_lmm <- lmer(CV ~ alpha_div_scaled + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
 summary(local_agg_mod_lmm)
 plot(local_agg_mod_lmm)
 coef(local_agg_mod_lmm)
 confint(local_agg_mod_lmm, method = "boot")
 exactRLRT(lmer(CV ~ 1 + (1|dataset_id), data = local_dataset_for_mods))
 
-summary(local_comp_mod_lmm)
-coef(local_comp_mod_lmm)
 
 
-r2m_comp <- r.squaredGLMM(local_comp_mod_lmm)[1]
-r2c_comp <- r.squaredGLMM(local_comp_mod_lmm)[2]
+(r2m_comp <- r.squaredGLMM(local_comp_mod_lmm)[1])
+(r2c_comp <- r.squaredGLMM(local_comp_mod_lmm)[2])
 
-r2m_agg <- r.squaredGLMM(local_agg_mod_lmm)[1]
-r2c_agg <- r.squaredGLMM(local_agg_mod_lmm)[2]
+(r2m_agg <- r.squaredGLMM(local_agg_mod_lmm)[1])
+(r2c_agg <- r.squaredGLMM(local_agg_mod_lmm)[2])
 
 ### make figs
 
-local_divstab_comp_fig <- local_var %>% select(dataset_id, `LTER site`, SITE_ID, organism_group, metric, metric_value) %>% 
-  pivot_wider(names_from = "metric", values_from = "metric_value") %>% 
+local_divstab_comp_fig <- local_dataset_for_mods %>% 
                           
-  ggplot(aes(x = site_mean_alpha_div, y = BD)) + 
+  ggplot(aes(x = alpha_div_scaled, y = BD)) + 
   geom_point(mapping = aes(group = dataset_id, color = organism_group), alpha = 0.3) + 
   geom_smooth(mapping = aes(group= dataset_id, color = organism_group), method = "lm",size=0.5, se = F, show.legend = FALSE) + 
-  #geom_smooth(method = "lm", se = F, color = "black", size = 2, linetype = "dashed") +
-  labs(x = expression(paste("Mean ", alpha, "-diversity")), y = expression(paste("Comp. ", alpha, "-variability (", BD^h[alpha],")")), color = "Organism group") + 
+  geom_smooth(method = "lm", se = F, color = "black", size = 2, linetype = "dashed") +
+  labs(x = expression(paste("Mean ", alpha, "-diversity (z-score)")), y = expression(paste("Comp. ", alpha, "-variability (", BD^h[alpha],")")), color = "Organism group") + 
   scale_color_manual(values = pal) +
   #scale_y_log10() +
-  annotate("text", x = 40, y = 0.8, label = bquote(atop(paste(R[m]^2, "= 0.0009", ),
-                                                        paste(R[c]^2, "= 0.620"))))
+  annotate("text", x = 2.5, y = 0.8, label = bquote(atop(paste(R[m]^2, "= 0.017", ),
+                                                        paste(R[c]^2, "= 0.716"))))
 local_divstab_comp_fig
 
 
-local_divstab_agg_fig <- local_var %>% select(dataset_id, `LTER site`, SITE_ID, organism_group, metric, metric_value) %>% 
-  pivot_wider(names_from = "metric", values_from = "metric_value") %>% 
+local_divstab_agg_fig <- local_dataset_for_mods %>% 
   
-  ggplot(aes(x = site_mean_alpha_div, y = CV)) + 
+  ggplot(aes(x = alpha_div_scaled, y = CV)) + 
   geom_point(mapping = aes(group = dataset_id, color = organism_group), alpha = 0.3) + 
   geom_smooth(mapping = aes(group = dataset_id, color = organism_group), method = "lm", size =0.5, se = F, show.legend = FALSE) + 
   geom_smooth(method = "lm", se = F, color = "black", size = 1.5) +
-  labs(x = expression(paste("Mean ", alpha, "-diversity")), y = expression(paste("Agg. ", alpha, "-variability (CV)")), color = "Organism group") + 
+  labs(x = expression(paste("Mean ", alpha, "-diversity (z-score)")), y = expression(paste("Agg. ", alpha, "-variability (CV)")), color = "Organism group") + 
   scale_color_manual(values = pal) +
   #scale_y_log10() +
-  annotate("text", x = 40, y = 1.5, label = bquote(atop(paste(R[m]^2, "= 0.0932", ),
-                                                        paste(R[c]^2, "= 0.8479"))))
+  annotate("text", x = 2.5, y = 1.5, label = bquote(atop(paste(R[m]^2, "= 0.024", ),
+                                                        paste(R[c]^2, "= 0.783"))))
 local_divstab_agg_fig
 
 
 local_divstab_fig <- local_divstab_agg_fig + local_divstab_comp_fig + 
   plot_layout(ncol = 1, guides = "collect") + plot_annotation(tag_levels = "A")
-ggsave(filename = here("Manuscripts/MS3/figs/local_divstab_fig.png"), plot = local_divstab_fig, dpi = 600, width = 6, height = 6*3/4*2, bg = "white")
+ggsave(filename = here("figs/local_divstab_fig.png"), plot = local_divstab_fig, dpi = 600, width = 6, height = 6*3/4*2, bg = "white")
 
 
 
@@ -156,8 +161,11 @@ div_stab_comp_alpha_mod <- (lm(alpha_var_rate ~ alpha_div_mean, data = metacom_d
 div_stab_comp_alpha_gamma_mod <- (lm(gamma_var_rate ~ alpha_div_mean, data = metacom_divstab_comp_dat))
 div_stab_comp_beta_gamma_mod <- (lm(gamma_var_rate ~ beta_div_mean, data = metacom_divstab_comp_dat))
 
-
-
+summary(div_stab_comp_alpha_mod)
+summary(div_stab_comp_beta_mod)
+summary(div_stab_comp_gamma_mod)
+summary(div_stab_comp_alpha_gamma_mod)
+summary(div_stab_comp_beta_gamma_mod)
 
 div_stab_agg_gamma_mod <- (lm(gamma_var_rate ~ gamma_div_mean, data = metacom_divstab_agg_dat))
 div_stab_agg_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
@@ -165,6 +173,11 @@ div_stab_agg_alpha_mod <- (lm(alpha_var_rate ~ alpha_div_mean, data = metacom_di
 div_stab_agg_alpha_gamma_mod <- (lm(gamma_var_rate ~ alpha_div_mean, data = metacom_divstab_agg_dat))
 div_stab_agg_beta_gamma_mod <- (lm(gamma_var_rate ~ beta_div_mean, data = metacom_divstab_agg_dat))
 
+summary(div_stab_agg_alpha_mod)
+summary(div_stab_agg_beta_mod)
+summary(div_stab_agg_gamma_mod)
+summary(div_stab_agg_alpha_gamma_mod)
+summary(div_stab_agg_beta_gamma_mod)
 
 # regional compositional variability
 
@@ -182,8 +195,8 @@ div_stab_comp_gamma_fit <- glance(div_stab_comp_gamma_mod)
          color = "Organism group")  +
     #scale_x_log10() +
     scale_color_manual(values = pal, drop = FALSE) +
-    annotate("text", x = 10, y = 0.045, label = bquote(atop(paste(R^2, "= 0.17", ),
-                                                            "p = 0.05")))
+    annotate("text", x = 10, y = 0.045, label = bquote(atop(paste(R^2, "= 0.04", ),
+                                                            "p = 0.15")))
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
@@ -201,7 +214,7 @@ div_stab_comp_alpha_fit <- glance(div_stab_comp_alpha_mod)
          color = "Organism group") +
     scale_color_manual(values = pal, drop = FALSE) +
     #scale_x_log10() +
-    annotate("text", x = 30, y = 0.09, label = "p = 0.863")
+    annotate("text", x = 30, y = 0.09, label = "p = 0.87")
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
@@ -219,8 +232,8 @@ div_stab_alpha_gamma_fit$r.squared # 0.232
          color = "Organism group") +
     scale_color_manual(values = pal, drop = FALSE) +
     #scale_x_log10()  +
-    annotate("text", x = 3, y = 0.045, label = bquote(atop(paste(R^2, "= 0.23"),
-                                                           "p = 0.02")))  #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
+    annotate("text", x = 3, y = 0.045, label = bquote(atop(paste(R^2, "= 0.27"),
+                                                           "p = 0.004")))  #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
 div_stab_beta_gamma_fit <- glance(div_stab_comp_beta_gamma_mod)
@@ -235,7 +248,7 @@ div_stab_beta_gamma_fit$r.squared
     labs(x = expression(paste("Mean ", beta, "-diversity")),
          y = expression(paste("Comp. ", gamma, "-variability")),
          color = "Organism group") +
-    annotate("text", x = 4.75, y = 0.045, label = bquote("p = 0.2"))
+    annotate("text", x = 4.75, y = 0.045, label = bquote("p = 0.34"))
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
@@ -252,7 +265,7 @@ div_stab_gamma_agg_fit$r.squared # 0.08
     labs(x = expression(paste("Mean ", gamma, "-diversity")),
          y = expression(paste("Agg. ", gamma, "-variability (", CV^2, ")")),
          color = "Organism group") +
-    annotate("text", x = 65, y = 0.025, label = bquote("p = 0.20"))
+    annotate("text", x = 65, y = 0.025, label = bquote("p = 0.22"))
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
@@ -269,7 +282,7 @@ div_stab_alpha_agg_fit$r.squared # 0.0927
          y = expression(paste("Agg. ", alpha, "-variability")),
          color = "Organism group")  +
     # scale_x_log10() +
-    annotate("text", x = 30, y = .09, label = bquote("p = 0.17"))
+    annotate("text", x = 30, y = .09, label = bquote("p = 0.16"))
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
@@ -286,7 +299,7 @@ div_stab_alpha_gamma_agg_fit$r.squared # 0
          y = expression(paste("Agg. ", gamma, "-variability")),
          color = "Organism group")  +
     #scale_x_log10() +
-    annotate("text", x = 30, y = 0.025, label = "p = 0.927")
+    annotate("text", x = 30, y = 0.025, label = "p = 0.48")
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
@@ -302,8 +315,8 @@ div_stab_beta_gamma_agg_fit$r.squared # 0.29
     labs(x = expression(paste("Mean ", beta, "-diversity")),
          y = expression(paste("Agg. ", gamma, "-variability")),
          color = "Organism group")  + 
-    annotate("text", x = 4.75, y = 0.02, label = bquote(atop(paste(R^2, "= 0.29"),
-                                                               "p = 0.01")))
+    annotate("text", x = 4.75, y = 0.02, label = bquote(atop(paste(R^2, "= 0.25"),
+                                                               "p = 0.006")))
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
@@ -313,7 +326,7 @@ div_stab_multipanel_fig <- div_stab_gamma_agg + div_stab_gamma_h +
   div_stab_alpha_gamma_agg + div_stab_alpha_gamma_h +
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect", nrow = 3)
-ggsave(filename = "Manuscripts/MS3/figs/diversity_variability.png", plot = div_stab_multipanel_fig, width = 2.5*4, height = 3*3, units = "in", dpi = 1000, bg = "white")
+ggsave(filename = "figs/diversity_variability.png", plot = div_stab_multipanel_fig, width = 2.5*4, height = 3*3, units = "in", dpi = 1000, bg = "white")
 
 
 summary(div_stab_agg_gamma_mod)
@@ -334,7 +347,7 @@ div_stab_phi_fit$r.squared # 0.49
     labs(x = expression(paste("Mean ", beta, "-diversity")),
          y = expression(paste("Comp. Synchrony (", BD^h[phi], ")")),
          color = "Organism group")  +
-    annotate("text", x = 4.75, y = 0.9, label = bquote(atop(paste(R^2, "= 0.49"),
+    annotate("text", x = 4.75, y = 0.9, label = bquote(atop(paste(R^2, "= 0.38"),
                                                             "p = 0.0003")))
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
@@ -353,7 +366,7 @@ div_stab_phi_agg_fit$r.squared # 0.32
     labs(x = expression(paste("Mean ", beta, "-diversity")),
          y = expression(paste("Agg. Synchrony (",phi,")")),
          color = "Organism group") +
-    annotate("text", x = 4.75, y = 0.9, label = bquote(atop(paste(R^2, "= 0.32"),
+    annotate("text", x = 4.75, y = 0.9, label = bquote(atop(paste(R^2, "= 0.35"),
                                                             "p = 0.006")))
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
@@ -363,7 +376,7 @@ div_stab_phi_agg_fit$r.squared # 0.32
 div_stab_phi_beta_fig <- (div_stab_phi_agg) + div_stab_phi_h + 
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect", nrow = 2)
-ggsave(filename = "Manuscripts/MS3/figs/beta_phi.png", plot = div_stab_phi_beta_fig, width = 1.5*4, height = 2*3, units = "in", dpi = 1000, bg = "white")
+ggsave(filename = "figs/beta_phi.png", plot = div_stab_phi_beta_fig, width = 1.5*4, height = 2*3, units = "in", dpi = 1000, bg = "white")
 
 # Compare alpha-alpha, beta-beta-, gamma-gamma
 div_stab_multiscale_partition_fig <- 
@@ -372,7 +385,7 @@ div_stab_multiscale_partition_fig <-
   div_stab_gamma_agg + div_stab_gamma_h +
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect", nrow = 3)
-ggsave(filename = "Manuscripts/MS3/figs/diversity_variability_multiscale.png",plot = div_stab_multiscale_partition_fig, width = 2.7*4, height = 3.2*3, units = "in", dpi = 1000, bg = "white")
+ggsave(filename = "figs/diversity_variability_multiscale.png", plot = div_stab_multiscale_partition_fig, width = 2.7*4, height = 3.2*3, units = "in", dpi = 1000, bg = "white")
 
 
 
@@ -400,7 +413,7 @@ comp_agg_fig <- na.omit(comp_agg_stab) %>%
   labs(x = "Compositional variability",
        y = "Aggregate variability",
        color = "Organism group")
-ggsave(filename = "Manuscripts/MS3/figs/comp_agg_compare.png",plot = comp_agg_fig, bg = "white", width = 6, height = 6, dpi = 600)
+ggsave(filename = "figs/comp_agg_compare.png",plot = comp_agg_fig, bg = "white", width = 6, height = 6, dpi = 600)
  
 
 
@@ -421,11 +434,82 @@ phi_compare <- na.omit(comp_agg_stab) %>%
   coord_fixed() +
   scale_x_continuous(breaks = c(0.2, 0.4, 0.6, 0.8)) + 
   theme(legend.position = "right") +
-  annotate("text", x = .75, y = 0.1, size = 5, label = expression(paste(rho, "= 0.65")))
-ggsave("Manuscripts/MS3/figs/phi_comparison.png",plot = phi_compare, bg = "white", width = 6, height = 3/4*6, dpi = 600)
+  annotate("text", x = .75, y = 0.1, size = 5, label = expression(paste(rho, "= 0.51")))
+ggsave("figs/phi_comparison.png",plot = phi_compare, bg = "white", width = 6, height = 3/4*6, dpi = 600)
 
 phi_compare_fig <- comp_agg_fig + phi_compare + 
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect", nrow = 1)
-ggsave("Manuscripts/MS3/figs/agg_comp_panel.png", plot = phi_compare_fig, bg = "white", width = 8, height = 6, dpi = 600)
+ggsave("figs/agg_comp_panel.png", plot = phi_compare_fig, bg = "white", width = 8, height = 6, dpi = 600)
 
+# 5. PARTITIONING DSRs
+comp_mod <- psem(
+  lm(gamma_var_rate ~ phi_var + alpha_var_rate, data = metacom_divstab_comp_dat),
+  lm(phi_var ~ beta_div_mean, data = metacom_divstab_comp_dat),
+  lm(alpha_var_rate ~ alpha_div_mean, data = metacom_divstab_comp_dat),
+  data = metacom_divstab_comp_dat
+)
+
+summary(comp_mod)
+plot(
+  comp_mod,
+  return = FALSE,
+  node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
+  edge_attrs = data.frame(style = "solid", color = "black"),
+  ns_dashed = T,
+  alpha = 0.05,
+  show = "std",
+  digits = 3,
+  add_edge_label_spaces = TRUE)
+
+agg_mod <- psem(
+  lm(gamma_var_rate ~ phi_var + alpha_var_rate, data = metacom_divstab_agg_dat),
+  lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat),
+  lm(alpha_var_rate ~ alpha_div_mean, data = metacom_divstab_agg_dat),
+  data = metacom_divstab_agg_dat
+)
+
+summary(agg_mod)
+plot(
+  agg_mod,
+  return = FALSE,
+  node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
+  edge_attrs = data.frame(style = "solid", color = "black"),
+  ns_dashed = T,
+  alpha = 0.05,
+  show = "std",
+  digits = 3,
+  add_edge_label_spaces = TRUE)
+
+dsr_ag <- metacom_divstab_agg_dat %>% 
+  rename(cv_gamma = gamma_var_rate, 
+         cv_phi = phi_var,
+         cv_alpha = alpha_var_rate) %>% 
+  select(dataset_id, cv_gamma, cv_phi, cv_alpha, alpha_div_mean, beta_div_mean, gamma_div_mean)
+dsr_com <- metacom_divstab_comp_dat %>% 
+  rename(bd_gamma = gamma_var_rate, 
+         bd_phi = phi_var,
+         bd_alpha = alpha_var_rate) %>% 
+  select(dataset_id, bd_gamma, bd_phi, bd_alpha, alpha_div_mean, beta_div_mean, gamma_div_mean)
+dsr_tot <- left_join(dsr_ag, dsr_com)
+
+tot_mod <- psem(
+  lm(cv_gamma ~ cv_alpha + cv_phi + bd_alpha + bd_phi, data = dsr_tot),
+  lm(bd_gamma ~ bd_alpha + bd_phi, data = dsr_tot),
+  lm(cv_phi ~ beta_div_mean + bd_phi, data = dsr_tot),
+  lm(cv_alpha ~ alpha_div_mean + bd_alpha, data = dsr_tot),
+  lm(bd_phi ~ beta_div_mean, data = dsr_tot),
+  lm(bd_alpha ~ alpha_div_mean, data = dsr_tot),
+  data = dsr_tot
+)
+summary(tot_mod)
+plot(
+  tot_mod,
+  return = FALSE,
+  node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
+  edge_attrs = data.frame(style = "solid", color = "black"),
+  ns_dashed = T,
+  alpha = 0.05,
+  show = "std",
+  digits = 3,
+  add_edge_label_spaces = TRUE)
