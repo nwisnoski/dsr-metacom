@@ -10,6 +10,7 @@ library(piecewiseSEM)
 library(tidyverse)
 library(patchwork)
 library(ggthemes)
+library(DiagrammeR)
 
 theme_set(theme_base() + 
             theme(plot.background = element_blank(),
@@ -20,28 +21,31 @@ pal <- colorspace::darken(RColorBrewer::brewer.pal(n = 10, name = "Set3"), amoun
 
 # 1. IMPORT DATA SETS ------------------------------------------------------------
 #source("analysis_wrapper.R")
-metacom_var <- read_csv(here("data/L4_metacommunity_variability_analysis_results_2023-04-05.csv"))
-local_var <- read_csv(here("data/L4_local_variability_analysis_results_2023-04-05.csv"))
+metacom_var <- read_csv(here("data/L4_metacommunity_variability_analysis_results_2023-04-19.csv"))
+local_var <- read_csv(here("data/L4_local_variability_analysis_results_2023-04-19.csv"))
 env_var <- read_csv(here("data/lter_centroid_satdata.csv"))
-data_list <- read_csv(here("data/L3_DATA_list.csv"))
+data_list <- read_csv(here("data/L3_DATA_list.csv")) %>% 
+  filter(l3_filename != "L3-mcr-fish-castorani.csv")
 
 metacom_var <- data_list %>% 
   rename(dataset_file_name = l3_filename) %>% 
-  left_join(metacom_var, by = "dataset_file_name")
+  left_join(metacom_var, by = "dataset_file_name") %>% 
+  rename(lter_site = `LTER site`)
 
 organism_group_key <- (metacom_var %>% 
     select(dataset_id, organism_group)) %>% distinct()
 
 local_var <- data_list %>% 
   rename(dataset_file_name = l3_filename) %>% 
-  left_join(local_var, by = "dataset_file_name")
+  left_join(local_var, by = "dataset_file_name") %>% 
+  rename(lter_site = `LTER site`)
 
 unique(local_var$dataset_id) #33
 unique(metacom_var$dataset_id) #33
 
 # set up data frames
 
-metacom_divstab_comp_dat <- metacom_var %>% select(dataset_id, `LTER site`, organism_group, variability_type, standardization_method, metric, metric_value) %>% 
+metacom_divstab_comp_dat <- metacom_var %>% select(dataset_id, lter_site, organism_group, variability_type, standardization_method, metric, metric_value) %>% 
   filter(standardization_method == "h") %>% 
   pivot_wider(names_from = "metric", values_from = "metric_value") %>% 
   left_join(metacom_var %>% 
@@ -50,7 +54,7 @@ metacom_divstab_comp_dat <- metacom_var %>% select(dataset_id, `LTER site`, orga
               pivot_wider(names_from = "metric", values_from = "metric_value"), 
             by = "dataset_id")
 
-metacom_divstab_agg_dat <- metacom_var %>% select(dataset_id, `LTER site`, organism_group, variability_type, metric, metric_value) %>% 
+metacom_divstab_agg_dat <- metacom_var %>% select(dataset_id, lter_site, organism_group, variability_type, metric, metric_value) %>% 
   filter(variability_type == "agg") %>% 
   pivot_wider(names_from = "metric", values_from = "metric_value") %>% 
   left_join(metacom_var %>% 
@@ -64,7 +68,7 @@ sum(metacom_divstab_agg_dat$dataset_id %in% metacom_divstab_comp_dat$dataset_id)
 local_var <- local_var %>% filter(dataset_id %in% metacom_divstab_agg_dat$dataset_id)
 
 local_divstab_regs <-  local_var %>% 
-  select(dataset_id, `LTER site`, SITE_ID, organism_group, metric, metric_value) %>% 
+  select(dataset_id, lter_site, SITE_ID, organism_group, metric, metric_value) %>% 
   pivot_wider(names_from = "metric", values_from = "metric_value")
 
 
@@ -72,42 +76,51 @@ local_divstab_regs <-  local_var %>%
 # This shows patterns within metacommunities about local community richness and variability
 # Then compares across all sites, to show that sometimes these local relationships are stronger than others
 
-local_div_stab_comp_alpha_mod <- lm(BD ~ site_mean_alpha_div, data = local_divstab_regs)
-local_div_stab_comp_alpha_fit <- glance(local_div_stab_comp_alpha_mod)
-summary(local_div_stab_comp_alpha_mod)
-(p_val <- as.character(round(local_div_stab_comp_alpha_fit$p.value,2))) # 0.16
-(r2 <- as.character(round(local_div_stab_comp_alpha_fit$r.squared,2))) # 0.
-
-
-local_div_stab_agg_alpha_mod <- lm(CV ~ site_mean_alpha_div, data = local_divstab_regs)
-local_div_stab_agg_alpha_fit <- glance(local_div_stab_agg_alpha_mod)
-summary(local_div_stab_agg_alpha_mod)
-(p_val <- as.character(round(local_div_stab_agg_alpha_fit$p.value,2))) # 0.
-(r2 <- as.character(round(local_div_stab_agg_alpha_fit$r.squared,2))) # 0.09
-
 
 ### mixed effects models
-local_dataset_for_mods <- local_var %>% select(dataset_id, `LTER site`, SITE_ID, organism_group, metric, metric_value) %>% 
+local_dataset_for_mods <- local_var %>% select(dataset_id, lter_site, SITE_ID, organism_group, metric, metric_value) %>% 
   pivot_wider(names_from = "metric", values_from = "metric_value") 
 local_dataset_for_mods <- local_dataset_for_mods %>% group_by(dataset_id) %>% 
   mutate(alpha_div_centered = site_mean_alpha_div - mean(site_mean_alpha_div),
          alpha_div_scaled = scale(site_mean_alpha_div))
 
-local_comp_mod_lmm <- lmer(BD ~ alpha_div_scaled + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
+
+
+local_div_stab_comp_alpha_mod <- lm(BD ~ alpha_div_scaled, data = local_dataset_for_mods)
+local_div_stab_comp_alpha_fit <- glance(local_div_stab_comp_alpha_mod)
+summary(local_div_stab_comp_alpha_mod)
+plot(local_div_stab_comp_alpha_mod)
+(p_val <- as.character(round(local_div_stab_comp_alpha_fit$p.value,2))) # 0.16
+(r2 <- as.character(round(local_div_stab_comp_alpha_fit$r.squared,2))) # 0.
+
+
+local_div_stab_agg_alpha_mod <- lm(CV ~ alpha_div_scaled, data = local_dataset_for_mods)
+local_div_stab_agg_alpha_fit <- glance(local_div_stab_agg_alpha_mod)
+summary(local_div_stab_agg_alpha_mod)
+plot(local_div_stab_agg_alpha_mod)
+(p_val <- as.character(round(local_div_stab_agg_alpha_fit$p.value,2))) # 0.
+(r2 <- as.character(round(local_div_stab_agg_alpha_fit$r.squared,2))) # 0.09
+
+
+
+
+#local_comp_mod_lmm <- lmer(BD ~ alpha_div_scaled + (alpha_div_scaled||dataset_id), data = local_dataset_for_mods)
+local_comp_mod_lmm <- lmer(BD ~ alpha_div_scaled + (1 + alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
+
 summary(local_comp_mod_lmm)
 plot(local_comp_mod_lmm)
 coef(local_comp_mod_lmm)
 confint(local_comp_mod_lmm, method = "boot")
 
 
-local_agg_mod_lmm <- lmer(CV ~ alpha_div_scaled + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
+# local_agg_mod_lmm <- lmer(CV ~ alpha_div_scaled + (alpha_div_scaled||dataset_id), data = local_dataset_for_mods)
+# AIC(local_agg_mod_lmm)
+local_agg_mod_lmm <- lmer(CV ~ alpha_div_scaled + (1 + alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
+AIC(local_agg_mod_lmm)
 summary(local_agg_mod_lmm)
 plot(local_agg_mod_lmm)
 coef(local_agg_mod_lmm)
 confint(local_agg_mod_lmm, method = "boot")
-exactRLRT(lmer(CV ~ 1 + (1|dataset_id), data = local_dataset_for_mods))
-
-
 
 (r2m_comp <- r.squaredGLMM(local_comp_mod_lmm)[1])
 (r2c_comp <- r.squaredGLMM(local_comp_mod_lmm)[2])
@@ -122,12 +135,12 @@ local_divstab_comp_fig <- local_dataset_for_mods %>%
   ggplot(aes(x = alpha_div_scaled, y = BD)) + 
   geom_point(mapping = aes(group = dataset_id, color = organism_group), alpha = 0.3) + 
   geom_smooth(mapping = aes(group= dataset_id, color = organism_group), method = "lm",size=0.5, se = F, show.legend = FALSE) + 
-  geom_smooth(method = "lm", se = F, color = "black", size = 2, linetype = "dashed") +
+  geom_smooth(method = "lm", se = F, color = "black", linewidth = 2, linetype = "dashed") +
   labs(x = expression(paste("Mean ", alpha, "-diversity (z-score)")), y = expression(paste("Comp. ", alpha, "-variability (", BD^h[alpha],")")), color = "Organism group") + 
   scale_color_manual(values = pal) +
   #scale_y_log10() +
-  annotate("text", x = 2.5, y = 0.8, label = bquote(atop(paste(R[m]^2, "= 0.017", ),
-                                                        paste(R[c]^2, "= 0.716"))))
+  annotate("text", x = 2.5, y = 0.8, label = bquote(atop(paste(R[m]^2, "= 0.013", ),
+                                                        paste(R[c]^2, "= 0.72"))))
 local_divstab_comp_fig
 
 
@@ -140,8 +153,8 @@ local_divstab_agg_fig <- local_dataset_for_mods %>%
   labs(x = expression(paste("Mean ", alpha, "-diversity (z-score)")), y = expression(paste("Agg. ", alpha, "-variability (CV)")), color = "Organism group") + 
   scale_color_manual(values = pal) +
   #scale_y_log10() +
-  annotate("text", x = 2.5, y = 1.5, label = bquote(atop(paste(R[m]^2, "= 0.024", ),
-                                                        paste(R[c]^2, "= 0.783"))))
+  annotate("text", x = 2.5, y = 1.5, label = bquote(atop(paste(R[m]^2, "= 0.023", ),
+                                                        paste(R[c]^2, "= 0.74"))))
 local_divstab_agg_fig
 
 
@@ -155,11 +168,11 @@ ggsave(filename = here("figs/local_divstab_fig.png"), plot = local_divstab_fig, 
 # What happens when we look at the regional scale?
 # Do we see richness-variability relationships with composition and aggregate at across metacommunities?
 
-div_stab_comp_gamma_mod <- (lm(gamma_var_rate ~ gamma_div_mean, data = metacom_divstab_comp_dat))
+div_stab_comp_gamma_mod <- (lm(gamma_var ~ gamma_div_mean, data = metacom_divstab_comp_dat))
 div_stab_comp_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_comp_dat))
-div_stab_comp_alpha_mod <- (lm(alpha_var_rate ~ alpha_div_mean, data = metacom_divstab_comp_dat))
-div_stab_comp_alpha_gamma_mod <- (lm(gamma_var_rate ~ alpha_div_mean, data = metacom_divstab_comp_dat))
-div_stab_comp_beta_gamma_mod <- (lm(gamma_var_rate ~ beta_div_mean, data = metacom_divstab_comp_dat))
+div_stab_comp_alpha_mod <- (lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_comp_dat))
+div_stab_comp_alpha_gamma_mod <- (lm(gamma_var ~ alpha_div_mean, data = metacom_divstab_comp_dat))
+div_stab_comp_beta_gamma_mod <- (lm(gamma_var ~ beta_div_mean, data = metacom_divstab_comp_dat))
 
 summary(div_stab_comp_alpha_mod)
 summary(div_stab_comp_beta_mod)
@@ -167,11 +180,11 @@ summary(div_stab_comp_gamma_mod)
 summary(div_stab_comp_alpha_gamma_mod)
 summary(div_stab_comp_beta_gamma_mod)
 
-div_stab_agg_gamma_mod <- (lm(gamma_var_rate ~ gamma_div_mean, data = metacom_divstab_agg_dat))
+div_stab_agg_gamma_mod <- (lm(gamma_var ~ gamma_div_mean, data = metacom_divstab_agg_dat))
 div_stab_agg_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
-div_stab_agg_alpha_mod <- (lm(alpha_var_rate ~ alpha_div_mean, data = metacom_divstab_agg_dat))
-div_stab_agg_alpha_gamma_mod <- (lm(gamma_var_rate ~ alpha_div_mean, data = metacom_divstab_agg_dat))
-div_stab_agg_beta_gamma_mod <- (lm(gamma_var_rate ~ beta_div_mean, data = metacom_divstab_agg_dat))
+div_stab_agg_alpha_mod <- (lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_agg_dat))
+div_stab_agg_alpha_gamma_mod <- (lm(gamma_var ~ alpha_div_mean, data = metacom_divstab_agg_dat))
+div_stab_agg_beta_gamma_mod <- (lm(gamma_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
 
 summary(div_stab_agg_alpha_mod)
 summary(div_stab_agg_beta_mod)
@@ -186,7 +199,7 @@ div_stab_comp_gamma_fit <- glance(div_stab_comp_gamma_mod)
 (r2 <- as.character(round(div_stab_comp_gamma_fit$r.squared,2))) # 0.17
 
 (div_stab_gamma_h <- metacom_divstab_comp_dat %>% 
-    ggplot(aes(x = gamma_div_mean, y = gamma_var_rate, label = `LTER site`)) +
+    ggplot(aes(x = gamma_div_mean, y = gamma_var, label = lter_site)) +
     stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     #geom_label_repel(size = 2) +
@@ -205,7 +218,7 @@ div_stab_comp_alpha_fit <- glance(div_stab_comp_alpha_mod)
 (p_val <- as.character(round(div_stab_comp_alpha_fit$p.value,2))) # 0.86
 (r2 <- as.character(round(div_stab_comp_alpha_fit$r.squared,2))) # 0.
 (div_stab_alpha_h <- metacom_divstab_comp_dat %>% 
-    ggplot(aes(x = alpha_div_mean, y = alpha_var_rate, label = `LTER site`)) +
+    ggplot(aes(x = alpha_div_mean, y = alpha_var, label = lter_site)) +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     #geom_label_repel(size = 2) +
@@ -223,7 +236,7 @@ div_stab_alpha_gamma_fit <- glance(div_stab_comp_alpha_gamma_mod)
 div_stab_alpha_gamma_fit$p.value # 0.023
 div_stab_alpha_gamma_fit$r.squared # 0.232
 (div_stab_alpha_gamma_h <- metacom_divstab_comp_dat %>% 
-    ggplot(aes(x = alpha_div_mean, y = gamma_var_rate, label = `LTER site`)) +
+    ggplot(aes(x = alpha_div_mean, y = gamma_var, label = lter_site)) +
     stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     #geom_label_repel(size = 2) +
@@ -240,7 +253,7 @@ div_stab_beta_gamma_fit <- glance(div_stab_comp_beta_gamma_mod)
 div_stab_beta_gamma_fit$p.value # 0.2
 div_stab_beta_gamma_fit$r.squared
 (div_stab_beta_h <- metacom_divstab_comp_dat %>% 
-    ggplot(aes(x = beta_div_mean, y = gamma_var_rate, label = `LTER site`)) +
+    ggplot(aes(x = beta_div_mean, y = gamma_var, label = lter_site)) +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
@@ -257,7 +270,7 @@ div_stab_gamma_agg_fit <- glance(div_stab_agg_gamma_mod)
 div_stab_gamma_agg_fit$p.value # 0.202
 div_stab_gamma_agg_fit$r.squared # 0.08
 (div_stab_gamma_agg <- metacom_divstab_agg_dat %>% 
-    ggplot(aes(x = gamma_div_mean, y = gamma_var_rate, label = `LTER site`)) +
+    ggplot(aes(x = gamma_div_mean, y = gamma_var, label = lter_site)) +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
@@ -273,7 +286,7 @@ div_stab_alpha_agg_fit <- glance(div_stab_agg_alpha_mod)
 div_stab_alpha_agg_fit$p.value # 0.17
 div_stab_alpha_agg_fit$r.squared # 0.0927
 (div_stab_alpha_agg <- metacom_divstab_agg_dat %>% 
-    ggplot(aes(x = alpha_div_mean, y = alpha_var_rate, label = `LTER site`)) +
+    ggplot(aes(x = alpha_div_mean, y = alpha_var, label = lter_site)) +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
@@ -290,7 +303,7 @@ div_stab_alpha_gamma_agg_fit <- glance(div_stab_agg_alpha_gamma_mod)
 div_stab_alpha_gamma_agg_fit$p.value # 0.927
 div_stab_alpha_gamma_agg_fit$r.squared # 0
 (div_stab_alpha_gamma_agg <- metacom_divstab_agg_dat %>% 
-    ggplot(aes(x = alpha_div_mean, y = gamma_var_rate, label = `LTER site`)) +
+    ggplot(aes(x = alpha_div_mean, y = gamma_var, label = lter_site)) +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
@@ -307,7 +320,7 @@ div_stab_beta_gamma_agg_fit <- glance(div_stab_agg_beta_gamma_mod)
 div_stab_beta_gamma_agg_fit$p.value # 0.0095
 div_stab_beta_gamma_agg_fit$r.squared # 0.29
 (div_stab_beta_agg <- metacom_divstab_agg_dat %>% 
-    ggplot(aes(x = beta_div_mean, y = gamma_var_rate, label = `LTER site`)) +
+    ggplot(aes(x = beta_div_mean, y = gamma_var, label = lter_site)) +
     stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
@@ -338,7 +351,7 @@ div_stab_phi_fit <- glance(div_stab_comp_beta_mod)
 div_stab_phi_fit$p.value # 2 e-4
 div_stab_phi_fit$r.squared # 0.49
 (div_stab_phi_h <- metacom_divstab_comp_dat %>% 
-    ggplot(aes(x = beta_div_mean, y = phi_var, label = `LTER site`)) +
+    ggplot(aes(x = beta_div_mean, y = phi_var, label = lter_site)) +
     stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     scale_y_continuous(limits = c(0,1)) +
@@ -357,7 +370,7 @@ div_stab_phi_agg_fit <- glance(div_stab_agg_beta_mod)
 div_stab_phi_agg_fit$p.value # 0.006
 div_stab_phi_agg_fit$r.squared # 0.32
 (div_stab_phi_agg <- metacom_divstab_agg_dat %>% 
-    ggplot(aes(x = beta_div_mean, y = phi_var, label = `LTER site`)) +
+    ggplot(aes(x = beta_div_mean, y = phi_var, label = lter_site)) +
     stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 2, alpha = 0.7, mapping = aes(color = organism_group)) +
     scale_y_continuous(limits = c(0,1))+
@@ -392,12 +405,12 @@ ggsave(filename = "figs/diversity_variability_multiscale.png", plot = div_stab_m
 # 4. COMPOSITIONAL VS AGGREGATE VARIABILITY -----------------------------------
 # 
 
-comp_agg_stab <- left_join(metacom_divstab_agg_dat, metacom_divstab_comp_dat, by = c("dataset_id", "LTER site", "organism_group"), suffix = c("_agg", "_comp"))
+comp_agg_stab <- left_join(metacom_divstab_agg_dat, metacom_divstab_comp_dat, by = c("dataset_id", "lter_site", "organism_group"), suffix = c("_agg", "_comp"))
 
 
 comp_agg_fig <- na.omit(comp_agg_stab) %>% 
-  ggplot(aes(label = `LTER site`, 
-             color = organism_group, group = paste(`LTER site`, organism_group))) + 
+  ggplot(aes(label = lter_site, 
+             color = organism_group, group = paste(lter_site, organism_group))) + 
   #geom_point(mapping = aes(x = alpha_var_rate_comp, y = alpha_var_rate_agg), alpha = 0.5, size = 3, shape = 22) +
   #geom_point(mapping = aes(x = gamma_var_rate_comp, y = gamma_var_rate_agg), alpha = 0.5, size = 3, shape = 19) +
   geom_segment(aes(x = alpha_var_rate_comp, xend = gamma_var_rate_comp, 
@@ -422,8 +435,8 @@ s_rho <- cor(comp_agg_stab$phi_var_comp, comp_agg_stab$phi_var_agg, use = "pairw
 
 phi_compare <- na.omit(comp_agg_stab) %>% 
   ggplot(aes(y = phi_var_agg,
-             x = phi_var_comp,  label = `LTER site`, 
-             color = organism_group, group = paste(`LTER site`, `organism_group`))) +
+             x = phi_var_comp,  label = lter_site, 
+             color = organism_group, group = paste(lter_site, `organism_group`))) +
   geom_abline(slope = 1, intercept = 0, alpha = 0.25, linetype = "dashed") +
   geom_point(size = 3, alpha = 0.5) +
   scale_color_manual(values = pal, drop = FALSE) +
@@ -434,19 +447,19 @@ phi_compare <- na.omit(comp_agg_stab) %>%
   coord_fixed() +
   scale_x_continuous(breaks = c(0.2, 0.4, 0.6, 0.8)) + 
   theme(legend.position = "right") +
-  annotate("text", x = .75, y = 0.1, size = 5, label = expression(paste(rho, "= 0.51")))
+  annotate("text", x = .75, y = 0.1, size = 5, label = expression(paste(rho, "= 0.53")))
 ggsave("figs/phi_comparison.png",plot = phi_compare, bg = "white", width = 6, height = 3/4*6, dpi = 600)
 
 phi_compare_fig <- comp_agg_fig + phi_compare + 
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect", nrow = 1)
-ggsave("figs/agg_comp_panel.png", plot = phi_compare_fig, bg = "white", width = 8, height = 6, dpi = 600)
+# ggsave("figs/agg_comp_panel.png", plot = phi_compare_fig, bg = "white", width = 8, height = 6, dpi = 600)
 
 # 5. PARTITIONING DSRs --------------------------------------------------------
 comp_mod <- psem(
-  lm(gamma_var_rate ~ phi_var + alpha_var_rate, data = metacom_divstab_comp_dat),
+  lm(gamma_var ~ phi_var + alpha_var + gamma_div_mean, data = metacom_divstab_comp_dat),
   lm(phi_var ~ beta_div_mean, data = metacom_divstab_comp_dat),
-  lm(alpha_var_rate ~ alpha_div_mean, data = metacom_divstab_comp_dat),
+  lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_comp_dat),
   data = metacom_divstab_comp_dat
 )
 
@@ -463,9 +476,9 @@ plot(
   add_edge_label_spaces = TRUE)
 
 agg_mod <- psem(
-  lm(gamma_var_rate ~ phi_var + alpha_var_rate, data = metacom_divstab_agg_dat),
+  lm(gamma_var ~ phi_var + alpha_var + gamma_div_mean, data = metacom_divstab_agg_dat),
   lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat),
-  lm(alpha_var_rate ~ alpha_div_mean, data = metacom_divstab_agg_dat),
+  lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_agg_dat),
   data = metacom_divstab_agg_dat
 )
 
@@ -482,30 +495,34 @@ plot(
   add_edge_label_spaces = TRUE)
 
 dsr_ag <- metacom_divstab_agg_dat %>% 
-  rename(cv_gamma = gamma_var_rate, 
-         cv_phi = phi_var,
-         cv_alpha = alpha_var_rate) %>% 
-  select(dataset_id, cv_gamma, cv_phi, cv_alpha, alpha_div_mean, beta_div_mean, gamma_div_mean)
+  rename(cv_gamma = gamma_var, 
+         phi = phi_var,
+         cv_alpha = alpha_var) %>% 
+  select(dataset_id, cv_gamma, phi, cv_alpha, alpha_div_mean, beta_div_mean, gamma_div_mean)
 dsr_com <- metacom_divstab_comp_dat %>% 
-  rename(bd_gamma = gamma_var_rate, 
+  rename(bd_gamma = gamma_var, 
          bd_phi = phi_var,
-         bd_alpha = alpha_var_rate) %>% 
+         bd_alpha = alpha_var) %>% 
   select(dataset_id, bd_gamma, bd_phi, bd_alpha, alpha_div_mean, beta_div_mean, gamma_div_mean)
 dsr_tot <- left_join(dsr_ag, dsr_com)
 
 tot_mod <- psem(
-  lm(cv_gamma ~ cv_alpha + cv_phi + bd_alpha + bd_phi + bd_gamma, data = dsr_tot),
-  lm(bd_gamma ~ bd_alpha + bd_phi, data = dsr_tot),
-  lm(cv_phi ~ beta_div_mean + bd_phi, data = dsr_tot),
+  lm(cv_gamma ~ cv_alpha + phi + bd_alpha + bd_phi + bd_gamma + gamma_div_mean, data = dsr_tot),
+  lm(bd_gamma ~ bd_alpha + bd_phi + gamma_div_mean, data = dsr_tot),
+  lm(gamma_div_mean ~ alpha_div_mean + beta_div_mean, data = dsr_tot),
+  lm(phi ~ beta_div_mean + bd_phi, data = dsr_tot),
   lm(cv_alpha ~ alpha_div_mean + bd_alpha, data = dsr_tot),
   lm(bd_phi ~ beta_div_mean, data = dsr_tot),
   lm(bd_alpha ~ alpha_div_mean, data = dsr_tot),
   data = dsr_tot
 )
 summary(tot_mod)
-plot(
+AIC_psem(tot_mod)
+coefs(tot_mod)
+rsquared(tot_mod)
+sem_path <- plot(
   tot_mod,
-  return = FALSE,
+  return = TRUE,
   node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
   edge_attrs = data.frame(style = "solid", color = "black"),
   ns_dashed = T,
@@ -514,4 +531,31 @@ plot(
   digits = 3,
   add_edge_label_spaces = TRUE)
 
+get_node_attrs(sem_path, fillcolor)
+
+sem_path <- sem_path %>% 
+  set_edge_attrs(
+    edge_attr = width,
+    values =  coefs(tot_mod)$Std.Estimate * 10
+  ) %>% 
+  set_node_attrs(
+    node_attr = fillcolor,
+    values = "white"
+  )
+visnetwork(sem_path)
+# https://rpubs.com/tjmahr/sem_diagrammer
 # 6. ENVIRONMENTS AND TRAITS -------------------------------------------------
+
+
+
+
+
+require(DiagrammeR)
+graph <-
+  create_graph() %>%
+  add_path(n = 4) %>%
+  set_edge_attrs(
+    edge_attr = width,
+    values = c(3.4, 2.3, 7.2))
+graph %>% get_edge_df()
+visnetwork(sem_path)

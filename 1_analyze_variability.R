@@ -35,7 +35,8 @@ library(ltmc)
 
 # working_dir <- drive_ls(path = as_id("0BxUZSA1Gn1HZamlITk9DZzc1c1E"))
 working_dir <- googledrive::drive_ls('LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space') #human readable path to directory
-data_list <- working_dir %>% filter(grepl('(?i)\\.csv', name)) %>% filter(name != "L3-ntl-zooplankton-stanleyLottig.csv")
+data_list <- working_dir %>% filter(grepl('(?i)\\.csv', name)) %>% filter(name != "L3-ntl-zooplankton-stanleyLottig.csv",
+                                                                          name != "L3-ntl-fish-stanleyLottig.csv")
 save_data_dir <- here("data/L3_datasets_local/")
 setwd(save_data_dir)
 
