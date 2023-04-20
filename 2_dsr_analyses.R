@@ -506,6 +506,8 @@ dsr_com <- metacom_divstab_comp_dat %>%
   select(dataset_id, bd_gamma, bd_phi, bd_alpha, alpha_div_mean, beta_div_mean, gamma_div_mean)
 dsr_tot <- left_join(dsr_ag, dsr_com)
 
+write_csv(dsr_tot, file = "dsr_results_table.csv")
+
 tot_mod <- psem(
   lm(cv_gamma ~ cv_alpha + phi + bd_alpha + bd_phi + bd_gamma + gamma_div_mean, data = dsr_tot),
   lm(bd_gamma ~ bd_alpha + bd_phi + gamma_div_mean, data = dsr_tot),
@@ -518,36 +520,53 @@ tot_mod <- psem(
 )
 summary(tot_mod)
 AIC_psem(tot_mod)
-coefs(tot_mod)
+sem_coefs <- coefs(tot_mod)
 rsquared(tot_mod)
+
 sem_path <- plot(
   tot_mod,
-  return = TRUE,
-  node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
-  edge_attrs = data.frame(style = "solid", color = "black"),
+  return = T,
+  #node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
+  #edge_attrs = data.frame(style = "solid", color = "black"),
   ns_dashed = T,
   alpha = 0.05,
   show = "std",
   digits = 3,
   add_edge_label_spaces = TRUE)
 
-get_node_attrs(sem_path, fillcolor)
+sem_path$edges_df <- sem_path$edges_df %>% 
+  mutate(color = ifelse(as.numeric(label) < 0, "red", "blue"),
+         penwidth = abs(coefs(tot_mod)$Std.Estimate) * 10)
 
-sem_path <- sem_path %>% 
-  set_edge_attrs(
-    edge_attr = width,
-    values =  coefs(tot_mod)$Std.Estimate * 10
-  ) %>% 
-  set_node_attrs(
-    node_attr = fillcolor,
-    values = "white"
-  )
-visnetwork(sem_path)
+sem_path$edges_df
+
+get_global_graph_attr_info(sem_path)
+sem_path$global_attrs[7, 2] <- "false"
+sem_path$global_attrs[1, 2] <- "dot"
+?layout_nodes_w_string
+sem_path$nodes_df$label <- c(
+  "Agg. Metacommunity \nVariability (CV_gamma)",
+  "Comp. Metacommunity \nVariability (BD_gamma)",
+  "Avg. Gamma Diversity",
+  "Agg. Spatial \nSynchrony (phi)",
+  "Agg. Local \nVariability (CV_alpha)",
+  "Comp. Spatial \nSynchrony (BD_phi)",
+  "Comp. Local \nVariability (BD_alpha)",
+  "Avg. Alpha Diversity",
+  "Avg. Beta Diversity"
+)
+sem_path$edges_df
+sem_path$global_attrs[5,2] <- 10
+sem_path$global_attrs[14,2] <- 12
+
+sem_plot <- DiagrammeR::render_graph(sem_path)
+
+
 # https://rpubs.com/tjmahr/sem_diagrammer
 # 6. ENVIRONMENTS AND TRAITS -------------------------------------------------
 
 
-
+tot_mod$data
 
 
 require(DiagrammeR)
