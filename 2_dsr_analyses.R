@@ -71,6 +71,7 @@ local_divstab_regs <-  local_var %>%
   select(dataset_id, lter_site, SITE_ID, organism_group, metric, metric_value) %>% 
   pivot_wider(names_from = "metric", values_from = "metric_value")
 
+unique(local_divstab_regs$dataset_id)
 
 # 2. LOCAL DIVERSITY STABILITY -----------------------------------------------
 # This shows patterns within metacommunities about local community richness and variability
@@ -130,19 +131,26 @@ confint(local_agg_mod_lmm, method = "boot")
 
 ### make figs
 
+R2m_expression <- expression(paste(" ", R[m]^2 , "= ", 0.013))
+R2c_expression <- expression(paste(" ", R[c]^2 , "= ", 0.727))
+
 local_divstab_comp_fig <- local_dataset_for_mods %>% 
                           
   ggplot(aes(x = alpha_div_scaled, y = BD)) + 
   geom_point(mapping = aes(group = dataset_id, color = organism_group), alpha = 0.3) + 
   geom_smooth(mapping = aes(group= dataset_id, color = organism_group), method = "lm",size=0.5, se = F, show.legend = FALSE) + 
   geom_smooth(method = "lm", se = F, color = "black", linewidth = 2, linetype = "dashed") +
-  labs(x = expression(paste("Mean ", alpha, "-diversity (z-score)")), y = expression(paste("Comp. ", alpha, "-variability (", BD^h[alpha],")")), color = "Organism group") + 
+  labs(x = expression(paste("Mean ", alpha, "-diversity (z-score)")), y = expression(paste("Comp. ", alpha, "-variability (", BD[alpha]^h,")")), color = "Organism group") + 
   scale_color_manual(values = pal) +
   #scale_y_log10() +
-  annotate("text", x = 2.5, y = 0.8, label = bquote(atop(paste(R[m]^2, "= 0.013", ),
-                                                        paste(R[c]^2, "= 0.72"))))
+  annotate("text", x = 2.5, y = 0.8, label = R2m_expression) +
+  annotate("text", x = 2.5, y = 0.7, label = R2c_expression)
+
 local_divstab_comp_fig
 
+
+R2m_expression <- expression(paste(" ", R[m]^2 , "= ", 0.022))
+R2c_expression <- expression(paste(" ", R[c]^2 , "= ", 0.744))
 
 local_divstab_agg_fig <- local_dataset_for_mods %>% 
   
@@ -153,13 +161,13 @@ local_divstab_agg_fig <- local_dataset_for_mods %>%
   labs(x = expression(paste("Mean ", alpha, "-diversity (z-score)")), y = expression(paste("Agg. ", alpha, "-variability (CV)")), color = "Organism group") + 
   scale_color_manual(values = pal) +
   #scale_y_log10() +
-  annotate("text", x = 2.5, y = 1.5, label = bquote(atop(paste(R[m]^2, "= 0.023", ),
-                                                        paste(R[c]^2, "= 0.74"))))
+  annotate("text", x = 2.5, y = 1.6, label = R2m_expression) +
+  annotate("text", x = 2.5, y = 1.4, label = R2c_expression)
 local_divstab_agg_fig
 
 
 local_divstab_fig <- local_divstab_agg_fig + local_divstab_comp_fig + 
-  plot_layout(ncol = 1, guides = "collect") + plot_annotation(tag_levels = "A")
+  plot_layout(ncol = 1, guides = "collect") + plot_annotation(tag_levels = "a", tag_prefix = "(", tag_suffix = ")")
 ggsave(filename = here("figs/local_divstab_fig.png"), plot = local_divstab_fig, dpi = 600, width = 6, height = 6*3/4*2, bg = "white")
 
 
@@ -337,7 +345,7 @@ div_stab_beta_gamma_agg_fit$r.squared # 0.29
 div_stab_multipanel_fig <- div_stab_gamma_agg + div_stab_gamma_h +
   div_stab_beta_agg + div_stab_beta_h +
   div_stab_alpha_gamma_agg + div_stab_alpha_gamma_h +
-  plot_annotation(tag_levels = "A") +
+  plot_annotation(tag_levels = "a", tag_prefix = "(", tag_suffix = ")") +
   plot_layout(guides = "collect", nrow = 3)
 ggsave(filename = "figs/diversity_variability.png", plot = div_stab_multipanel_fig, width = 2.5*4, height = 3*3, units = "in", dpi = 1000, bg = "white")
 
@@ -395,10 +403,10 @@ ggsave(filename = "figs/beta_phi.png", plot = div_stab_phi_beta_fig, width = 1.5
 div_stab_multiscale_partition_fig <- 
   (local_divstab_agg_fig + theme(legend.position = "none")) + (local_divstab_comp_fig + theme(legend.position = "none")) +
   div_stab_phi_agg + div_stab_phi_h +
-  div_stab_gamma_agg + div_stab_gamma_h +
-  plot_annotation(tag_levels = "A") +
-  plot_layout(guides = "collect", nrow = 3)
-ggsave(filename = "figs/diversity_variability_multiscale.png", plot = div_stab_multiscale_partition_fig, width = 2.7*4, height = 3.2*3, units = "in", dpi = 1000, bg = "white")
+  #div_stab_gamma_agg + div_stab_gamma_h +
+  plot_annotation(tag_levels = "a", tag_prefix = "(", tag_suffix = ")") +
+  plot_layout(guides = "collect", nrow = 2)
+ggsave(filename = "figs/diversity_variability_alpha_beta.png", plot = div_stab_multiscale_partition_fig, width = 2.7*4, height = 3.2*3, units = "in", dpi = 1000, bg = "white")
 
 
 
@@ -508,6 +516,7 @@ dsr_tot <- left_join(dsr_ag, dsr_com)
 
 write_csv(dsr_tot, file = "dsr_results_table.csv")
 
+
 tot_mod <- psem(
   lm(cv_gamma ~ cv_alpha + phi + bd_alpha + bd_phi + bd_gamma + gamma_div_mean, data = dsr_tot),
   lm(bd_gamma ~ bd_alpha + bd_phi + gamma_div_mean, data = dsr_tot),
@@ -559,22 +568,23 @@ sem_path$edges_df
 sem_path$global_attrs[5,2] <- 10
 sem_path$global_attrs[14,2] <- 12
 
-sem_plot <- DiagrammeR::render_graph(sem_path)
+# remove non significant edges
+sem_path <- sem_path %>%
+  select_edges(conditions = style != "solid") %>%
+  delete_edges_ws()
 
+sem_plot <- DiagrammeR::render_graph(sem_path)
+sem_plot
+
+# indirect paths
+0.991*0.089
+0.594 * 0.089
+-.62*.525
+
+-.407*.683
+.398*.835
 
 # https://rpubs.com/tjmahr/sem_diagrammer
 # 6. ENVIRONMENTS AND TRAITS -------------------------------------------------
 
 
-tot_mod$data
-
-
-require(DiagrammeR)
-graph <-
-  create_graph() %>%
-  add_path(n = 4) %>%
-  set_edge_attrs(
-    edge_attr = width,
-    values = c(3.4, 2.3, 7.2))
-graph %>% get_edge_df()
-visnetwork(sem_path)
