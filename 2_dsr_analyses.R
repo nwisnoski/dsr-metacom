@@ -628,8 +628,21 @@ sem_plot
 # 6. ENVIRONMENTS AND TRAITS -------------------------------------------------
 
 
-metacom_var %>% 
+values_by_taxa_fig <- metacom_var %>% 
   filter(metric %in% c("gamma_var", "alpha_var", "phi_var")) %>% 
-  ggplot(aes(x = organism_group, y = metric_value)) + 
-    geom_boxplot() + 
-    facet_grid(metric ~ variability_type)
+  mutate(metric = ifelse(metric == "gamma_var", "Metacommunity",
+                         ifelse(metric == "phi_var", "Spatial synchrony", "Local"))) %>% 
+  mutate(metric = factor(metric, levels = c("Metacommunity", "Spatial synchrony", "Local"))) %>% 
+  mutate(variability_type = ifelse(variability_type == "agg", 
+                                   "Aggregate", "Compositional")) %>% 
+  ggplot(aes(x = organism_group, y = metric_value, fill = organism_group)) + 
+  geom_boxplot() + 
+  scale_fill_manual(values = pal, drop = FALSE) +
+  facet_grid(metric ~ variability_type) +
+  coord_flip() +
+  theme(panel.grid.major.x = element_line(color = "grey90")) +
+  labs(x = "", y = "", fill = "Organism group")
+
+ggsave(plot = values_by_taxa_fig, 
+       filename = "figs/variability_taxa.png", 
+       width = 8, height = 6, dpi = 1000, bg = "white")
