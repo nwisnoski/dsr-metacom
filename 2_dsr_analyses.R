@@ -146,7 +146,7 @@ local_divstab_comp_fig <- local_dataset_for_mods %>%
   ggplot(aes(x = alpha_div_scaled, y = BD)) + 
   geom_point(mapping = aes(group = dataset_id, color = organism_group, shape = organism_group), alpha = 0.5) + 
   geom_smooth(mapping = aes(group= dataset_id, color = organism_group), method = "lm", linewidth=0.5, se = F, show.legend = FALSE) + 
-  geom_smooth(method = "lm", se = F, color = "black", linewidth = 2, linetype = "dashed") +
+  geom_smooth(method = "lm", se = F, color = "black", linewidth = 1.5) +
   labs(x = expression(paste("Mean ", alpha, "-diversity (z-score)")), y = expression(paste("Comp. ", alpha, "-variability (", BD[alpha]^h,")")), color = "Organism group", shape = "Organism group") + 
   scale_color_manual(values = pal) +
   #scale_y_log10() +
@@ -504,43 +504,6 @@ phi_compare_fig <- comp_agg_fig + phi_compare +
 # ggsave("figs/agg_comp_panel.png", plot = phi_compare_fig, bg = "white", width = 8, height = 6, dpi = 600)
 
 # 5. PARTITIONING DSRs --------------------------------------------------------
-comp_mod <- psem(
-  lm(gamma_var ~ phi_var + alpha_var + gamma_div_mean, data = metacom_divstab_comp_dat),
-  lm(phi_var ~ beta_div_mean, data = metacom_divstab_comp_dat),
-  lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_comp_dat),
-  data = metacom_divstab_comp_dat
-)
-
-summary(comp_mod)
-plot(
-  comp_mod,
-  return = FALSE,
-  node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
-  edge_attrs = data.frame(style = "solid", color = "black"),
-  ns_dashed = T,
-  alpha = 0.05,
-  show = "std",
-  digits = 3,
-  add_edge_label_spaces = TRUE)
-
-agg_mod <- psem(
-  lm(gamma_var ~ phi_var + alpha_var + gamma_div_mean, data = metacom_divstab_agg_dat),
-  lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat),
-  lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_agg_dat),
-  data = metacom_divstab_agg_dat
-)
-
-summary(agg_mod)
-plot(
-  agg_mod,
-  return = FALSE,
-  node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
-  edge_attrs = data.frame(style = "solid", color = "black"),
-  ns_dashed = T,
-  alpha = 0.05,
-  show = "std",
-  digits = 3,
-  add_edge_label_spaces = TRUE)
 
 dsr_ag <- metacom_divstab_agg_dat %>% 
   rename(cv_gamma = gamma_var, 
@@ -556,73 +519,6 @@ dsr_tot <- left_join(dsr_ag, dsr_com)
 
 write_csv(dsr_tot, file = "dsr_results_table.csv")
 
-
-tot_mod <- psem(
-  lm(cv_gamma ~ cv_alpha + phi + bd_alpha + bd_phi + bd_gamma + gamma_div_mean, data = dsr_tot),
-  lm(bd_gamma ~ bd_alpha + bd_phi + gamma_div_mean, data = dsr_tot),
-  lm(gamma_div_mean ~ alpha_div_mean + beta_div_mean, data = dsr_tot),
-  lm(phi ~ beta_div_mean + bd_phi, data = dsr_tot),
-  lm(cv_alpha ~ alpha_div_mean + bd_alpha, data = dsr_tot),
-  lm(bd_phi ~ beta_div_mean, data = dsr_tot),
-  lm(bd_alpha ~ alpha_div_mean, data = dsr_tot),
-  data = dsr_tot
-)
-summary(tot_mod)
-AIC_psem(tot_mod)
-sem_coefs <- coefs(tot_mod)
-rsquared(tot_mod)
-
-sem_path <- plot(
-  tot_mod,
-  return = T,
-  #node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
-  #edge_attrs = data.frame(style = "solid", color = "black"),
-  ns_dashed = T,
-  alpha = 0.05,
-  show = "std",
-  digits = 3,
-  add_edge_label_spaces = TRUE)
-
-sem_path$edges_df <- sem_path$edges_df %>% 
-  mutate(color = ifelse(as.numeric(label) < 0, "red", "blue"),
-         penwidth = abs(coefs(tot_mod)$Std.Estimate) * 10)
-
-sem_path$edges_df
-
-get_global_graph_attr_info(sem_path)
-sem_path$global_attrs[7, 2] <- "false"
-sem_path$global_attrs[1, 2] <- "dot"
-?layout_nodes_w_string
-sem_path$nodes_df$label <- c(
-  "Agg. Metacommunity \nVariability (CV_gamma)",
-  "Comp. Metacommunity \nVariability (BD_gamma)",
-  "Avg. Gamma Diversity",
-  "Agg. Spatial \nSynchrony (phi)",
-  "Agg. Local \nVariability (CV_alpha)",
-  "Comp. Spatial \nSynchrony (BD_phi)",
-  "Comp. Local \nVariability (BD_alpha)",
-  "Avg. Alpha Diversity",
-  "Avg. Beta Diversity"
-)
-sem_path$edges_df
-sem_path$global_attrs[5,2] <- 10
-sem_path$global_attrs[14,2] <- 12
-
-# remove non significant edges
-sem_path <- sem_path %>%
-  select_edges(conditions = style != "solid") %>%
-  delete_edges_ws()
-
-sem_plot <- DiagrammeR::render_graph(sem_path)
-sem_plot
-
-# indirect paths
-0.991*0.089
-0.594 * 0.089
--.62*.525
-
--.407*.683
-.398*.835
 
 # https://rpubs.com/tjmahr/sem_diagrammer
 # 6. ENVIRONMENTS AND TRAITS -------------------------------------------------
@@ -640,9 +536,10 @@ values_by_taxa_fig <- metacom_var %>%
   scale_fill_manual(values = pal, drop = FALSE) +
   facet_grid(metric ~ variability_type) +
   coord_flip() +
+  theme(legend.position = "none") + 
   theme(panel.grid.major.x = element_line(color = "grey90")) +
   labs(x = "", y = "", fill = "Organism group")
 
 ggsave(plot = values_by_taxa_fig, 
        filename = "figs/variability_taxa.png", 
-       width = 8, height = 6, dpi = 1000, bg = "white")
+       width = 6, height = 6, dpi = 1000, bg = "white")
