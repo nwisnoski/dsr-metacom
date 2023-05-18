@@ -11,6 +11,8 @@ library(tidyverse)
 library(patchwork)
 library(ggthemes)
 library(DiagrammeR)
+library(rstanarm)
+library(bayesplot)
 
 theme_set(theme_base() + 
             theme(plot.background = element_blank(),
@@ -130,6 +132,16 @@ summary(local_agg_mod_lmm)
 plot(local_agg_mod_lmm)
 coef(local_agg_mod_lmm)
 
+
+# make re figs
+ggsave(filename = "figs/local_agg_randomeffects.png", 
+       plot = plot_model(local_agg_mod_lmm, type = "re"),
+       width = 7, height = 6, dpi = 1000, bg = "white")
+ggsave(filename = "figs/local_comp_randomeffects.png", 
+       plot = plot_model(local_comp_mod_lmm, type = "re"),
+       width = 7, height = 6, dpi = 1000, bg = "white")
+tab_model(local_agg_mod_lmm, local_comp_mod_lmm)
+
 (r2m_comp <- r.squaredGLMM(local_comp_mod_lmm)[1])
 (r2c_comp <- r.squaredGLMM(local_comp_mod_lmm)[2])
 
@@ -195,12 +207,17 @@ summary(div_stab_comp_gamma_mod)
 summary(div_stab_comp_alpha_gamma_mod)
 summary(div_stab_comp_beta_gamma_mod)
 
-summary(lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|organism_group), data = metacom_divstab_comp_dat))
-summary(lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|organism_group), data = metacom_divstab_comp_dat))
-summary(lmer(gamma_var ~ beta_div_mean + (beta_div_mean|organism_group), data = metacom_divstab_comp_dat))
-summary(lmer(phi_var ~ beta_div_mean + (beta_div_mean|organism_group), data = metacom_divstab_comp_dat))
-summary(lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|organism_group), data = metacom_divstab_comp_dat))
+dsrc_g  <- (lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_comp_dat))
+dsrc_ga <- (lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat))
+dsrc_gb <- (lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat))
+dsrc_b  <- (lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat))
+dsrc_a  <- (lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat))
 
+dsrc_g_b <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
+dsrc_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat)
+dsrc_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat)
+dsrc_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat)
+dsrc_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat)
 
 div_stab_agg_gamma_mod <- (lm(gamma_var ~ gamma_div_mean, data = metacom_divstab_agg_dat))
 div_stab_agg_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
@@ -213,6 +230,57 @@ summary(div_stab_agg_beta_mod)
 summary(div_stab_agg_gamma_mod)
 summary(div_stab_agg_alpha_gamma_mod)
 summary(div_stab_agg_beta_gamma_mod)
+
+dsra_g  <- (lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat))
+dsra_ga <- (lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat))
+dsra_gb <- (lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat))
+dsra_b  <- (lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat))
+dsra_a  <- (lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat))
+
+dsra_g_b  <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat)
+dsra_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat)
+dsra_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
+dsra_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat)
+dsra_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat)
+
+plot_model(dsra_gb_b, type = "re")
+plot_model(dsrc_g_b, type = "re")
+
+
+tab_model(dsrc_g_b, dsrc_gb_b, dsrc_ga_b,  dsrc_b_b, dsrc_a_b,  
+          pred.labels = c("Intercept", "Mean Gamma-Diversity", 
+                          "Mean Beta-Diversity", "Mean Alpha-Diversity"), 
+          dv.labels = c("Regional (BD_gamma)", "Regional (BD_gamma)",
+                        "Regional (BD_gamma)","Spatial Synchrony (BD_phi)", 
+                        "Local (BD_alpha)"),
+          file = "tables/DSRs_comp_models.html")
+tab_model(dsra_g_b, dsra_gb_b, dsra_ga_b,  dsra_b_b, dsra_a_b, show.re.var = T, 
+          pred.labels = c("Intercept", "Mean Gamma-Diversity", 
+                          "Mean Beta-Diversity", "Mean Alpha-Diversity"), 
+          dv.labels = c("Regional (CV_gamma)", "Regional (CV_gamma)",
+                        "Regional (CV_gamma)","Spatial Synchrony (phi)", 
+                        "Local (CV_alpha)"), 
+          file = "tables/DSRs_agg_models.html")
+
+comp_var_plot <- plot_models(dsrc_g_b, dsrc_gb_b, dsrc_ga_b, dsrc_b_b, dsrc_a_b, 
+            title = "Compositional Variability", 
+            legend.title = "Variability Partition", 
+            m.labels = c("Regional (BD_gamma)", "Regional (BD_gamma)",
+                         "Regional (BD_gamma)","Spatial Synchrony (BD_phi)", 
+                         "Local (BD_alpha)"), show.values = TRUE, 
+            axis.labels = c("Mean Alpha-Diversity", "Mean Beta-Diversity",
+                            "Mean Gamma-Diversity"), show.p = F)
+agg_var_plot <- plot_models(dsra_g_b, dsra_gb_b, dsra_ga_b, dsra_b_b, dsra_a_b,
+            title = "Aggregate Variability", 
+            legend.title = "Variability Partition", 
+            m.labels = c("Regional (CV_gamma)", "Regional (CV_gamma)",
+                         "Regional (CV_gamma)","Spatial Synchrony (phi)", 
+                         "Local (CV_alpha)"), show.values = TRUE, 
+            axis.labels = c("Mean Alpha-Diversity", "Mean Beta-Diversity", 
+                            "Mean Gamma-Diversity"), show.p = F)
+var_estimates_plot <- agg_var_plot + comp_var_plot + patchwork::plot_layout(ncol = 1)
+ggsave(filename = "figs/dsr_estimates.png", width = 8, height = 8, dpi = 1000, bg = "white")
+
 
 # regional compositional variability
 
@@ -237,7 +305,6 @@ R2_expression <- expression(paste(" ", R^2 , "= ", 0.09))
   
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
-
 
 div_stab_comp_alpha_fit <- glance(div_stab_comp_alpha_mod)
 (p_val <- as.character(round(div_stab_comp_alpha_fit$p.value,2))) # 0.86
