@@ -1,0 +1,1915 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.15)  17 MAY 2023 15:15
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**Supplemental_methods_figs.tex
+(./Supplemental_methods_figs.tex
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2023-02-07>
+(/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
+(/usr/local/texlive/2022/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count185
+\c@section=\count186
+\c@subsection=\count187
+\c@subsubsection=\count188
+\c@paragraph=\count189
+\c@subparagraph=\count190
+\c@figure=\count191
+\c@table=\count192
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen140
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+\Gm@cnth=\count193
+\Gm@cntv=\count194
+\c@Gm@tempcnt=\count195
+\Gm@bindingoffset=\dimen141
+\Gm@wd@mp=\dimen142
+\Gm@odd@mp=\dimen143
+\Gm@even@mp=\dimen144
+\Gm@layoutwidth=\dimen145
+\Gm@layoutheight=\dimen146
+\Gm@layouthoffset=\dimen147
+\Gm@layoutvoffset=\dimen148
+\Gm@dimlist=\toks17
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen149
+\Gin@req@width=\dimen150
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2023-02-07 v7.00v Hypertext links for LaTeX
+
+(/usr/local/texlive/2022/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/local/texlive/2022/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2022-05-17 v2.50 Cross-referencing by name of section
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
+ty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+ (/usr/local/texlive/2022/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count196
+)
+\@linkdim=\dimen151
+\Hy@linkcounter=\count197
+\Hy@pagecounter=\count198
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2023-02-07 v7.00v Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(/usr/local/texlive/2022/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+(/usr/local/texlive/2022/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count199
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2023-02-07 v7.00v Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4177.
+Package hyperref Info: Link nesting OFF on input line 4182.
+Package hyperref Info: Hyper index ON on input line 4185.
+Package hyperref Info: Plain pages OFF on input line 4192.
+Package hyperref Info: Backreferencing OFF on input line 4197.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4425.
+\c@Hy@tempcnt=\count266
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip16
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4763.
+\XeTeXLinkMargin=\dimen152
+
+(/usr/local/texlive/2022/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(/usr/local/texlive/2022/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count267
+\Field@Width=\dimen153
+\Fld@charsize=\dimen154
+Package hyperref Info: Hyper figures OFF on input line 6042.
+Package hyperref Info: Link nesting OFF on input line 6047.
+Package hyperref Info: Hyper index ON on input line 6050.
+Package hyperref Info: backreferencing OFF on input line 6057.
+Package hyperref Info: Link coloring OFF on input line 6062.
+Package hyperref Info: Link coloring with OCG OFF on input line 6067.
+Package hyperref Info: PDF/A mode OFF on input line 6072.
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count268
+\c@Item=\count269
+\c@Hfootnote=\count270
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2023-02-07 v7.00v Hyperref driver for pdfTeX
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
+with kernel methods
+)
+\Fld@listcount=\count271
+\c@bookmark@seq@number=\count272
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+
+(/usr/local/texlive/2022/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
+)
+\Hy@SectionHShift=\skip50
+) (/usr/local/texlive/2022/texmf-dist/tex/latex/fancybox/fancybox.sty
+Package: fancybox 2010/05/15 1.4
+
+Style option: `fancybox' v1.4 <2010/05/15> (tvz)
+\@fancybox=\box51
+\shadowsize=\dimen155
+\@Sbox=\box52
+\do@VerbBox=\toks18
+\the@fancyput=\toks19
+\this@fancyput=\toks20
+\EndVerbatimTokens=\toks21
+\Verbatim@Outfile=\write3
+\Verbatim@Infile=\read2
+) (/usr/local/texlive/2022/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2022/04/08 v2.17n AMS math features
+\@mathmargin=\skip51
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks22
+\ex@=\dimen156
+))
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen157
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count273
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count274
+\leftroot@=\count275
+LaTeX Info: Redefining \overline on input line 399.
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count276
+\DOTSCASE@=\count277
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen158
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count278
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count279
+\dotsspace@=\muskip17
+\c@parentequation=\count280
+\dspbrk@lvl=\count281
+\tag@help=\toks23
+\row@=\count282
+\column@=\count283
+\maxfields@=\count284
+\andhelp@=\toks24
+\eqnshift@=\dimen159
+\alignsep@=\dimen160
+\tagshift@=\dimen161
+\tagwidth@=\dimen162
+\totwidth@=\dimen163
+\lineht@=\dimen164
+\@envbody=\toks25
+\multlinegap=\skip52
+\multlinetaggap=\skip53
+\mathdisplay@stack=\toks26
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks27
+\thm@bodyfont=\toks28
+\thm@headfont=\toks29
+\thm@notefont=\toks30
+\thm@headpunct=\toks31
+\thm@preskip=\skip54
+\thm@postskip=\skip55
+\thm@headsep=\skip56
+\dth@everypar=\toks32
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip57
+\bibsep=\skip58
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count285
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/preprint/fullpage.sty
+Package: fullpage 1999/02/23 1.1 (PWD)
+\FP@margin=\skip59
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/placeins/placeins.sty
+Package: placeins 2005/04/18  v 2.2
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2022/12/04 v6.7b set line spacing
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/lineno/lineno.sty
+Package: lineno 2023/01/19 line numbers on paragraphs v5.1
+\linenopenalty=\count286
+\output=\toks33
+\linenoprevgraf=\count287
+\linenumbersep=\dimen165
+\linenumberwidth=\dimen166
+\c@linenumber=\count288
+\c@pagewiselinenumber=\count289
+\c@LN@truepage=\count290
+\c@internallinenumber=\count291
+\c@internallinenumbers=\count292
+\quotelinenumbersep=\dimen167
+\bframerule=\dimen168
+\bframesep=\dimen169
+\bframebox=\box55
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count293
+)
+\linenoamsmath@ams@eqpen=\count294
+LaTeX Info: Redefining \\ on input line 3131.
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/preprint/authblk.sty
+Package: authblk 2001/02/27 1.3 (PWD)
+\affilsep=\skip60
+\@affilsep=\skip61
+\c@Maxaffil=\count295
+\c@authors=\count296
+\c@affil=\count297
+)
+(/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count298
+\l__pdf_internal_box=\box56
+)
+(./Supplemental_methods_figs.aux)
+\openout1 = `Supplemental_methods_figs.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: letterpaper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(92.14519pt, 430.00462pt, 92.14519pt)
+* v-part:(T,H,B)=(95.39737pt, 556.47656pt, 143.09605pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=620.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=0.0pt
+* \headheight=0.0pt
+* \headsep=0.0pt
+* \topskip=11.0pt
+* \footskip=30.0pt
+* \marginparwidth=59.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(/usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count299
+\scratchdimen=\dimen170
+\scratchbox=\box57
+\nofMPsegments=\count300
+\nofMParguments=\count301
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count302
+\MPscratchDim=\dimen171
+\MPnumerator=\count303
+\makeMPintoPDFobject=\count304
+\everyMPtoPDFconversion=\toks35
+) (/usr/local/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package hyperref Info: Link coloring OFF on input line 75.
+
+(./Supplemental_methods_figs.out) (./Supplemental_methods_figs.out)
+\@outlinefile=\write4
+\openout4 = `Supplemental_methods_figs.out'.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 76.
+
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 76.
+
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1
+
+{/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (48.33775pt too wide) in paragraph at lines 111--147
+ [][] 
+ []
+
+[2]
+<sbc-algae-castorani_species_accumulation_curve.pdf, id=145, 505.89pt x 505.89p
+t>
+File: sbc-algae-castorani_species_accumulation_curve.pdf Graphic file (type pdf
+)
+<use sbc-algae-castorani_species_accumulation_curve.pdf>
+Package pdftex.def Info: sbc-algae-castorani_species_accumulation_curve.pdf  us
+ed on input line 194.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-algae-castorani_num_taxa_over_time.pdf, id=146, 505.89pt x 505.89pt>
+File: sbc-algae-castorani_num_taxa_over_time.pdf Graphic file (type pdf)
+<use sbc-algae-castorani_num_taxa_over_time.pdf>
+Package pdftex.def Info: sbc-algae-castorani_num_taxa_over_time.pdf  used on in
+put line 195.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-algae-castorani_spatiotemporal_sampling_effort.pdf, id=147, 505.89pt x 505
+.89pt>
+File: sbc-algae-castorani_spatiotemporal_sampling_effort.pdf Graphic file (type
+ pdf)
+<use sbc-algae-castorani_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: sbc-algae-castorani_spatiotemporal_sampling_effort.pdf
+  used on input line 196.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-algae-castorani_spp_shared.pdf, id=148, 505.89pt x 505.89pt>
+File: sbc-algae-castorani_spp_shared.pdf Graphic file (type pdf)
+<use sbc-algae-castorani_spp_shared.pdf>
+Package pdftex.def Info: sbc-algae-castorani_spp_shared.pdf  used on input line
+ 198.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-sessileInverts-castorani_species_accumulation_curve.pdf, id=149, 505.89pt 
+x 505.89pt>
+File: sbc-sessileInverts-castorani_species_accumulation_curve.pdf Graphic file 
+(type pdf)
+<use sbc-sessileInverts-castorani_species_accumulation_curve.pdf>
+Package pdftex.def Info: sbc-sessileInverts-castorani_species_accumulation_curv
+e.pdf  used on input line 206.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-sessileInverts-castorani_num_taxa_over_time.pdf, id=150, 505.89pt x 505.89
+pt>
+File: sbc-sessileInverts-castorani_num_taxa_over_time.pdf Graphic file (type pd
+f)
+<use sbc-sessileInverts-castorani_num_taxa_over_time.pdf>
+Package pdftex.def Info: sbc-sessileInverts-castorani_num_taxa_over_time.pdf  u
+sed on input line 207.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-sessileInverts-castorani_spatiotemporal_sampling_effort.pdf, id=151, 505.8
+9pt x 505.89pt>
+File: sbc-sessileInverts-castorani_spatiotemporal_sampling_effort.pdf Graphic f
+ile (type pdf)
+<use sbc-sessileInverts-castorani_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: sbc-sessileInverts-castorani_spatiotemporal_sampling_e
+ffort.pdf  used on input line 208.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-sessileInverts-castorani_spp_shared.pdf, id=152, 505.89pt x 505.89pt>
+File: sbc-sessileInverts-castorani_spp_shared.pdf Graphic file (type pdf)
+<use sbc-sessileInverts-castorani_spp_shared.pdf>
+Package pdftex.def Info: sbc-sessileInverts-castorani_spp_shared.pdf  used on i
+nput line 210.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<sbc-mobileInverts-castorani_species_accumulation_curve.pdf, id=153, 505.89pt x
+ 505.89pt>
+File: sbc-mobileInverts-castorani_species_accumulation_curve.pdf Graphic file (
+type pdf)
+<use sbc-mobileInverts-castorani_species_accumulation_curve.pdf>
+Package pdftex.def Info: sbc-mobileInverts-castorani_species_accumulation_curve
+.pdf  used on input line 218.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-mobileInverts-castorani_num_taxa_over_time.pdf, id=154, 505.89pt x 505.89p
+t>
+File: sbc-mobileInverts-castorani_num_taxa_over_time.pdf Graphic file (type pdf
+)
+<use sbc-mobileInverts-castorani_num_taxa_over_time.pdf>
+Package pdftex.def Info: sbc-mobileInverts-castorani_num_taxa_over_time.pdf  us
+ed on input line 219.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-mobileInverts-castorani_spatiotemporal_sampling_effort.pdf, id=155, 505.89
+pt x 505.89pt>
+File: sbc-mobileInverts-castorani_spatiotemporal_sampling_effort.pdf Graphic fi
+le (type pdf)
+<use sbc-mobileInverts-castorani_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: sbc-mobileInverts-castorani_spatiotemporal_sampling_ef
+fort.pdf  used on input line 220.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-mobileInverts-castorani_spp_shared.pdf, id=156, 505.89pt x 505.89pt>
+File: sbc-mobileInverts-castorani_spp_shared.pdf Graphic file (type pdf)
+<use sbc-mobileInverts-castorani_spp_shared.pdf>
+Package pdftex.def Info: sbc-mobileInverts-castorani_spp_shared.pdf  used on in
+put line 222.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<sbc-fish-castorani_species_accumulation_curve.pdf, id=157, 505.89pt x 505.89pt
+>
+File: sbc-fish-castorani_species_accumulation_curve.pdf Graphic file (type pdf)
+
+<use sbc-fish-castorani_species_accumulation_curve.pdf>
+Package pdftex.def Info: sbc-fish-castorani_species_accumulation_curve.pdf  use
+d on input line 230.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-fish-castorani_num_taxa_over_time.pdf, id=158, 505.89pt x 505.89pt>
+File: sbc-fish-castorani_num_taxa_over_time.pdf Graphic file (type pdf)
+<use sbc-fish-castorani_num_taxa_over_time.pdf>
+Package pdftex.def Info: sbc-fish-castorani_num_taxa_over_time.pdf  used on inp
+ut line 231.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-fish-castorani_spatiotemporal_sampling_effort.pdf, id=159, 505.89pt x 505.
+89pt>
+File: sbc-fish-castorani_spatiotemporal_sampling_effort.pdf Graphic file (type 
+pdf)
+<use sbc-fish-castorani_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: sbc-fish-castorani_spatiotemporal_sampling_effort.pdf 
+ used on input line 232.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sbc-fish-castorani_spp_shared.pdf, id=160, 505.89pt x 505.89pt>
+File: sbc-fish-castorani_spp_shared.pdf Graphic file (type pdf)
+<use sbc-fish-castorani_spp_shared.pdf>
+Package pdftex.def Info: sbc-fish-castorani_spp_shared.pdf  used on input line 
+234.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<mcr-inverts-castorani_species_accumulation_curve.pdf, id=162, 505.89pt x 505.8
+9pt>
+File: mcr-inverts-castorani_species_accumulation_curve.pdf Graphic file (type p
+df)
+<use mcr-inverts-castorani_species_accumulation_curve.pdf>
+Package pdftex.def Info: mcr-inverts-castorani_species_accumulation_curve.pdf  
+used on input line 265.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<mcr-inverts-castorani_num_taxa_over_time.pdf, id=163, 505.89pt x 505.89pt>
+File: mcr-inverts-castorani_num_taxa_over_time.pdf Graphic file (type pdf)
+<use mcr-inverts-castorani_num_taxa_over_time.pdf>
+Package pdftex.def Info: mcr-inverts-castorani_num_taxa_over_time.pdf  used on 
+input line 266.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<mcr-inverts-castorani_spatiotemporal_sampling_effort.pdf, id=164, 505.89pt x 5
+05.89pt>
+File: mcr-inverts-castorani_spatiotemporal_sampling_effort.pdf Graphic file (ty
+pe pdf)
+<use mcr-inverts-castorani_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: mcr-inverts-castorani_spatiotemporal_sampling_effort.p
+df  used on input line 267.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<mcr-inverts-castorani_spp_shared.pdf, id=165, 505.89pt x 505.89pt>
+File: mcr-inverts-castorani_spp_shared.pdf Graphic file (type pdf)
+<use mcr-inverts-castorani_spp_shared.pdf>
+Package pdftex.def Info: mcr-inverts-castorani_spp_shared.pdf  used on input li
+ne 269.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+[3 <./sbc-algae-castorani_species_accumulation_curve.pdf> <./sbc-algae-castoran
+i_num_taxa_over_time.pdf> <./sbc-algae-castorani_spatiotemporal_sampling_effort
+.pdf> <./sbc-algae-castorani_spp_shared.pdf>] [4 <./sbc-sessileInverts-castoran
+i_species_accumulation_curve.pdf> <./sbc-sessileInverts-castorani_num_taxa_over
+_time.pdf> <./sbc-sessileInverts-castorani_spatiotemporal_sampling_effort.pdf> 
+<./sbc-sessileInverts-castorani_spp_shared.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<mcr-coral-castorani_species_accumulation_curve.pdf, id=230, 505.89pt x 505.89p
+t>
+File: mcr-coral-castorani_species_accumulation_curve.pdf Graphic file (type pdf
+)
+<use mcr-coral-castorani_species_accumulation_curve.pdf>
+Package pdftex.def Info: mcr-coral-castorani_species_accumulation_curve.pdf  us
+ed on input line 309.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<mcr-coral-castorani_num_taxa_over_time.pdf, id=231, 505.89pt x 505.89pt>
+File: mcr-coral-castorani_num_taxa_over_time.pdf Graphic file (type pdf)
+<use mcr-coral-castorani_num_taxa_over_time.pdf>
+Package pdftex.def Info: mcr-coral-castorani_num_taxa_over_time.pdf  used on in
+put line 310.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<mcr-coral-castorani_spatiotemporal_sampling_effort.pdf, id=232, 505.89pt x 505
+.89pt>
+File: mcr-coral-castorani_spatiotemporal_sampling_effort.pdf Graphic file (type
+ pdf)
+<use mcr-coral-castorani_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: mcr-coral-castorani_spatiotemporal_sampling_effort.pdf
+  used on input line 311.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<mcr-coral-castorani_spp_shared.pdf, id=233, 505.89pt x 505.89pt>
+File: mcr-coral-castorani_spp_shared.pdf Graphic file (type pdf)
+<use mcr-coral-castorani_spp_shared.pdf>
+Package pdftex.def Info: mcr-coral-castorani_spp_shared.pdf  used on input line
+ 313.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+[5 <./sbc-mobileInverts-castorani_species_accumulation_curve.pdf> <./sbc-mobile
+Inverts-castorani_num_taxa_over_time.pdf> <./sbc-mobileInverts-castorani_spatio
+temporal_sampling_effort.pdf> <./sbc-mobileInverts-castorani_spp_shared.pdf>]
+[6 <./sbc-fish-castorani_species_accumulation_curve.pdf> <./sbc-fish-castorani_
+num_taxa_over_time.pdf> <./sbc-fish-castorani_spatiotemporal_sampling_effort.pd
+f> <./sbc-fish-castorani_spp_shared.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<mcr-algae-castorani_species_accumulation_curve.pdf, id=291, 505.89pt x 505.89p
+t>
+File: mcr-algae-castorani_species_accumulation_curve.pdf Graphic file (type pdf
+)
+<use mcr-algae-castorani_species_accumulation_curve.pdf>
+Package pdftex.def Info: mcr-algae-castorani_species_accumulation_curve.pdf  us
+ed on input line 333.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<mcr-algae-castorani_num_taxa_over_time.pdf, id=292, 505.89pt x 505.89pt>
+File: mcr-algae-castorani_num_taxa_over_time.pdf Graphic file (type pdf)
+<use mcr-algae-castorani_num_taxa_over_time.pdf>
+Package pdftex.def Info: mcr-algae-castorani_num_taxa_over_time.pdf  used on in
+put line 334.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<mcr-algae-castorani_spatiotemporal_sampling_effort.pdf, id=293, 505.89pt x 505
+.89pt>
+File: mcr-algae-castorani_spatiotemporal_sampling_effort.pdf Graphic file (type
+ pdf)
+<use mcr-algae-castorani_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: mcr-algae-castorani_spatiotemporal_sampling_effort.pdf
+  used on input line 335.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<mcr-algae-castorani_spp_shared.pdf, id=294, 505.89pt x 505.89pt>
+File: mcr-algae-castorani_spp_shared.pdf Graphic file (type pdf)
+<use mcr-algae-castorani_spp_shared.pdf>
+Package pdftex.def Info: mcr-algae-castorani_spp_shared.pdf  used on input line
+ 337.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+[7 <./mcr-inverts-castorani_species_accumulation_curve.pdf> <./mcr-inverts-cast
+orani_num_taxa_over_time.pdf> <./mcr-inverts-castorani_spatiotemporal_sampling_
+effort.pdf> <./mcr-inverts-castorani_spp_shared.pdf>] [8 <./mcr-coral-castorani
+_species_accumulation_curve.pdf> <./mcr-coral-castorani_num_taxa_over_time.pdf>
+ <./mcr-coral-castorani_spatiotemporal_sampling_effort.pdf> <./mcr-coral-castor
+ani_spp_shared.pdf>] [9 <./mcr-algae-castorani_species_accumulation_curve.pdf> 
+<./mcr-algae-castorani_num_taxa_over_time.pdf> <./mcr-algae-castorani_spatiotem
+poral_sampling_effort.pdf> <./mcr-algae-castorani_spp_shared.pdf>]
+<gce-mollusc-compagnoni_species_accumulation_curve.pdf, id=398, 505.89pt x 505.
+89pt>
+File: gce-mollusc-compagnoni_species_accumulation_curve.pdf Graphic file (type 
+pdf)
+<use gce-mollusc-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: gce-mollusc-compagnoni_species_accumulation_curve.pdf 
+ used on input line 350.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<gce-mollusc-compagnoni_num_taxa_over_time.pdf, id=399, 505.89pt x 505.89pt>
+File: gce-mollusc-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+<use gce-mollusc-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: gce-mollusc-compagnoni_num_taxa_over_time.pdf  used on
+ input line 351.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<gce-mollusc-compagnoni_spatiotemporal_sampling_effort.pdf, id=400, 505.89pt x 
+505.89pt>
+File: gce-mollusc-compagnoni_spatiotemporal_sampling_effort.pdf Graphic file (t
+ype pdf)
+<use gce-mollusc-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: gce-mollusc-compagnoni_spatiotemporal_sampling_effort.
+pdf  used on input line 352.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<gce-mollusc-compagnoni_spp_shared.pdf, id=401, 505.89pt x 505.89pt>
+File: gce-mollusc-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use gce-mollusc-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: gce-mollusc-compagnoni_spp_shared.pdf  used on input l
+ine 354.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-diatoms-catano_species_accumulation_curve.pdf, id=405, 505.89pt x 505.89pt
+>
+File: fce-diatoms-catano_species_accumulation_curve.pdf Graphic file (type pdf)
+
+<use fce-diatoms-catano_species_accumulation_curve.pdf>
+Package pdftex.def Info: fce-diatoms-catano_species_accumulation_curve.pdf  use
+d on input line 375.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-diatoms-catano_num_taxa_over_time.pdf, id=406, 505.89pt x 505.89pt>
+File: fce-diatoms-catano_num_taxa_over_time.pdf Graphic file (type pdf)
+<use fce-diatoms-catano_num_taxa_over_time.pdf>
+Package pdftex.def Info: fce-diatoms-catano_num_taxa_over_time.pdf  used on inp
+ut line 376.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-diatoms-catano_spatiotemporal_sampling_effort.pdf, id=407, 505.89pt x 505.
+89pt>
+File: fce-diatoms-catano_spatiotemporal_sampling_effort.pdf Graphic file (type 
+pdf)
+<use fce-diatoms-catano_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: fce-diatoms-catano_spatiotemporal_sampling_effort.pdf 
+ used on input line 377.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-diatoms-catano_spp_shared.pdf, id=408, 505.89pt x 505.89pt>
+File: fce-diatoms-catano_spp_shared.pdf Graphic file (type pdf)
+<use fce-diatoms-catano_spp_shared.pdf>
+Package pdftex.def Info: fce-diatoms-catano_spp_shared.pdf  used on input line 
+379.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+ [10 <./gce-mollusc-compagnoni_species_accumulation_curve.pdf> <./gce-mollusc-c
+ompagnoni_num_taxa_over_time.pdf> <./gce-mollusc-compagnoni_spatiotemporal_samp
+ling_effort.pdf> <./gce-mollusc-compagnoni_spp_shared.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<fce-fish-RehageDry_species_accumulation_curve.pdf, id=454, 505.89pt x 505.89pt
+>
+File: fce-fish-RehageDry_species_accumulation_curve.pdf Graphic file (type pdf)
+
+<use fce-fish-RehageDry_species_accumulation_curve.pdf>
+Package pdftex.def Info: fce-fish-RehageDry_species_accumulation_curve.pdf  use
+d on input line 404.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-fish-RehageDry_num_taxa_over_time.pdf, id=455, 505.89pt x 505.89pt>
+File: fce-fish-RehageDry_num_taxa_over_time.pdf Graphic file (type pdf)
+<use fce-fish-RehageDry_num_taxa_over_time.pdf>
+Package pdftex.def Info: fce-fish-RehageDry_num_taxa_over_time.pdf  used on inp
+ut line 405.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-fish-RehageDry_spatiotemporal_sampling_effort.pdf, id=456, 505.89pt x 505.
+89pt>
+File: fce-fish-RehageDry_spatiotemporal_sampling_effort.pdf Graphic file (type 
+pdf)
+<use fce-fish-RehageDry_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: fce-fish-RehageDry_spatiotemporal_sampling_effort.pdf 
+ used on input line 406.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-fish-RehageDry_spp_shared.pdf, id=457, 505.89pt x 505.89pt>
+File: fce-fish-RehageDry_spp_shared.pdf Graphic file (type pdf)
+<use fce-fish-RehageDry_spp_shared.pdf>
+Package pdftex.def Info: fce-fish-RehageDry_spp_shared.pdf  used on input line 
+408.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+[11]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<fce-fish-RehageWet_species_accumulation_curve.pdf, id=465, 505.89pt x 505.89pt
+>
+File: fce-fish-RehageWet_species_accumulation_curve.pdf Graphic file (type pdf)
+
+<use fce-fish-RehageWet_species_accumulation_curve.pdf>
+Package pdftex.def Info: fce-fish-RehageWet_species_accumulation_curve.pdf  use
+d on input line 416.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-fish-RehageWet_num_taxa_over_time.pdf, id=466, 505.89pt x 505.89pt>
+File: fce-fish-RehageWet_num_taxa_over_time.pdf Graphic file (type pdf)
+<use fce-fish-RehageWet_num_taxa_over_time.pdf>
+Package pdftex.def Info: fce-fish-RehageWet_num_taxa_over_time.pdf  used on inp
+ut line 417.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-fish-RehageWet_spatiotemporal_sampling_effort.pdf, id=467, 505.89pt x 505.
+89pt>
+File: fce-fish-RehageWet_spatiotemporal_sampling_effort.pdf Graphic file (type 
+pdf)
+<use fce-fish-RehageWet_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: fce-fish-RehageWet_spatiotemporal_sampling_effort.pdf 
+ used on input line 418.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<fce-fish-RehageWet_spp_shared.pdf, id=468, 505.89pt x 505.89pt>
+File: fce-fish-RehageWet_spp_shared.pdf Graphic file (type pdf)
+<use fce-fish-RehageWet_spp_shared.pdf>
+Package pdftex.def Info: fce-fish-RehageWet_spp_shared.pdf  used on input line 
+420.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<and-plants-mtStHelens_species_accumulation_curve.pdf, id=472, 505.89pt x 505.8
+9pt>
+File: and-plants-mtStHelens_species_accumulation_curve.pdf Graphic file (type p
+df)
+<use and-plants-mtStHelens_species_accumulation_curve.pdf>
+Package pdftex.def Info: and-plants-mtStHelens_species_accumulation_curve.pdf  
+used on input line 503.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<and-plants-mtStHelens_num_taxa_over_time.pdf, id=473, 505.89pt x 505.89pt>
+File: and-plants-mtStHelens_num_taxa_over_time.pdf Graphic file (type pdf)
+<use and-plants-mtStHelens_num_taxa_over_time.pdf>
+Package pdftex.def Info: and-plants-mtStHelens_num_taxa_over_time.pdf  used on 
+input line 504.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<and-plants-mtStHelens_spatiotemporal_sampling_effort.pdf, id=474, 505.89pt x 5
+05.89pt>
+File: and-plants-mtStHelens_spatiotemporal_sampling_effort.pdf Graphic file (ty
+pe pdf)
+<use and-plants-mtStHelens_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: and-plants-mtStHelens_spatiotemporal_sampling_effort.p
+df  used on input line 505.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<and-plants-mtStHelens_spp_shared.pdf, id=475, 505.89pt x 505.89pt>
+File: and-plants-mtStHelens_spp_shared.pdf Graphic file (type pdf)
+<use and-plants-mtStHelens_spp_shared.pdf>
+Package pdftex.def Info: and-plants-mtStHelens_spp_shared.pdf  used on input li
+ne 507.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+[12 <./fce-diatoms-catano_species_accumulation_curve.pdf> <./fce-diatoms-catano
+_num_taxa_over_time.pdf> <./fce-diatoms-catano_spatiotemporal_sampling_effort.p
+df> <./fce-diatoms-catano_spp_shared.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[13 <./fce-fish-RehageDry_species_accumulation_curve.pdf> <./fce-fish-RehageDry
+_num_taxa_over_time.pdf> <./fce-fish-RehageDry_spatiotemporal_sampling_effort.p
+df> <./fce-fish-RehageDry_spp_shared.pdf>] [14 <./fce-fish-RehageWet_species_ac
+cumulation_curve.pdf> <./fce-fish-RehageWet_num_taxa_over_time.pdf> <./fce-fish
+-RehageWet_spatiotemporal_sampling_effort.pdf> <./fce-fish-RehageWet_spp_shared
+.pdf>]
+<cdr-plantsABC-compagnoni_species_accumulation_curve.pdf, id=565, 505.89pt x 50
+5.89pt>
+File: cdr-plantsABC-compagnoni_species_accumulation_curve.pdf Graphic file (typ
+e pdf)
+<use cdr-plantsABC-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: cdr-plantsABC-compagnoni_species_accumulation_curve.pd
+f  used on input line 529.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cdr-plantsABC-compagnoni_num_taxa_over_time.pdf, id=566, 505.89pt x 505.89pt>
+File: cdr-plantsABC-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+<use cdr-plantsABC-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: cdr-plantsABC-compagnoni_num_taxa_over_time.pdf  used 
+on input line 530.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cdr-plantsABC-compagnoni_spatiotemporal_sampling_effort.pdf, id=567, 505.89pt 
+x 505.89pt>
+File: cdr-plantsABC-compagnoni_spatiotemporal_sampling_effort.pdf Graphic file 
+(type pdf)
+<use cdr-plantsABC-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: cdr-plantsABC-compagnoni_spatiotemporal_sampling_effor
+t.pdf  used on input line 531.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cdr-plantsABC-compagnoni_spp_shared.pdf, id=568, 505.89pt x 505.89pt>
+File: cdr-plantsABC-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use cdr-plantsABC-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: cdr-plantsABC-compagnoni_spp_shared.pdf  used on input
+ line 533.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+ [15 <./and-plants-mtStHelens_species_accumulation_curve.pdf> <./and-plants-mtS
+tHelens_num_taxa_over_time.pdf> <./and-plants-mtStHelens_spatiotemporal_samplin
+g_effort.pdf> <./and-plants-mtStHelens_spp_shared.pdf>]
+<cdr-plantsD-compagnoni_species_accumulation_curve.pdf, id=596, 505.89pt x 505.
+89pt>
+File: cdr-plantsD-compagnoni_species_accumulation_curve.pdf Graphic file (type 
+pdf)
+<use cdr-plantsD-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: cdr-plantsD-compagnoni_species_accumulation_curve.pdf 
+ used on input line 541.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cdr-plantsD-compagnoni_num_taxa_over_time.pdf, id=597, 505.89pt x 505.89pt>
+File: cdr-plantsD-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+<use cdr-plantsD-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: cdr-plantsD-compagnoni_num_taxa_over_time.pdf  used on
+ input line 542.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cdr-plantsD-compagnoni_spatiotemporal_sampling_effort.pdf, id=598, 505.89pt x 
+505.89pt>
+File: cdr-plantsD-compagnoni_spatiotemporal_sampling_effort.pdf Graphic file (t
+ype pdf)
+<use cdr-plantsD-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: cdr-plantsD-compagnoni_spatiotemporal_sampling_effort.
+pdf  used on input line 543.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cdr-plantsD-compagnoni_spp_shared.pdf, id=599, 505.89pt x 505.89pt>
+File: cdr-plantsD-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use cdr-plantsD-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: cdr-plantsD-compagnoni_spp_shared.pdf  used on input l
+ine 545.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<hays-plants-compagnoni_species_accumulation_curve.pdf, id=603, 505.89pt x 505.
+89pt>
+File: hays-plants-compagnoni_species_accumulation_curve.pdf Graphic file (type 
+pdf)
+<use hays-plants-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: hays-plants-compagnoni_species_accumulation_curve.pdf 
+ used on input line 563.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<hays-plants-compagnoni_num_taxa_over_time.pdf, id=604, 505.89pt x 505.89pt>
+File: hays-plants-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+<use hays-plants-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: hays-plants-compagnoni_num_taxa_over_time.pdf  used on
+ input line 564.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<hays-plants-compagnoni_spatiotemporal_sampling_effort.pdf, id=605, 505.89pt x 
+505.89pt>
+File: hays-plants-compagnoni_spatiotemporal_sampling_effort.pdf Graphic file (t
+ype pdf)
+<use hays-plants-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: hays-plants-compagnoni_spatiotemporal_sampling_effort.
+pdf  used on input line 565.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<hays-plants-compagnoni_spp_shared.pdf, id=606, 505.89pt x 505.89pt>
+File: hays-plants-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use hays-plants-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: hays-plants-compagnoni_spp_shared.pdf  used on input l
+ine 567.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+[16 <./cdr-plantsABC-compagnoni_species_accumulation_curve.pdf> <./cdr-plantsAB
+C-compagnoni_num_taxa_over_time.pdf> <./cdr-plantsABC-compagnoni_spatiotemporal
+_sampling_effort.pdf> <./cdr-plantsABC-compagnoni_spp_shared.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<jrn-plants-compagnoni_species_accumulation_curve.pdf, id=639, 505.89pt x 505.8
+9pt>
+File: jrn-plants-compagnoni_species_accumulation_curve.pdf Graphic file (type p
+df)
+<use jrn-plants-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: jrn-plants-compagnoni_species_accumulation_curve.pdf  
+used on input line 576.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<jrn-plants-compagnoni_num_taxa_over_time.pdf, id=640, 505.89pt x 505.89pt>
+File: jrn-plants-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+<use jrn-plants-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: jrn-plants-compagnoni_num_taxa_over_time.pdf  used on 
+input line 577.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<jrn-plants-compagnoni_spatiotemporal_sampling_effort.pdf, id=641, 505.89pt x 5
+05.89pt>
+File: jrn-plants-compagnoni_spatiotemporal_sampling_effort.pdf Graphic file (ty
+pe pdf)
+<use jrn-plants-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: jrn-plants-compagnoni_spatiotemporal_sampling_effort.p
+df  used on input line 578.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<jrn-plants-compagnoni_spp_shared.pdf, id=642, 505.89pt x 505.89pt>
+File: jrn-plants-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use jrn-plants-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: jrn-plants-compagnoni_spp_shared.pdf  used on input li
+ne 580.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+[17 <./cdr-plantsD-compagnoni_species_accumulation_curve.pdf> <./cdr-plantsD-co
+mpagnoni_num_taxa_over_time.pdf> <./cdr-plantsD-compagnoni_spatiotemporal_sampl
+ing_effort.pdf> <./cdr-plantsD-compagnoni_spp_shared.pdf>] [18 <./hays-plants-c
+ompagnoni_species_accumulation_curve.pdf> <./hays-plants-compagnoni_num_taxa_ov
+er_time.pdf> <./hays-plants-compagnoni_spatiotemporal_sampling_effort.pdf> <./h
+ays-plants-compagnoni_spp_shared.pdf>] [19 <./jrn-plants-compagnoni_species_acc
+umulation_curve.pdf> <./jrn-plants-compagnoni_num_taxa_over_time.pdf> <./jrn-pl
+ants-compagnoni_spatiotemporal_sampling_effort.pdf> <./jrn-plants-compagnoni_sp
+p_shared.pdf>]
+<sev-plants-compagnoni_species_accumulation_curve.pdf, id=730, 505.89pt x 505.8
+9pt>
+File: sev-plants-compagnoni_species_accumulation_curve.pdf Graphic file (type p
+df)
+<use sev-plants-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: sev-plants-compagnoni_species_accumulation_curve.pdf  
+used on input line 623.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sev-plants-compagnoni_num_taxa_over_time.pdf, id=731, 505.89pt x 505.89pt>
+File: sev-plants-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+<use sev-plants-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: sev-plants-compagnoni_num_taxa_over_time.pdf  used on 
+input line 624.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sev-plants-compagnoni_spatiotemporal_sampling_effort.pdf, id=732, 505.89pt x 5
+05.89pt>
+File: sev-plants-compagnoni_spatiotemporal_sampling_effort.pdf Graphic file (ty
+pe pdf)
+<use sev-plants-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: sev-plants-compagnoni_spatiotemporal_sampling_effort.p
+df  used on input line 625.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sev-plants-compagnoni_spp_shared.pdf, id=733, 505.89pt x 505.89pt>
+File: sev-plants-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use sev-plants-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: sev-plants-compagnoni_spp_shared.pdf  used on input li
+ne 627.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+ [20 <./sev-plants-compagnoni_species_accumulation_curve.pdf> <./sev-plants-com
+pagnoni_num_taxa_over_time.pdf> <./sev-plants-compagnoni_spatiotemporal_samplin
+g_effort.pdf> <./sev-plants-compagnoni_spp_shared.pdf>]
+<sgs-plants-catano_species_accumulation_curve.pdf, id=764, 505.89pt x 505.89pt>
+
+File: sgs-plants-catano_species_accumulation_curve.pdf Graphic file (type pdf)
+<use sgs-plants-catano_species_accumulation_curve.pdf>
+Package pdftex.def Info: sgs-plants-catano_species_accumulation_curve.pdf  used
+ on input line 647.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sgs-plants-catano_num_taxa_over_time.pdf, id=765, 505.89pt x 505.89pt>
+File: sgs-plants-catano_num_taxa_over_time.pdf Graphic file (type pdf)
+<use sgs-plants-catano_num_taxa_over_time.pdf>
+Package pdftex.def Info: sgs-plants-catano_num_taxa_over_time.pdf  used on inpu
+t line 648.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sgs-plants-catano_spatiotemporal_sampling_effort.pdf, id=766, 505.89pt x 505.8
+9pt>
+File: sgs-plants-catano_spatiotemporal_sampling_effort.pdf Graphic file (type p
+df)
+<use sgs-plants-catano_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: sgs-plants-catano_spatiotemporal_sampling_effort.pdf  
+used on input line 649.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sgs-plants-catano_spp_shared.pdf, id=767, 505.89pt x 505.89pt>
+File: sgs-plants-catano_spp_shared.pdf Graphic file (type pdf)
+<use sgs-plants-catano_spp_shared.pdf>
+Package pdftex.def Info: sgs-plants-catano_spp_shared.pdf  used on input line 6
+51.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package natbib Warning: Citation `Milchunas2014' on page 21 undefined on input 
+line 658.
+
+<sgs-plants-compagnoni_species_accumulation_curve.pdf, id=769, 505.89pt x 505.8
+9pt>
+File: sgs-plants-compagnoni_species_accumulation_curve.pdf Graphic file (type p
+df)
+<use sgs-plants-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: sgs-plants-compagnoni_species_accumulation_curve.pdf  
+used on input line 666.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sgs-plants-compagnoni_num_taxa_over_time.pdf, id=770, 505.89pt x 505.89pt>
+File: sgs-plants-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+<use sgs-plants-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: sgs-plants-compagnoni_num_taxa_over_time.pdf  used on 
+input line 667.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sgs-plants-compagnoni_spatiotemporal_sampling_effort.pdf, id=771, 505.89pt x 5
+05.89pt>
+File: sgs-plants-compagnoni_spatiotemporal_sampling_effort.pdf Graphic file (ty
+pe pdf)
+<use sgs-plants-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: sgs-plants-compagnoni_spatiotemporal_sampling_effort.p
+df  used on input line 668.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sgs-plants-compagnoni_spp_shared.pdf, id=772, 505.89pt x 505.89pt>
+File: sgs-plants-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use sgs-plants-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: sgs-plants-compagnoni_spp_shared.pdf  used on input li
+ne 670.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[21]
+<sev-arthropods-compagnoni_species_accumulation_curve.pdf, id=784, 505.89pt x 5
+05.89pt>
+File: sev-arthropods-compagnoni_species_accumulation_curve.pdf Graphic file (ty
+pe pdf)
+<use sev-arthropods-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: sev-arthropods-compagnoni_species_accumulation_curve.p
+df  used on input line 685.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sev-arthropods-compagnoni_num_taxa_over_time.pdf, id=785, 505.89pt x 505.89pt>
+
+File: sev-arthropods-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+<use sev-arthropods-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: sev-arthropods-compagnoni_num_taxa_over_time.pdf  used
+ on input line 686.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sev-arthropods-compagnoni_spatiotemporal_sampling_effort.pdf, id=786, 505.89pt
+ x 505.89pt>
+File: sev-arthropods-compagnoni_spatiotemporal_sampling_effort.pdf Graphic file
+ (type pdf)
+<use sev-arthropods-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: sev-arthropods-compagnoni_spatiotemporal_sampling_effo
+rt.pdf  used on input line 687.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sev-arthropods-compagnoni_spp_shared.pdf, id=787, 505.89pt x 505.89pt>
+File: sev-arthropods-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use sev-arthropods-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: sev-arthropods-compagnoni_spp_shared.pdf  used on inpu
+t line 689.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[22 <./sgs-plants-catano_species_accumulation_curve.pdf> <./sgs-plants-catano_n
+um_taxa_over_time.pdf> <./sgs-plants-catano_spatiotemporal_sampling_effort.pdf>
+ <./sgs-plants-catano_spp_shared.pdf>]
+<sev-grasshopper-compagnoni_species_accumulation_curve.pdf, id=819, 505.89pt x 
+505.89pt>
+File: sev-grasshopper-compagnoni_species_accumulation_curve.pdf Graphic file (t
+ype pdf)
+<use sev-grasshopper-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: sev-grasshopper-compagnoni_species_accumulation_curve.
+pdf  used on input line 706.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sev-grasshopper-compagnoni_num_taxa_over_time.pdf, id=820, 505.89pt x 505.89pt
+>
+File: sev-grasshopper-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+
+<use sev-grasshopper-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: sev-grasshopper-compagnoni_num_taxa_over_time.pdf  use
+d on input line 707.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sev-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf, id=821, 505.89p
+t x 505.89pt>
+File: sev-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf Graphic fil
+e (type pdf)
+<use sev-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: sev-grasshopper-compagnoni_spatiotemporal_sampling_eff
+ort.pdf  used on input line 708.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<sev-grasshopper-compagnoni_spp_shared.pdf, id=822, 505.89pt x 505.89pt>
+File: sev-grasshopper-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use sev-grasshopper-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: sev-grasshopper-compagnoni_spp_shared.pdf  used on inp
+ut line 710.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+ [23 <./sgs-plants-compagnoni_species_accumulation_curve.pdf> <./sgs-plants-com
+pagnoni_num_taxa_over_time.pdf> <./sgs-plants-compagnoni_spatiotemporal_samplin
+g_effort.pdf> <./sgs-plants-compagnoni_spp_shared.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[24 <./sev-arthropods-compagnoni_species_accumulation_curve.pdf> <./sev-arthrop
+ods-compagnoni_num_taxa_over_time.pdf> <./sev-arthropods-compagnoni_spatiotempo
+ral_sampling_effort.pdf> <./sev-arthropods-compagnoni_spp_shared.pdf>] [25 <./s
+ev-grasshopper-compagnoni_species_accumulation_curve.pdf> <./sev-grasshopper-co
+mpagnoni_num_taxa_over_time.pdf> <./sev-grasshopper-compagnoni_spatiotemporal_s
+ampling_effort.pdf> <./sev-grasshopper-compagnoni_spp_shared.pdf>]
+<cdr-grasshopper-compagnoni_species_accumulation_curve.pdf, id=908, 505.89pt x 
+505.89pt>
+File: cdr-grasshopper-compagnoni_species_accumulation_curve.pdf Graphic file (t
+ype pdf)
+<use cdr-grasshopper-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: cdr-grasshopper-compagnoni_species_accumulation_curve.
+pdf  used on input line 729.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cdr-grasshopper-compagnoni_num_taxa_over_time.pdf, id=909, 505.89pt x 505.89pt
+>
+File: cdr-grasshopper-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+
+<use cdr-grasshopper-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: cdr-grasshopper-compagnoni_num_taxa_over_time.pdf  use
+d on input line 730.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cdr-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf, id=910, 505.89p
+t x 505.89pt>
+File: cdr-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf Graphic fil
+e (type pdf)
+<use cdr-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: cdr-grasshopper-compagnoni_spatiotemporal_sampling_eff
+ort.pdf  used on input line 731.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cdr-grasshopper-compagnoni_spp_shared.pdf, id=911, 505.89pt x 505.89pt>
+File: cdr-grasshopper-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use cdr-grasshopper-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: cdr-grasshopper-compagnoni_spp_shared.pdf  used on inp
+ut line 733.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+ [26 <./cdr-grasshopper-compagnoni_species_accumulation_curve.pdf> <./cdr-grass
+hopper-compagnoni_num_taxa_over_time.pdf> <./cdr-grasshopper-compagnoni_spatiot
+emporal_sampling_effort.pdf> <./cdr-grasshopper-compagnoni_spp_shared.pdf>]
+<knz-grasshopper-compagnoni_species_accumulation_curve.pdf, id=943, 505.89pt x 
+505.89pt>
+File: knz-grasshopper-compagnoni_species_accumulation_curve.pdf Graphic file (t
+ype pdf)
+<use knz-grasshopper-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: knz-grasshopper-compagnoni_species_accumulation_curve.
+pdf  used on input line 752.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<knz-grasshopper-compagnoni_num_taxa_over_time.pdf, id=944, 505.89pt x 505.89pt
+>
+File: knz-grasshopper-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+
+<use knz-grasshopper-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: knz-grasshopper-compagnoni_num_taxa_over_time.pdf  use
+d on input line 753.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<knz-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf, id=945, 505.89p
+t x 505.89pt>
+File: knz-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf Graphic fil
+e (type pdf)
+<use knz-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: knz-grasshopper-compagnoni_spatiotemporal_sampling_eff
+ort.pdf  used on input line 754.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<knz-grasshopper-compagnoni_spp_shared.pdf, id=946, 505.89pt x 505.89pt>
+File: knz-grasshopper-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use knz-grasshopper-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: knz-grasshopper-compagnoni_spp_shared.pdf  used on inp
+ut line 756.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<luq-snails-compagnoni_species_accumulation_curve.pdf, id=950, 505.89pt x 505.8
+9pt>
+File: luq-snails-compagnoni_species_accumulation_curve.pdf Graphic file (type p
+df)
+<use luq-snails-compagnoni_species_accumulation_curve.pdf>
+Package pdftex.def Info: luq-snails-compagnoni_species_accumulation_curve.pdf  
+used on input line 770.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<luq-snails-compagnoni_num_taxa_over_time.pdf, id=951, 505.89pt x 505.89pt>
+File: luq-snails-compagnoni_num_taxa_over_time.pdf Graphic file (type pdf)
+<use luq-snails-compagnoni_num_taxa_over_time.pdf>
+Package pdftex.def Info: luq-snails-compagnoni_num_taxa_over_time.pdf  used on 
+input line 771.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<luq-snails-compagnoni_spatiotemporal_sampling_effort.pdf, id=952, 505.89pt x 5
+05.89pt>
+File: luq-snails-compagnoni_spatiotemporal_sampling_effort.pdf Graphic file (ty
+pe pdf)
+<use luq-snails-compagnoni_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: luq-snails-compagnoni_spatiotemporal_sampling_effort.p
+df  used on input line 772.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<luq-snails-compagnoni_spp_shared.pdf, id=953, 505.89pt x 505.89pt>
+File: luq-snails-compagnoni_spp_shared.pdf Graphic file (type pdf)
+<use luq-snails-compagnoni_spp_shared.pdf>
+Package pdftex.def Info: luq-snails-compagnoni_spp_shared.pdf  used on input li
+ne 774.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<jrn-lizards-hope_species_accumulation_curve.pdf, id=957, 505.89pt x 505.89pt>
+File: jrn-lizards-hope_species_accumulation_curve.pdf Graphic file (type pdf)
+<use jrn-lizards-hope_species_accumulation_curve.pdf>
+Package pdftex.def Info: jrn-lizards-hope_species_accumulation_curve.pdf  used 
+on input line 794.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<jrn-lizards-hope_num_taxa_over_time.pdf, id=958, 505.89pt x 505.89pt>
+File: jrn-lizards-hope_num_taxa_over_time.pdf Graphic file (type pdf)
+<use jrn-lizards-hope_num_taxa_over_time.pdf>
+Package pdftex.def Info: jrn-lizards-hope_num_taxa_over_time.pdf  used on input
+ line 795.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<jrn-lizards-hope_spatiotemporal_sampling_effort.pdf, id=959, 505.89pt x 505.89
+pt>
+File: jrn-lizards-hope_spatiotemporal_sampling_effort.pdf Graphic file (type pd
+f)
+<use jrn-lizards-hope_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: jrn-lizards-hope_spatiotemporal_sampling_effort.pdf  u
+sed on input line 796.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<jrn-lizards-hope_spp_shared.pdf, id=960, 505.89pt x 505.89pt>
+File: jrn-lizards-hope_spp_shared.pdf Graphic file (type pdf)
+<use jrn-lizards-hope_spp_shared.pdf>
+Package pdftex.def Info: jrn-lizards-hope_spp_shared.pdf  used on input line 79
+8.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[27]
+<cap-herps-banville_species_accumulation_curve.pdf, id=975, 505.89pt x 505.89pt
+>
+File: cap-herps-banville_species_accumulation_curve.pdf Graphic file (type pdf)
+
+<use cap-herps-banville_species_accumulation_curve.pdf>
+Package pdftex.def Info: cap-herps-banville_species_accumulation_curve.pdf  use
+d on input line 818.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cap-herps-banville_num_taxa_over_time.pdf, id=976, 505.89pt x 505.89pt>
+File: cap-herps-banville_num_taxa_over_time.pdf Graphic file (type pdf)
+<use cap-herps-banville_num_taxa_over_time.pdf>
+Package pdftex.def Info: cap-herps-banville_num_taxa_over_time.pdf  used on inp
+ut line 819.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cap-herps-banville_spatiotemporal_sampling_effort.pdf, id=977, 505.89pt x 505.
+89pt>
+File: cap-herps-banville_spatiotemporal_sampling_effort.pdf Graphic file (type 
+pdf)
+<use cap-herps-banville_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: cap-herps-banville_spatiotemporal_sampling_effort.pdf 
+ used on input line 820.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cap-herps-banville_spp_shared.pdf, id=978, 505.89pt x 505.89pt>
+File: cap-herps-banville_spp_shared.pdf Graphic file (type pdf)
+<use cap-herps-banville_spp_shared.pdf>
+Package pdftex.def Info: cap-herps-banville_spp_shared.pdf  used on input line 
+822.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[28 <./knz-grasshopper-compagnoni_species_accumulation_curve.pdf> <./knz-grassh
+opper-compagnoni_num_taxa_over_time.pdf> <./knz-grasshopper-compagnoni_spatiote
+mporal_sampling_effort.pdf> <./knz-grasshopper-compagnoni_spp_shared.pdf>]
+<and-birds-wisnoski_species_accumulation_curve.pdf, id=1009, 505.89pt x 505.89p
+t>
+File: and-birds-wisnoski_species_accumulation_curve.pdf Graphic file (type pdf)
+
+<use and-birds-wisnoski_species_accumulation_curve.pdf>
+Package pdftex.def Info: and-birds-wisnoski_species_accumulation_curve.pdf  use
+d on input line 836.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<and-birds-wisnoski_num_taxa_over_time.pdf, id=1010, 505.89pt x 505.89pt>
+File: and-birds-wisnoski_num_taxa_over_time.pdf Graphic file (type pdf)
+<use and-birds-wisnoski_num_taxa_over_time.pdf>
+Package pdftex.def Info: and-birds-wisnoski_num_taxa_over_time.pdf  used on inp
+ut line 837.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<and-birds-wisnoski_spatiotemporal_sampling_effort.pdf, id=1011, 505.89pt x 505
+.89pt>
+File: and-birds-wisnoski_spatiotemporal_sampling_effort.pdf Graphic file (type 
+pdf)
+<use and-birds-wisnoski_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: and-birds-wisnoski_spatiotemporal_sampling_effort.pdf 
+ used on input line 838.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+[29 <./luq-snails-compagnoni_species_accumulation_curve.pdf> <./luq-snails-comp
+agnoni_num_taxa_over_time.pdf> <./luq-snails-compagnoni_spatiotemporal_sampling
+_effort.pdf> <./luq-snails-compagnoni_spp_shared.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[30 <./jrn-lizards-hope_species_accumulation_curve.pdf> <./jrn-lizards-hope_num
+_taxa_over_time.pdf> <./jrn-lizards-hope_spatiotemporal_sampling_effort.pdf> <.
+/jrn-lizards-hope_spp_shared.pdf>]
+<cap-birds-banville_species_accumulation_curve.pdf, id=1071, 505.89pt x 505.89p
+t>
+File: cap-birds-banville_species_accumulation_curve.pdf Graphic file (type pdf)
+
+<use cap-birds-banville_species_accumulation_curve.pdf>
+Package pdftex.def Info: cap-birds-banville_species_accumulation_curve.pdf  use
+d on input line 860.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cap-birds-banville_num_taxa_over_time.pdf, id=1072, 505.89pt x 505.89pt>
+File: cap-birds-banville_num_taxa_over_time.pdf Graphic file (type pdf)
+<use cap-birds-banville_num_taxa_over_time.pdf>
+Package pdftex.def Info: cap-birds-banville_num_taxa_over_time.pdf  used on inp
+ut line 861.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cap-birds-banville_spatiotemporal_sampling_effort.pdf, id=1073, 505.89pt x 505
+.89pt>
+File: cap-birds-banville_spatiotemporal_sampling_effort.pdf Graphic file (type 
+pdf)
+<use cap-birds-banville_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: cap-birds-banville_spatiotemporal_sampling_effort.pdf 
+ used on input line 862.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<cap-birds-banville_spp_shared.pdf, id=1074, 505.89pt x 505.89pt>
+File: cap-birds-banville_spp_shared.pdf Graphic file (type pdf)
+<use cap-birds-banville_spp_shared.pdf>
+Package pdftex.def Info: cap-birds-banville_spp_shared.pdf  used on input line 
+864.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<bes-birds-nilon_species_accumulation_curve.pdf, id=1078, 505.89pt x 505.89pt>
+File: bes-birds-nilon_species_accumulation_curve.pdf Graphic file (type pdf)
+<use bes-birds-nilon_species_accumulation_curve.pdf>
+Package pdftex.def Info: bes-birds-nilon_species_accumulation_curve.pdf  used o
+n input line 877.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<bes-birds-nilon_num_taxa_over_time.pdf, id=1079, 505.89pt x 505.89pt>
+File: bes-birds-nilon_num_taxa_over_time.pdf Graphic file (type pdf)
+<use bes-birds-nilon_num_taxa_over_time.pdf>
+Package pdftex.def Info: bes-birds-nilon_num_taxa_over_time.pdf  used on input 
+line 878.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<bes-birds-nilon_spatiotemporal_sampling_effort.pdf, id=1080, 505.89pt x 505.89
+pt>
+File: bes-birds-nilon_spatiotemporal_sampling_effort.pdf Graphic file (type pdf
+)
+<use bes-birds-nilon_spatiotemporal_sampling_effort.pdf>
+Package pdftex.def Info: bes-birds-nilon_spatiotemporal_sampling_effort.pdf  us
+ed on input line 879.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+<bes-birds-nilon_spp_shared.pdf, id=1081, 505.89pt x 505.89pt>
+File: bes-birds-nilon_spp_shared.pdf Graphic file (type pdf)
+<use bes-birds-nilon_spp_shared.pdf>
+Package pdftex.def Info: bes-birds-nilon_spp_shared.pdf  used on input line 881
+.
+(pdftex.def)             Requested size: 202.3524pt x 202.3524pt.
+[31 <./cap-herps-banville_species_accumulation_curve.pdf> <./cap-herps-banville
+_num_taxa_over_time.pdf> <./cap-herps-banville_spatiotemporal_sampling_effort.p
+df> <./cap-herps-banville_spp_shared.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+(./Supplemental_methods_figs.bbl [32 <./and-birds-wisnoski_species_accumulation
+_curve.pdf> <./and-birds-wisnoski_num_taxa_over_time.pdf> <./and-birds-wisnoski
+_spatiotemporal_sampling_effort.pdf>]
+Underfull \hbox (badness 8019) in paragraph at lines 10--16
+[]\OT1/cmr/m/n/10.95 Alber, M. (2014a).  Mol-lusc pop-u-la-tion abun-dance mon-
+i-tor-ing: Fall 2009 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 10--16
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 10--16
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+[33 <./cap-birds-banville_species_accumulation_curve.pdf> <./cap-birds-banville
+_num_taxa_over_time.pdf> <./cap-birds-banville_spatiotemporal_sampling_effort.p
+df> <./cap-birds-banville_spp_shared.pdf>]
+Underfull \hbox (badness 7869) in paragraph at lines 18--24
+[]\OT1/cmr/m/n/10.95 Alber, M. (2014b).  Mol-lusc pop-u-la-tion abun-dance mon-
+i-tor-ing: Fall 2010 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 18--24
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 18--24
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 8170) in paragraph at lines 26--32
+[]\OT1/cmr/m/n/10.95 Alber, M. (2014c).  Mol-lusc pop-u-la-tion abun-dance mon-
+i-tor-ing: Fall 2011 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 26--32
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 26--32
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+[34 <./bes-birds-nilon_species_accumulation_curve.pdf> <./bes-birds-nilon_num_t
+axa_over_time.pdf> <./bes-birds-nilon_spatiotemporal_sampling_effort.pdf> <./be
+s-birds-nilon_spp_shared.pdf>]
+Underfull \hbox (badness 7869) in paragraph at lines 34--40
+[]\OT1/cmr/m/n/10.95 Alber, M. (2014d).  Mol-lusc pop-u-la-tion abun-dance mon-
+i-tor-ing: Fall 2012 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 34--40
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 34--40
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 1910) in paragraph at lines 51--57
+[]\OT1/cmr/m/n/10.95 Bateman, H., Childers, D., Katti, M., Shochat, E., and War
+-ren, P. (2017).  Point-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--57
+\OT1/cmr/m/n/10.95 count bird cen-sus-ing: long-term mon-i-tor-ing of bird abun
+-dance and di-ver-sity
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--57
+\OT1/cmr/m/n/10.95 in cen-tral arizona-phoenix, on-go-ing since 2000.  En-vi-ro
+n-men-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--57
+\OT1/cmr/m/n/10.95 http://dx.doi.org/10.6073/pasta/201add557165740926aab6e056db
+6988.  Dataset ac-cessed
+ []
+
+
+Underfull \hbox (badness 3281) in paragraph at lines 59--65
+[]\OT1/cmr/m/n/10.95 Bishop, T. D. (2014a).  Mol-lusc pop-u-la-tion abun-dance 
+mon-i-tor-ing: Fall 2000 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 59--65
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 59--65
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 3209) in paragraph at lines 67--73
+[]\OT1/cmr/m/n/10.95 Bishop, T. D. (2014b).  Mol-lusc pop-u-la-tion abun-dance 
+mon-i-tor-ing: Fall 2001 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 67--73
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 67--73
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 3364) in paragraph at lines 75--81
+[]\OT1/cmr/m/n/10.95 Bishop, T. D. (2014c).  Mol-lusc pop-u-la-tion abun-dance 
+mon-i-tor-ing: Fall 2002 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 75--81
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 75--81
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+[35]
+Underfull \hbox (badness 3209) in paragraph at lines 83--89
+[]\OT1/cmr/m/n/10.95 Bishop, T. D. (2014d).  Mol-lusc pop-u-la-tion abun-dance 
+mon-i-tor-ing: Fall 2003 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 83--89
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 83--89
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 3364) in paragraph at lines 91--97
+[]\OT1/cmr/m/n/10.95 Bishop, T. D. (2014e).  Mol-lusc pop-u-la-tion abun-dance 
+mon-i-tor-ing: Fall 2004 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 91--97
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 91--97
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 3449) in paragraph at lines 99--105
+[]\OT1/cmr/m/n/10.95 Bishop, T. D. (2014f).  Mol-lusc pop-u-la-tion abun-dance 
+mon-i-tor-ing: Fall 2005 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 99--105
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 99--105
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 3281) in paragraph at lines 107--113
+[]\OT1/cmr/m/n/10.95 Bishop, T. D. (2014g).  Mol-lusc pop-u-la-tion abun-dance 
+mon-i-tor-ing: Fall 2006 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 107--113
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 107--113
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 3209) in paragraph at lines 115--121
+[]\OT1/cmr/m/n/10.95 Bishop, T. D. (2014h).  Mol-lusc pop-u-la-tion abun-dance 
+mon-i-tor-ing: Fall 2007 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 115--121
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 115--121
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 3601) in paragraph at lines 123--129
+[]\OT1/cmr/m/n/10.95 Bishop, T. D. (2014i).  Mol-lusc pop-u-la-tion abun-dance 
+mon-i-tor-ing: Fall 2008 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 123--129
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 123--129
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+[36]
+Underfull \hbox (badness 10000) in paragraph at lines 139--144
+[]\OT1/cmr/m/n/10.95 Chapline, W. (2017).  Jor-nada Ex-per-i-men-tal Range per-
+ma-nent quadrat
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--144
+\OT1/cmr/m/n/10.95 chart data be-gin-ning 1915 - plant den-sity.  En-vi-ron-men
+-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 5077) in paragraph at lines 152--158
+[]\OT1/cmr/m/n/10.95 Edmunds, P. (2022).  Mcr lter: Coral reef: Long-term pop-u
+-la-tion and com-mu-
+ []
+
+
+Underfull \hbox (badness 4403) in paragraph at lines 152--158
+\OT1/cmr/m/n/10.95 nity dy-nam-ics: Corals, on-go-ing since 2005 ver 39.  En-vi
+-ron-men-tal Data Ini-tia-
+ []
+
+
+Underfull \hbox (badness 2285) in paragraph at lines 152--158
+\OT1/cmr/m/n/10.95 tive. https://doi.org/10.6073/pasta/913b1532594fcaf02de7671e
+d940b4c5.  Dataset ac-cessed
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--167
+[]\OT1/cmr/m/n/10.95 Gaiser, E. (2017).  Rel-a-tive abun-dance di-atom data fro
+m pe-ri-phy-ton sam-ples
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--167
+\OT1/cmr/m/n/10.95 col-lected for the Com-pre-hen-sive Ev-er-glades Restora-tio
+n Plan (CERP) study
+ []
+
+
+Underfull \hbox (badness 7221) in paragraph at lines 160--167
+\OT1/cmr/m/n/10.95 (FCE) from Febru-ary 2005 to Novem-ber 2014.  En-vi-ron-men-
+tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 2310) in paragraph at lines 160--167
+\OT1/cmr/m/n/10.95 https://doi.org/10.6073/pasta/cb0f7e88d28075a6ff1f59d008bb73
+2c.  Dataset ob-tained from
+ []
+
+
+Underfull \hbox (badness 2762) in paragraph at lines 169--175
+[]\OT1/cmr/m/n/10.95 Hadley, S. J. K. F. (2017).  Forest-wide bird sur-vey at 1
+83 sam-ple sites the An-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--175
+\OT1/cmr/m/n/10.95 drews Ex-per-i-men-tal For-est from 2009-present.  En-vi-ron
+-men-tal Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--175
+\OT1/cmr/m/n/10.95 http://dx.doi.org/10.6073/pasta/b75f34d8de6fcfa59c882bb1acf9
+6226.  Dataset ac-cessed
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--189
+[]\OT1/cmr/m/n/10.95 Joern, A. (2018).  CGR02 sweep sam-pling of grasshop-pers 
+on Konza
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--189
+\OT1/cmr/m/n/10.95 Prairie LTER wa-ter-sheds (1982-present).  En-vi-ron-men-tal
+ Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--189
+\OT1/cmr/m/n/10.95 https://doi.org/10.6073/pasta/aec67f5d71d14cd39fe8b6b34b4719
+f4.  Dataset ac-cessed
+ []
+
+[37]
+Underfull \hbox (badness 10000) in paragraph at lines 191--197
+[]\OT1/cmr/m/n/10.95 Knops, J. (2018).  Core old field grasshop-per sam-pling:s
+uccessional dy-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 191--197
+\OT1/cmr/m/n/10.95 nam-ics on a re-sam-pled chronose-quence.  En-vi-ron-men-tal
+ Data Ini-tia-tive.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 191--197
+\OT1/cmr/m/n/10.95 https://doi.org/10.6073/pasta/239b3023d75d83e795a15b36fac702
+e2.  Dataset ac-cessed
+ []
+
+
+Underfull \hbox (badness 3492) in paragraph at lines 199--204
+[]\OT1/cmr/m/n/10.95 Lightfoot, D. (2010).  Long-term Core Site Grasshop-per Dy
+-nam-ics for the Sevil-leta
+ []
+
+
+Underfull \hbox (badness 3758) in paragraph at lines 199--204
+\OT1/cmr/m/n/10.95 Na-tional Wildlife Refuge, New Mex-ico (1992-2013).  En-vi-r
+on-men-tal Data In-tia-tive.
+ []
+
+
+Underfull \hbox (badness 2970) in paragraph at lines 229--235
+[]\OT1/cmr/m/n/10.95 Pennings, S. C. (2014).  Mol-lusc pop-u-la-tion abun-dance
+ mon-i-tor-ing: Fall 2013 mid-
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 229--235
+\OT1/cmr/m/n/10.95 marsh and creek-bank in-fau-nal and epi-fau-nal mol-lusc abu
+n-dance based on col-lec-
+ []
+
+
+Underfull \hbox (badness 7433) in paragraph at lines 229--235
+\OT1/cmr/m/n/10.95 tions from GCE marsh, mon-i-tor-ing sites 1-10.  En-vi-ron-m
+en-tal Data Ini-tia-tive.
+ []
+
+[38]
+Underfull \hbox (badness 10000) in paragraph at lines 244--250
+[]\OT1/cmr/m/n/10.95 Reed, D. C. (2018).  SBC LTER: Reef: An-nual time se-ries 
+of biomass
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 244--250
+\OT1/cmr/m/n/10.95 for kelp for-est species, on-go-ing since 2000.  En-vi-ron-m
+en-tal Data In-tia-tive.
+ []
+
+
+Underfull \hbox (badness 3229) in paragraph at lines 260--268
+[]\OT1/cmr/m/n/10.95 Stapp, P. (2013).  SGS-LTER Long-Term Mon-i-tor-ing Projec
+t: Veg-e-ta-tion Cover on
+ []
+
+
+Underfull \hbox (badness 3189) in paragraph at lines 260--268
+\OT1/cmr/m/n/10.95 orado, USA 1999 -2006, ARS Study Num-ber 118.  En-vi-ron-men
+-tal Data In-tia-tive.
+ []
+
+
+Underfull \hbox (badness 3260) in paragraph at lines 270--276
+[]\OT1/cmr/m/n/10.95 Tilman, D. (2018).  Plant above-ground biomass data: Long-
+Term Ni-tro-gen De-po-si-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 278--282
+[]\OT1/cmr/m/n/10.95 Whitford, W., Light-foot, D., and An-der-son, J. (1991).  
+Lizard pit-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 278--282
+\OT1/cmr/m/n/10.95 fall trap data (LTER-II, LTER-III).  En-vi-ron-men-tal Data 
+In-tia-
+ []
+
+)
+
+Package natbib Warning: There were undefined citations.
+
+[39] (./Supplemental_methods_figs.aux)
+Package rerunfilecheck Info: File `Supplemental_methods_figs.out' has not chang
+ed.
+(rerunfilecheck)             Checksum: 9397E3AA80780176B1A27B88B3F728D6;3269.
+ ) 
+Here is how much of TeX's memory you used:
+ 12323 strings out of 476029
+ 222523 string characters out of 5790166
+ 1872346 words of memory out of 5000000
+ 32365 multiletter control sequences out of 15000+600000
+ 520692 words of font info for 63 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 75i,8n,76p,1085b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
+/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/l
+ocal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loca
+l/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local
+/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on Supplemental_methods_figs.pdf (39 pages, 17274574 bytes).
+PDF statistics:
+ 1280 PDF objects out of 1440 (max. 8388607)
+ 925 compressed objects within 10 object streams
+ 137 named destinations out of 1000 (max. 500000)
+ 800 words of extra memory for PDF output out of 10000 (max. 10000000)
+
