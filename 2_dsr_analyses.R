@@ -14,6 +14,7 @@ library(ggthemes)
 library(DiagrammeR)
 library(rstanarm)
 library(bayesplot)
+library(tidybayes)
 
 theme_set(theme_base() + 
             theme(plot.background = element_blank(),
@@ -21,6 +22,8 @@ theme_set(theme_base() +
                   legend.text = element_text(size = 8)))
 
 pal <- colorspace::darken(RColorBrewer::brewer.pal(n = 10, name = "Set3"), amount = .2)
+
+set.seed(39759)
 
 # 1. IMPORT DATA SETS ------------------------------------------------------------
 #source("analysis_wrapper.R")
@@ -175,7 +178,7 @@ R2c_expression <- expression(paste(" ", R[c]^2 , "= ", 0.744))
 local_divstab_agg_fig <- local_dataset_for_mods %>% 
   
   ggplot(aes(x = alpha_div_scaled, y = CV)) + 
-  geom_point(mapping = aes(group = dataset_id, color = organism_group, shape = organism_group), alpha = 0.3) + 
+  geom_point(mapping = aes(group = dataset_id, color = organism_group, shape = organism_group), alpha = 0.5) + 
   geom_smooth(mapping = aes(group = dataset_id, color = organism_group), method = "lm", size =0.5, se = F, show.legend = FALSE) + 
   geom_smooth(method = "lm", se = F, color = "black", size = 1.5) +
   labs(x = expression(paste("Mean ", alpha, "-diversity (z-score)")), y = expression(paste("Agg. ", alpha, "-variability (CV)")), color = "Organism group", shape = "Organism group") + 
@@ -196,53 +199,55 @@ ggsave(filename = here("figs/local_divstab_fig.png"), plot = local_divstab_fig, 
 # What happens when we look at the regional scale?
 # Do we see richness-variability relationships with composition and aggregate at across metacommunities?
 
-div_stab_comp_gamma_mod <- (lm(gamma_var ~ gamma_div_mean, data = metacom_divstab_comp_dat))
-div_stab_comp_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_comp_dat))
-div_stab_comp_alpha_mod <- (lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_comp_dat))
-div_stab_comp_alpha_gamma_mod <- (lm(gamma_var ~ alpha_div_mean, data = metacom_divstab_comp_dat))
-div_stab_comp_beta_gamma_mod <- (lm(gamma_var ~ beta_div_mean, data = metacom_divstab_comp_dat))
+# div_stab_comp_gamma_mod <- (lm(gamma_var ~ gamma_div_mean, data = metacom_divstab_comp_dat))
+# div_stab_comp_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_comp_dat))
+# div_stab_comp_alpha_mod <- (lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_comp_dat))
+# div_stab_comp_alpha_gamma_mod <- (lm(gamma_var ~ alpha_div_mean, data = metacom_divstab_comp_dat))
+# div_stab_comp_beta_gamma_mod <- (lm(gamma_var ~ beta_div_mean, data = metacom_divstab_comp_dat))
+# 
+# summary(div_stab_comp_alpha_mod)
+# summary(div_stab_comp_beta_mod)
+# summary(div_stab_comp_gamma_mod)
+# summary(div_stab_comp_alpha_gamma_mod)
+# summary(div_stab_comp_beta_gamma_mod)
+# 
+# dsrc_g  <- (lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_comp_dat))
+# dsrc_ga <- (lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat))
+# dsrc_gb <- (lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat))
+# dsrc_b  <- (lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat))
+# dsrc_a  <- (lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat))
 
-summary(div_stab_comp_alpha_mod)
-summary(div_stab_comp_beta_mod)
-summary(div_stab_comp_gamma_mod)
-summary(div_stab_comp_alpha_gamma_mod)
-summary(div_stab_comp_beta_gamma_mod)
 
-dsrc_g  <- (lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_comp_dat))
-dsrc_ga <- (lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat))
-dsrc_gb <- (lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat))
-dsrc_b  <- (lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat))
-dsrc_a  <- (lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat))
 
 dsrc_g_b <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
-dsrc_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat)
-dsrc_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat)
-dsrc_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat)
+dsrc_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
+dsrc_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
+dsrc_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
 dsrc_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
 
-div_stab_agg_gamma_mod <- (lm(gamma_var ~ gamma_div_mean, data = metacom_divstab_agg_dat))
-div_stab_agg_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
-div_stab_agg_alpha_mod <- (lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_agg_dat))
-div_stab_agg_alpha_gamma_mod <- (lm(gamma_var ~ alpha_div_mean, data = metacom_divstab_agg_dat))
-div_stab_agg_beta_gamma_mod <- (lm(gamma_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
+# div_stab_agg_gamma_mod <- (lm(gamma_var ~ gamma_div_mean, data = metacom_divstab_agg_dat))
+# div_stab_agg_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
+# div_stab_agg_alpha_mod <- (lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_agg_dat))
+# div_stab_agg_alpha_gamma_mod <- (lm(gamma_var ~ alpha_div_mean, data = metacom_divstab_agg_dat))
+# div_stab_agg_beta_gamma_mod <- (lm(gamma_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
+# 
+# summary(div_stab_agg_alpha_mod)
+# summary(div_stab_agg_beta_mod)
+# summary(div_stab_agg_gamma_mod)
+# summary(div_stab_agg_alpha_gamma_mod)
+# summary(div_stab_agg_beta_gamma_mod)
+# 
+# dsra_g  <- (lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat))
+# dsra_ga <- (lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat))
+# dsra_gb <- (lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat))
+# dsra_b  <- (lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat))
+# dsra_a  <- (lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat))
 
-summary(div_stab_agg_alpha_mod)
-summary(div_stab_agg_beta_mod)
-summary(div_stab_agg_gamma_mod)
-summary(div_stab_agg_alpha_gamma_mod)
-summary(div_stab_agg_beta_gamma_mod)
-
-dsra_g  <- (lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat))
-dsra_ga <- (lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat))
-dsra_gb <- (lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat))
-dsra_b  <- (lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat))
-dsra_a  <- (lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat))
-
-dsra_g_b  <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat)
+dsra_g_b  <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
 dsra_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
 dsra_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
-dsra_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat)
-dsra_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat)
+dsra_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
+dsra_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
 
 plot_model(dsra_gb_b, type = "re")
 plot_model(dsrc_g_b, type = "re")
@@ -295,16 +300,17 @@ agg_var_plot <- plot_models(dsra_g_b, dsra_gb_b, dsra_ga_b, dsra_b_b, dsra_a_b,
             axis.labels = c("Mean Alpha-Diversity", "Mean Beta-Diversity", 
                             "Mean Gamma-Diversity"), show.p = F)
 var_estimates_plot <- agg_var_plot + comp_var_plot + patchwork::plot_layout(ncol = 1)
+var_estimates_plot
 ggsave(filename = "figs/dsr_estimates.png", width = 8, height = 8, dpi = 1000, bg = "white")
 
 
 # regional compositional variability
 
-div_stab_comp_gamma_fit <- glance(div_stab_comp_gamma_mod)
-(p_val <- as.character(round(div_stab_comp_gamma_fit$p.value,2))) # 0.05
-(r2 <- as.character(round(div_stab_comp_gamma_fit$r.squared,2))) # 0.17
-p_expression <- expression(paste(" ", p , "= ", 0.11))
-R2_expression <- expression(paste(" ", R^2 , "= ", 0.09))
+# div_stab_comp_gamma_fit <- glance(div_stab_comp_gamma_mod)
+# (p_val <- as.character(round(div_stab_comp_gamma_fit$p.value,2))) # 0.05
+# (r2 <- as.character(round(div_stab_comp_gamma_fit$r.squared,2))) # 0.17
+# p_expression <- expression(paste(" ", p , "= ", 0.11))
+# R2_expression <- expression(paste(" ", R^2 , "= ", 0.09))
 b0 <- tidy(dsrc_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsrc_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
 
@@ -312,7 +318,7 @@ b1 <- tidy(dsrc_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
     add_epred_draws(dsrc_g_b, ndraws = 200, re_formla = NA) %>% 
     ggplot(aes(x = gamma_div_mean, y = gamma_var, label = lter_site)) +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    #geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     #geom_label_repel(size = 2) +
@@ -327,11 +333,11 @@ b1 <- tidy(dsrc_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
-div_stab_comp_alpha_fit <- glance(div_stab_comp_alpha_mod)
-(p_val <- as.character(round(div_stab_comp_alpha_fit$p.value,2))) # 0.86
-(r2 <- as.character(round(div_stab_comp_alpha_fit$r.squared,2))) # 0.
-p_expression <- expression(paste(" ", p , "= ", 0.22))
-R2_expression <- expression(paste(" ", R^2 , "= ", 0.05))
+# div_stab_comp_alpha_fit <- glance(div_stab_comp_alpha_mod)
+# (p_val <- as.character(round(div_stab_comp_alpha_fit$p.value,2))) # 0.86
+# (r2 <- as.character(round(div_stab_comp_alpha_fit$r.squared,2))) # 0.
+# p_expression <- expression(paste(" ", p , "= ", 0.22))
+# R2_expression <- expression(paste(" ", R^2 , "= ", 0.05))
 
 b0 <- tidy(dsrc_a_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsrc_a_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
@@ -340,7 +346,7 @@ b1 <- tidy(dsrc_a_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
     add_epred_draws(dsrc_a_b, ndraws = 200, re_formla = NA) %>% 
     ggplot(aes(x = alpha_div_mean, y = alpha_var, label = lter_site)) +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    #geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     # stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     #geom_label_repel(size = 2) +
@@ -355,11 +361,11 @@ b1 <- tidy(dsrc_a_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
 )
 
 
-div_stab_alpha_gamma_fit <- glance(div_stab_comp_alpha_gamma_mod)
-div_stab_alpha_gamma_fit$p.value 
-div_stab_alpha_gamma_fit$r.squared 
-p_expression <- expression(paste(" ", p , "= ", 0.011))
-R2_expression <- expression(paste(" ", R^2 , "= ", 0.217))
+# div_stab_alpha_gamma_fit <- glance(div_stab_comp_alpha_gamma_mod)
+# div_stab_alpha_gamma_fit$p.value 
+# div_stab_alpha_gamma_fit$r.squared 
+# p_expression <- expression(paste(" ", p , "= ", 0.011))
+# R2_expression <- expression(paste(" ", R^2 , "= ", 0.217))
 
 b0 <- tidy(dsrc_ga_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsrc_ga_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
@@ -368,7 +374,7 @@ b1 <- tidy(dsrc_ga_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$est
     add_epred_draws(dsrc_ga_b, ndraws = 200, re_formula = NA) %>% 
     ggplot(aes(x = alpha_div_mean, y = gamma_var, label = lter_site)) +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     # stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     #geom_label_repel(size = 2) +
@@ -381,12 +387,11 @@ b1 <- tidy(dsrc_ga_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$est
     # annotate("text", x = 25, y = .05, label = expression(paste(" ", R^2 , "= ", 0.217)))
 )
 
-div_stab_beta_gamma_fit <- glance(div_stab_comp_beta_gamma_mod)
-div_stab_beta_gamma_fit$p.value # 0.2
-div_stab_beta_gamma_fit$r.squared
-
-p_expression <- expression(paste(" ", p , "= ", 0.42))
-R2_expression <- expression(paste(" ", R^2 , "= ", 0.02))
+# div_stab_beta_gamma_fit <- glance(div_stab_comp_beta_gamma_mod)
+# div_stab_beta_gamma_fit$p.value # 0.2
+# div_stab_beta_gamma_fit$r.squared
+# p_expression <- expression(paste(" ", p , "= ", 0.42))
+# R2_expression <- expression(paste(" ", R^2 , "= ", 0.02))
 
 b0 <- tidy(dsrc_gb_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsrc_gb_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
@@ -395,7 +400,7 @@ b1 <- tidy(dsrc_gb_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$est
     add_epred_draws(dsrc_gb_b, ndraws = 200, re_formula = NA) %>% 
     ggplot(aes(x = beta_div_mean, y = gamma_var, label = lter_site)) +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    #geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
@@ -408,11 +413,11 @@ b1 <- tidy(dsrc_gb_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$est
 )
 
 # regional aggregate variability
-div_stab_gamma_agg_fit <- glance(div_stab_agg_gamma_mod)
-div_stab_gamma_agg_fit$p.value # 0.202
-div_stab_gamma_agg_fit$r.squared # 0.08
-p_expression <- expression(paste(" ", p , "= ", 0.25))
-R2_expression <- expression(paste(" ", R^2 , "= ", 0.049))
+# div_stab_gamma_agg_fit <- glance(div_stab_agg_gamma_mod)
+# div_stab_gamma_agg_fit$p.value # 0.202
+# div_stab_gamma_agg_fit$r.squared # 0.08
+# p_expression <- expression(paste(" ", p , "= ", 0.25))
+# R2_expression <- expression(paste(" ", R^2 , "= ", 0.049))
 
 b0 <- tidy(dsra_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsra_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
@@ -421,7 +426,7 @@ b1 <- tidy(dsra_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
     add_epred_draws(dsra_g_b, ndraws = 200, re_formula = NA) %>% 
     ggplot(aes(x = gamma_div_mean, y = gamma_var, label = lter_site)) +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    #geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
@@ -433,11 +438,11 @@ b1 <- tidy(dsra_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
     # annotate("text", x = 60, y = .65, label = expression(paste(" ", R^2 , "= ", 0.049)))
 )
 
-div_stab_alpha_agg_fit <- glance(div_stab_agg_alpha_mod)
-div_stab_alpha_agg_fit$p.value # 0.17
-div_stab_alpha_agg_fit$r.squared # 0.0927
-p_expression <- expression(paste(" ", p , "= ", 0.45))
-R2_expression <- expression(paste(" ", R^2 , "= ", 0.022))
+# div_stab_alpha_agg_fit <- glance(div_stab_agg_alpha_mod)
+# div_stab_alpha_agg_fit$p.value # 0.17
+# div_stab_alpha_agg_fit$r.squared # 0.0927
+# p_expression <- expression(paste(" ", p , "= ", 0.45))
+# R2_expression <- expression(paste(" ", R^2 , "= ", 0.022))
 b0 <- tidy(dsra_a_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsra_a_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
 
@@ -445,7 +450,7 @@ b1 <- tidy(dsra_a_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
     add_epred_draws(dsra_a_b, ndraws = 200, re_formula = NA) %>% 
     ggplot(aes(x = alpha_div_mean, y = alpha_var, label = lter_site)) +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    #geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
@@ -458,11 +463,11 @@ b1 <- tidy(dsra_a_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
     # annotate("text", x = 25, y = .85, label = expression(paste(" ", R^2 , "= ", 0.022)))
 )
 
-div_stab_alpha_gamma_agg_fit <- glance(div_stab_agg_alpha_gamma_mod)
-div_stab_alpha_gamma_agg_fit$p.value # 0.927
-div_stab_alpha_gamma_agg_fit$r.squared # 0
-p_expression <- expression(paste(" ", p , "= ", 0.65))
-R2_expression <- expression(paste(" ", R^2 , "= ", 0.008))
+# div_stab_alpha_gamma_agg_fit <- glance(div_stab_agg_alpha_gamma_mod)
+# div_stab_alpha_gamma_agg_fit$p.value # 0.927
+# div_stab_alpha_gamma_agg_fit$r.squared # 0
+# p_expression <- expression(paste(" ", p , "= ", 0.65))
+# R2_expression <- expression(paste(" ", R^2 , "= ", 0.008))
 b0 <- tidy(dsra_ga_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsra_ga_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
 
@@ -471,7 +476,7 @@ b1 <- tidy(dsra_ga_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$est
     ggplot(aes(x = alpha_div_mean, y = gamma_var, label = lter_site)) +
     #stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    #geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
     #geom_label_repel(size = 2) +
@@ -483,11 +488,12 @@ b1 <- tidy(dsra_ga_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$est
     # annotate("text", x = 25, y = .7, label = expression(paste(" ", R^2 , "= ", 0.008)))
 )
 
-div_stab_beta_gamma_agg_fit <- glance(div_stab_agg_beta_gamma_mod)
-div_stab_beta_gamma_agg_fit$p.value # 0.0095
-div_stab_beta_gamma_agg_fit$r.squared # 0.29
-p_expression <- expression(paste(" ", p , "= ", 0.026))
-R2_expression <- expression(paste(" ", R^2 , "= ", 0.171))
+# div_stab_beta_gamma_agg_fit <- glance(div_stab_agg_beta_gamma_mod)
+# div_stab_beta_gamma_agg_fit$p.value # 0.0095
+# div_stab_beta_gamma_agg_fit$r.squared # 0.29
+# p_expression <- expression(paste(" ", p , "= ", 0.026))
+# R2_expression <- expression(paste(" ", R^2 , "= ", 0.171))
+
 b0 <- tidy(dsra_gb_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsra_gb_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
 
@@ -496,7 +502,7 @@ b1 <- tidy(dsra_gb_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$est
     add_epred_draws(dsra_ga_b, ndraws = 200, re_formula = NA) %>% 
     ggplot(aes(x = beta_div_mean, y = gamma_var)) +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     # stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     scale_color_manual(values = pal, drop = FALSE) +
@@ -518,14 +524,11 @@ ggsave(filename = "figs/diversity_variability.png", plot = div_stab_multipanel_f
 
 
 
-summary(div_stab_agg_gamma_mod)
-summary(div_stab_comp_gamma_mod)
-
 # 4. COMPARE BETA DIVERSITY WITH PHI, SYNCHRONY
-summary(div_stab_comp_beta_mod)
-div_stab_phi_fit <- glance(div_stab_comp_beta_mod)
-div_stab_phi_fit$p.value # 2 e-4
-div_stab_phi_fit$r.squared # 0.49
+# summary(div_stab_comp_beta_mod)
+# div_stab_phi_fit <- glance(div_stab_comp_beta_mod)
+# div_stab_phi_fit$p.value # 2 e-4
+# div_stab_phi_fit$r.squared # 0.49
 
 b0 <- tidy(dsrc_b_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsrc_b_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
@@ -534,7 +537,7 @@ b1 <- tidy(dsrc_b_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
     add_epred_draws(dsrc_b_b, ndraws = 200, re_formula = NA) %>% 
     ggplot(aes(x = beta_div_mean, y = phi_var)) +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     # stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     scale_y_continuous(limits = c(0,1)) +
@@ -548,10 +551,11 @@ b1 <- tidy(dsrc_b_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
   #ggsave("ESA_2019/figs/variability_alpha-gamma.png", width = 6, height = 4, units = "in", dpi = 600)
 )
 
-summary(div_stab_agg_beta_mod)
-div_stab_phi_agg_fit <- glance(div_stab_agg_beta_mod)
-div_stab_phi_agg_fit$p.value # 0.006
-div_stab_phi_agg_fit$r.squared # 0.32
+# summary(div_stab_agg_beta_mod)
+# div_stab_phi_agg_fit <- glance(div_stab_agg_beta_mod)
+# div_stab_phi_agg_fit$p.value # 0.006
+# div_stab_phi_agg_fit$r.squared # 0.32
+
 b0 <- tidy(dsra_b_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
 b1 <- tidy(dsra_b_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[2]
 
@@ -559,7 +563,7 @@ b1 <- tidy(dsra_b_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
     add_epred_draws(dsra_b_b, ndraws = 200, re_formula = NA) %>% 
     ggplot(aes(x = beta_div_mean, y = phi_var)) +
     geom_line(aes(y = .epred, group = .draw), color = "grey", alpha = 0.1) + 
-    geom_abline(intercept = b0, slope = b1, size = 1, color = "blue") +
+    geom_abline(intercept = b0, slope = b1, size = 1, color = "black") +
     # stat_smooth(method = "lm", se = T, size = 1, color = "black") +
     geom_point(size = 3, alpha = 1, mapping = aes(color = organism_group, shape = organism_group)) +
     scale_y_continuous(limits = c(0,1))+
