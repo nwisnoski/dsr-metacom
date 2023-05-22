@@ -25,6 +25,8 @@ pal <- colorspace::darken(RColorBrewer::brewer.pal(n = 10, name = "Set3"), amoun
 
 set.seed(39759)
 
+options(mc.cores = parallel::detectCores())
+
 # 1. IMPORT DATA SETS ------------------------------------------------------------
 #source("analysis_wrapper.R")
 metacom_var <- read_csv(here("data/L4_metacommunity_variability_analysis_results_2023-04-19.csv"))
@@ -219,11 +221,11 @@ ggsave(filename = here("figs/local_divstab_fig.png"), plot = local_divstab_fig, 
 
 
 
-dsrc_g_b <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
-dsrc_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
-dsrc_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
-dsrc_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
-dsrc_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, adapt_delta = 0.99)
+dsrc_g_b <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+dsrc_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+dsrc_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+dsrc_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+dsrc_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
 
 # div_stab_agg_gamma_mod <- (lm(gamma_var ~ gamma_div_mean, data = metacom_divstab_agg_dat))
 # div_stab_agg_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
@@ -243,11 +245,63 @@ dsrc_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), 
 # dsra_b  <- (lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat))
 # dsra_a  <- (lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat))
 
-dsra_g_b  <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
-dsra_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
-dsra_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
-dsra_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
-dsra_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, adapt_delta = 0.99)
+dsra_g_b  <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+dsra_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+dsra_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+dsra_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+dsra_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+
+median(bayes_R2(dsrc_g_b ))
+median(bayes_R2(dsrc_ga_b))
+median(bayes_R2(dsrc_gb_b))
+median(bayes_R2(dsrc_b_b ))
+median(bayes_R2(dsrc_a_b ))
+median(bayes_R2(dsra_g_b ))
+median(bayes_R2(dsra_ga_b))
+median(bayes_R2(dsra_gb_b))
+median(bayes_R2(dsra_b_b ))
+median(bayes_R2(dsra_a_b ))
+
+prior_summary(dsrc_g_b)
+prior_summary(dsrc_ga_b)
+prior_summary(dsrc_gb_b)
+prior_summary(dsrc_b_b )
+prior_summary(dsrc_a_b )
+prior_summary(dsra_g_b )
+prior_summary(dsra_ga_b)
+prior_summary(dsra_gb_b)
+prior_summary(dsra_b_b )
+prior_summary(dsra_a_b )
+
+pdf(file = "figs/posterior_fits.pdf", width = 12, height = 6)
+par(mfrow = c(2, 5))
+boxplot(posterior_predict(dsrc_g_b), pch = NA, ylab = "Comp. Gamma Var")
+points(metacom_divstab_comp_dat$gamma_var, pch = 16, col = "red")
+boxplot(posterior_predict(dsrc_gb_b), pch = NA, ylab = "Comp. Gamma Var")
+points(metacom_divstab_comp_dat$gamma_var, pch = 16, col = "red")
+boxplot(posterior_predict(dsrc_ga_b), pch = NA, ylab = "Comp. Gamma Var")
+points(metacom_divstab_comp_dat$gamma_var, pch = 16, col = "red")
+boxplot(posterior_predict(dsrc_b_b), pch = NA, ylab = "Comp. Phi")
+points(metacom_divstab_comp_dat$phi_var, pch = 16, col = "red")
+boxplot(posterior_predict(dsrc_a_b), pch = NA, ylab = "Comp. Alpha Var")
+points(metacom_divstab_comp_dat$alpha_var, pch = 16, col = "red")
+
+boxplot(posterior_predict(dsra_g_b), pch = NA, ylab = "Agg. Gamma Var")
+points(metacom_divstab_agg_dat$gamma_var, pch = 16, col = "red")
+boxplot(posterior_predict(dsra_gb_b), pch = NA, ylab = "Agg. Gamma Var")
+points(metacom_divstab_agg_dat$gamma_var, pch = 16, col = "red")
+boxplot(posterior_predict(dsra_ga_b), pch = NA, ylab = "Agg. Gamma Var")
+points(metacom_divstab_agg_dat$gamma_var, pch = 16, col = "red")
+boxplot(posterior_predict(dsra_b_b), pch = NA, ylab = "Agg. Phi")
+points(metacom_divstab_agg_dat$phi_var, pch = 16, col = "red")
+boxplot(posterior_predict(dsra_a_b), pch = NA, ylab = "Agg. Alpha Var")
+points(metacom_divstab_agg_dat$alpha_var, pch = 16, col = "red")
+dev.off()
+
+prior_summary(dsra_g_b)
+
+
+
 
 plot_model(dsra_gb_b, type = "re")
 plot_model(dsrc_g_b, type = "re")
