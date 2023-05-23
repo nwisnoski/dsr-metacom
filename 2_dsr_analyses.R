@@ -743,3 +743,23 @@ values_by_taxa_fig <- metacom_var %>%
 ggsave(plot = values_by_taxa_fig, 
        filename = "figs/variability_taxa.png", 
        width = 6, height = 6, dpi = 1000, bg = "white")
+
+
+values_by_dataset_fig <- metacom_var %>% 
+  filter(metric %in% c("gamma_var", "alpha_var", "phi_var")) %>% 
+  mutate(metric = ifelse(metric == "gamma_var", "Metacommunity",
+                         ifelse(metric == "phi_var", "Spatial synchrony", "Local"))) %>% 
+  mutate(metric = factor(metric, levels = c("Metacommunity", "Spatial synchrony", "Local"))) %>% 
+  mutate(variability_type = ifelse(variability_type == "agg", 
+                                   "Aggregate", "Compositional")) %>% 
+  ggplot(aes(x = dataset_id, y = metric_value, color = organism_group)) + 
+  geom_point() + 
+  scale_color_manual(values = pal, drop = FALSE) +
+  facet_grid(variability_type ~ metric) +
+  coord_flip() +
+  #theme(legend.position = "none") + 
+  theme(panel.grid.major.x = element_line(color = "grey90")) +
+  labs(x = "", y = "", color = "Organism group")
+ggsave(plot = values_by_dataset_fig,
+       filename = "figs/variability_dataset.png",
+       width = 10, height = 12, dpi = 1000, bg = "white")
