@@ -30,7 +30,7 @@
 
 \title{Appendix S1:
 
-Diversity-stability relationships across organism groups and ecosystem types become decoupled across spatial scales \\ {\large Submitted to \em{Ecology}}}
+Diversity-stability relationships across organism groups and ecosystem types become decoupled across spatial scales \\ {\large In revision at \em{Ecology}}}
 
 \author[1,2,3]{Nathan I. Wisnoski}
 \author[4,5]{Riley Andrade}
@@ -76,7 +76,7 @@ Diversity-stability relationships across organism groups and ecosystem types bec
 \maketitle
 
 \doublespacing
-
+\newpage
 \section {Data overview}
 This document  describes the data cleaning, subsetting, and aggregation methods specific to each dataset.
 Table \ref{metadata} lists the datasets included in the meta-analysis.
@@ -124,7 +124,7 @@ We plot species accumulation curves, spatio-temporal variation in the number of 
   10 & fce-fish-rehageDry & 2006 &  12 &  11 &  10 &  56 & fish \\ 
   11 & fce-fish-rehageWet & 2011 &   6 &   6 &  14 &  56 & fish \\ 
   12 & gce-mollusc-compagnoni & 2000 &  14 &  14 &  18 &   9 & mollusc \\ 
-  13 & hays-plants-compagnoni &  38 &  35 &  35 &  14 & 140 & plants \\ 
+  13 & hays-plants-compagnoni &  1938 &  35 &  35 &  14 & 140 & plants \\ 
   14 & jrn-lizards-hope & 1990 &  16 &  16 &   9 &  18 & lizards \\ 
   15 & jrn-plants-compagnoni & 1915 &  24 &  18 &  10 & 113 & plants \\ 
   16 & knz-grasshopper-compagnoni & 1996 &  20 &  19 &  13 &  43 & grasshopper \\ 
@@ -181,7 +181,7 @@ We plot species accumulation curves, spatio-temporal variation in the number of 
 
 
 %
-\subsection {sbc-allTaxa}
+\subsection {SBC all taxa}
 We downloaded from the Environmental Data Initiative (EDI) annual taxon-specific estimates of the biomass density (g dry/m$^2$) of kelp forest macroalgae, sessile invertebrates, mobile invertebrates, and fishes in the Santa Barbara Channel \citep{sbc}.
 Briefly, between 2000-2004 and 2022, divers estimated the summer taxon-specific density or percentage cover of 225 taxa within 2–8 permanent transects (2 m wide x 40 m long) at each of 11 sites (44 total transects). 
 Abundance and size were converted to dry biomass using taxon-specific relationships developed for the study region. 
@@ -196,7 +196,7 @@ Data are shown in Figures \ref{sbc-algae},  \ref{sbc-sessileInverts}, \ref{sbc-m
 \includegraphics[scale = 0.4]{sbc-algae-castorani_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{sbc-algae-castorani_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{sbc-algae-castorani_spp_shared.pdf}
-\caption{{\bf SBC-algae:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for algae taxa observed in the Santa Barbara Channel LTER (2001-2016). The black lines represent total site-level values across all plots.}
+\caption{{\bf SBC-algae:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for algae observed in the Santa Barbara Coastal LTER (2001-2016). The black lines represent total site-level values across all plots.}
 \label{sbc-algae}
 \end{figure}
 
@@ -208,7 +208,7 @@ Data are shown in Figures \ref{sbc-algae},  \ref{sbc-sessileInverts}, \ref{sbc-m
 \includegraphics[scale = 0.4]{sbc-sessileInverts-castorani_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{sbc-sessileInverts-castorani_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{sbc-sessileInverts-castorani_spp_shared.pdf}
-\caption{{\bf SBC-sessile invertebrates:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and number of shared species (bottom right)  for sessile invertebrate taxa observed in the Santa Barbara Channel LTER (2001-2016). The black lines represent total site-level values across all plots.}
+\caption{{\bf SBC-sessile invertebrates:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and number of shared species (bottom right)  for sessile invertebrate taxa observed in the Santa Barbara Coastal LTER (2001-2018). The black lines represent total site-level values across all plots.}
 \label{sbc-sessileInverts}
 \end{figure}
 
@@ -220,7 +220,7 @@ Data are shown in Figures \ref{sbc-algae},  \ref{sbc-sessileInverts}, \ref{sbc-m
 \includegraphics[scale = 0.4]{sbc-mobileInverts-castorani_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{sbc-mobileInverts-castorani_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{sbc-mobileInverts-castorani_spp_shared.pdf}
-\caption{{\bf SBC-mobile invertebrates:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for mobile invertebrate taxa observed at  the Santa Barbara Channel LTER (2001-2016). The black lines represent total site-level values across all plots.}
+\caption{{\bf SBC-mobile invertebrates:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for mobile invertebrate taxa observed at the Santa Barbara Coastal LTER (2001-2018). The black lines represent total site-level values across all plots.}
 \label{sbc-mobileInverts}
 \end{figure}
 
@@ -232,7 +232,7 @@ Data are shown in Figures \ref{sbc-algae},  \ref{sbc-sessileInverts}, \ref{sbc-m
 \includegraphics[scale = 0.4]{sbc-fish-castorani_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{sbc-fish-castorani_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{sbc-fish-castorani_spp_shared.pdf}
-\caption{{\bf SBC-fish:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  observed at the Santa Barbara Channel LTER (2001-2016). The black lines represent total site-level values across all plots.}
+\caption{{\bf SBC-fish:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) observed at the Santa Barbara Coastal LTER (2001-2018). The black lines represent total site-level values across all plots.}
 \label{sbc-fish}
 \end{figure}
 
@@ -249,17 +249,19 @@ Data are shown in Figures \ref{sbc-algae},  \ref{sbc-sessileInverts}, \ref{sbc-m
 %
 %Edmunds, P. 2022. MCR LTER: Coral Reef: Long-term Population and Community Dynamics: Corals, ongoing since 2005 ver 39. Environmental Data Initiative. https://doi.org/10.6073/pasta/913b1532594fcaf02de7671ed940b4c5
 
+\subsection{MCR all taxa}
+We downloaded from EDI annual taxon-specific estimates of the percentage cover of stony corals \citep{mcr-coral}, benthic algae \citep{mcr-algae}, and invertebrates \citep{mcr-inverts}. 
+Briefly, between 2005 and 2021, divers surveyed corals using photoquadrats (0.5 m x 0.5 m) along a permanent 40-m transect in each of 4 habitats at 6 sites surrounding the island of Moorea (24 total transects): fringing reef, lagoon (backreef), shallow outer reef (10 m depth on forereef), and deep outer reef (17 m depth on forereef) \citep{mcr-coral}. 
+Benthic algae were estimated in a similar way, except that 0.5 m x 0.5 m photoquadrats were recorded at 5 permanent 10-m transects per site-habitat combination \citep{mcr-algae}.
+Invertebrate herbivores and corallivores were counted in 1 m$^2$ quadrats along the same transects \citep{mcr-inverts}. 
+Detailed methods are available in \citet{mcr-coral, mcr-algae, mcr-inverts}.
 
 \subsection {mcr-inverts}
-{\bf Need to get updated data. Need to separate by habitat. Needs data package citation.}
-Data were downloaded from EDI (knb-lter-mcr.7.28).
-Data were aggregated across habitats and transects.
-Thus each of the six sites contains data from very different habitats lumped together (back, fringing, outer reefs) and there is likely very little overlap in the species found in each habitat. 
-This is different than the other datasets, and it would be good to discuss whether or not to separate by habitat.
+Data were downloaded from EDI (knb-lter-mcr.7.33).
 Non-relevant taxa and taxa observed outside the quadrat were removed from the dataset.
 Abundance was averaged across subplots, transects, and habitats for each species at each site in each year.
 Data are in Figure \ref{mcr-inverts}.
-It's unclear whether these are mobile inverts, sessile inverts, or both (need to know for comparison with SBC).
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale = 0.4]{mcr-inverts-castorani_species_accumulation_curve.pdf}
@@ -267,7 +269,7 @@ It's unclear whether these are mobile inverts, sessile inverts, or both (need to
 \includegraphics[scale = 0.4]{mcr-inverts-castorani_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{mcr-inverts-castorani_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{mcr-inverts-castorani_spp_shared.pdf}
-\caption{{\bf MCR-inverts:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for invertebrate taxa observed on Moorea coral reef LTER (2006-2015). The black lines represent total site-level values across all plots.}
+\caption{{\bf MCR-inverts:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for invertebrate taxa observed on Moorea coral reef LTER (2006-2021). The black lines represent total site-level values across all plots.}
 \label{mcr-inverts}
 \end{figure}
 
@@ -295,15 +297,12 @@ It's unclear whether these are mobile inverts, sessile inverts, or both (need to
 
 
 \subsection {mcr-coral}
-{\bf Need to get updated data. Need to separate by habitat. Needs data package citation.}
 Data were downloaded from EDI \citep{mcr-coral}.
 The corals are identified to the genus level.
-Data were aggregated across habitats and transects.
-Thus each of the six sites contains data from very different habitats lumped together (back, fringing, outer reefs) and there is likely very little overlap in the species found in each habitat. 
-This is different than the other datasets, and it would be good to discuss whether or not to separate by habitat.
 Non-relevant taxa were removed from the dataset.
 Abundance was averaged across subplots, transects, and habitats for each species at each site in each year.
 Data are in Figure \ref{mcr-coral}.
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale = 0.4]{mcr-coral-castorani_species_accumulation_curve.pdf}
@@ -311,19 +310,13 @@ Data are in Figure \ref{mcr-coral}.
 \includegraphics[scale = 0.4]{mcr-coral-castorani_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{mcr-coral-castorani_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{mcr-coral-castorani_spp_shared.pdf}
-\caption{{\bf MCR-coral:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for 31 coral taxa observed at six sites on Moorea coral reef LTER (2006-2015). The black lines represent total site-level values across all plots.}
+\caption{{\bf MCR-coral:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for 31 coral taxa observed at six sites on Moorea coral reef LTER (2006-2017). The black lines represent total site-level values across all plots.}
 \label{mcr-coral}
 \end{figure}
 
 
-
-
 \subsection {mcr-algae}
-{\bf Need to get updated data. Need to separate by habitat. Needs data package citation.}
 Data were downloaded from EDI \citep{mcr-algae}.
-Data were aggregated across habitats and transects.
-Thus each of the six sites contains data from very different habitats lumped together (back, fringing, outer reefs) and there is likely very little overlap in the species found in each habitat. 
-This is different than the other datasets, and it would be good to discuss whether or not to separate by habitat.
 Non-relevant taxa were removed from the dataset.
 Abundance was averaged across subplots, transects, and habitats for each species at each site in each year.
 Data are in Figure \ref{mcr-algae}.
@@ -335,14 +328,14 @@ The cumulative number of taxa was still increasing at the end of the time series
 \includegraphics[scale = 0.4]{mcr-algae-castorani_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{mcr-algae-castorani_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{mcr-algae-castorani_spp_shared.pdf}
-\caption{{\bf MCR-algae:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for 73 algae taxa observed at six sites on Moorea coral reef LTER (2006-2015). The black lines represent total site-level values across all plots.}
+\caption{{\bf MCR-algae:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for 73 algae taxa observed at six sites on Moorea coral reef LTER (2006-2015). The black lines represent total site-level values across all plots.}
 \label{mcr-algae}
 \end{figure}
 %
 %
 \subsection {gce-mollusc}
 % {\bf Still organizing data provenance.}
-We downloaded 14 mollusc dataset (2000-2013) from EDI \citep{project_mollusc_2014, project_mollusc_2014-1, project_mollusc_2014-2, project_mollusc_2014-3, project_mollusc_2014-4, project_mollusc_2014-5, project_mollusc_2014-6, project_mollusc_2014-7, project_mollusc_2014-8, project_mollusc_2014-9, project_mollusc_2014-10, project_mollusc_2014-11, project_mollusc_2014-12, project_mollusc_2014-13}. We combined these datsets, and removed all missing or unclear data points; specifically, we removed all NAs, all data points categorized as "slug" or unidentified hybrid, and sites which were not sampled in every single year. Finally, we took averages of density data by plot. %\citep{}.
+We downloaded 14 mollusc datasets (2000-2013) from EDI \citep{project_mollusc_2014,project_mollusc_2014-3, project_mollusc_2014-12, project_mollusc_2014-2,project_mollusc_2014-1,   project_mollusc_2014-4, project_mollusc_2014-5, project_mollusc_2014-6, project_mollusc_2014-7, project_mollusc_2014-8, project_mollusc_2014-9, project_mollusc_2014-10, project_mollusc_2014-11,  project_mollusc_2014-13}. We combined these datsets, and removed all missing or unclear data points; specifically, we removed all NAs, all data points categorized as ``slug" or unidentified hybrid, and sites which were not sampled in every single year. Finally, we took averages of density data by plot. %\citep{}.
 Data are in Figure \ref{gce-mollusc}.
 
 \begin{figure}[h!]
@@ -352,7 +345,7 @@ Data are in Figure \ref{gce-mollusc}.
 \includegraphics[scale = 0.4]{gce-mollusc-compagnoni_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{gce-mollusc-compagnoni_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{gce-mollusc-compagnoni_spp_shared.pdf}
-\caption{{\bf GCE-mollusc:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for mollusc taxa observed at Georgia Coastal Ecosystems LTER. The black lines represent total site-level values across all plots.}
+\caption{{\bf GCE-mollusc:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for mollusc taxa observed at Georgia Coastal Ecosystems LTER. The black lines represent total site-level values across all plots.}
 \label{gce-mollusc}
 \end{figure}
 
@@ -377,7 +370,7 @@ Data are shown in Figure \ref{fce-diatoms}
 \includegraphics[scale = 0.4]{fce-diatoms-catano_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{fce-diatoms-catano_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{fce-diatoms-catano_spp_shared.pdf}
-\caption{{\bf FCE-diatoms:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for diatom taxa observed at  Florida Coastal Everglades LTER. The black lines represent total site-level values across all plots.}
+\caption{{\bf FCE-diatoms:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for diatom taxa observed at  Florida Coastal Everglades LTER. The black lines represent total site-level values across all plots.}
 \label{fce-diatoms}
 \end{figure}
 
@@ -406,7 +399,7 @@ Data from the wet season are shown in Figure \ref{fce-fish-wet}.
 \includegraphics[scale = 0.4]{fce-fish-RehageDry_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{fce-fish-RehageDry_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{fce-fish-RehageDry_spp_shared.pdf}
-\caption{{\bf FCE-fish dry season:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for fish taxa observed at the Florida Coastal Everglades . The black lines represent total site-level values across all plots.}
+\caption{{\bf FCE-fish dry season:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for fish taxa observed at the Florida Coastal Everglades. The black lines represent total site-level values across all plots.}
 \label{fce-fish-dry}
 \end{figure}
 
@@ -418,7 +411,7 @@ Data from the wet season are shown in Figure \ref{fce-fish-wet}.
 \includegraphics[scale = 0.4]{fce-fish-RehageWet_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{fce-fish-RehageWet_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{fce-fish-RehageWet_spp_shared.pdf}
-\caption{{\bf FCE-fish wet season:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for fish taxa observed at the Florida Coastal Everglades . The black lines represent total site-level values across all plots.}
+\caption{{\bf FCE-fish wet season:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for fish taxa observed at the Florida Coastal Everglades. The black lines represent total site-level values across all plots.}
 \label{fce-fish-wet}
 \end{figure}
 
@@ -505,7 +498,7 @@ We downloaded the data from ecological archives \citep{del_moral_thirty_2010}. W
 \includegraphics[scale = 0.4]{and-plants-mtStHelens_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{and-plants-mtStHelens_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{and-plants-mtStHelens_spp_shared.pdf}
-\caption{{\bf and-plants:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and species shared across replicates (bottom right) for the plant species observed at the Mount Saint Helens long-term monitoring plots located at Abraham Plain. The black lines represent total site-level values across all plots.}
+\caption{{\bf and-plants:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and species shared across sites (bottom right) for the plant species observed at the Mount Saint Helens long-term monitoring plots located at Abraham Plain. The black lines represent total site-level values across all plots.}
 \label{and-plants}
 \end{figure}
 
@@ -531,7 +524,7 @@ Data are shown in figures \ref{cdrABC-plants} and \ref{cdrD-plants}.
 \includegraphics[scale = 0.4]{cdr-plantsABC-compagnoni_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{cdr-plantsABC-compagnoni_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{cdr-plantsABC-compagnoni_spp_shared.pdf}
-\caption{{\bf CDR-plants, A, B, and C fields:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for plant species observed in the A, B, and C fields at Cedar Creek. The black lines represent total site-level values across all plots.}
+\caption{{\bf CDR-plants, A, B, and C fields:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for plant species observed in the A, B, and C fields at Cedar Creek. The black lines represent total site-level values across all plots.}
 \label{cdrABC-plants}
 \end{figure}
 
@@ -543,7 +536,7 @@ Data are shown in figures \ref{cdrABC-plants} and \ref{cdrD-plants}.
 \includegraphics[scale = 0.4]{cdr-plantsD-compagnoni_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{cdr-plantsD-compagnoni_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{cdr-plantsD-compagnoni_spp_shared.pdf}
-\caption{{\bf CDR-plants, D field:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for plant species observed in the D field at Cedar Creek. The black lines represent total site-level values across all plots.}
+\caption{{\bf CDR-plants, D field:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for plant species observed in the D field at Cedar Creek. The black lines represent total site-level values across all plots.}
 \label{cdrD-plants}
 \end{figure}
 
@@ -565,7 +558,7 @@ Data are shown in Figure \ref{hays-plants}.
 \includegraphics[scale = 0.4]{hays-plants-compagnoni_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{hays-plants-compagnoni_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{hays-plants-compagnoni_spp_shared.pdf}
-\caption{{\bf hays-plants:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for mixed-grass prarie plant species observed at long-term monitoring plots in Hays, Kansas. The black lines represent total site-level values across all plots.}
+\caption{{\bf hays-plants:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for mixed-grass prarie plant species observed at long-term monitoring plots in Hays, Kansas. The black lines represent total site-level values across all plots.}
 \label{hays-plants}
 \end{figure}
 
@@ -578,7 +571,7 @@ We downloaded the data from ecological archives \citep{chapline_jornada_2017}. W
 \includegraphics[scale = 0.4]{jrn-plants-compagnoni_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{jrn-plants-compagnoni_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{jrn-plants-compagnoni_spp_shared.pdf}
-\caption{{\bf and-plants:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and species shared across replicates (bottom right) for the plant species observed across the 10 plots we retained from the Jornada Experimental Range. The black lines represent total site-level values across all plots.}
+\caption{{\bf jrn-plants:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and species shared across replicates (bottom right) for the plant species observed across the 10 plots we retained from the Jornada Experimental Range. The black lines represent total site-level values across all plots.}
 \label{jrn-plants}
 \end{figure}
 
@@ -625,7 +618,7 @@ Data are shown in Figure \ref{sev-plants}.
 \includegraphics[scale = 0.4]{sev-plants-compagnoni_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{sev-plants-compagnoni_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{sev-plants-compagnoni_spp_shared.pdf}
-\caption{{\bf SEV-plants:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for plant species observed in the Pinon-Juniper habitat at the Sevilleta  (SEV) LTER. The black lines represent total site-level values across all plots.}
+\caption{{\bf SEV-plants:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for plant species observed in the Pinon-Juniper habitat at the Sevilleta  (SEV) LTER. The black lines represent total site-level values across all plots.}
 \label{sev-plants}
 \end{figure}
 
@@ -649,7 +642,7 @@ Data are shown in Figure \ref{sgs-plants}.
 \includegraphics[scale = 0.4]{sgs-plants-catano_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{sgs-plants-catano_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{sgs-plants-catano_spp_shared.pdf}
-\caption{{\bf SGS-plants:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for plant species observed at the Shortgrass Steppe (SGS) LTER. The black lines represent total site-level values across all plots.}
+\caption{{\bf SGS-plants:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for plant species observed at the Shortgrass Steppe (SGS) LTER. The black lines represent total site-level values across all plots.}
 \label{sgs-plants}
 \end{figure}
 
@@ -668,7 +661,7 @@ Data are shown in Figure \ref{sgs-plants-compagnoni}.
 \includegraphics[scale = 0.4]{sgs-plants-compagnoni_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{sgs-plants-compagnoni_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{sgs-plants-compagnoni_spp_shared.pdf}
-\caption{{\bf SGS-plants:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for plant species observed at the Shortgrass Steppe (SGS) LTER. The black lines represent total site-level values across all plots.}
+\caption{{\bf SGS-plants:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for plant species observed at the Shortgrass Steppe (SGS) LTER. The black lines represent total site-level values across all plots.}
 \label{sgs-plants-compagnoni}
 \end{figure}
 
@@ -754,7 +747,7 @@ Data are shown in Figure \ref{knz-grasshoppers}.
 \includegraphics[scale = 0.4]{knz-grasshopper-compagnoni_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{knz-grasshopper-compagnoni_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{knz-grasshopper-compagnoni_spp_shared.pdf}
-\caption{{\bf KNZ-grasshoppers:} Species accumulation curves (top left),  annual richness (top right), spatio-temporal sampling effort (bottom left), and number of shared species (bottom right) for grasshopper species observed in ... The black lines represent total site-level values across all plots.}
+\caption{{\bf KNZ-grasshoppers:} Species accumulation curves (top left),  annual richness (top right), spatio-temporal sampling effort (bottom left), and number of shared species (bottom right) for grasshopper species observed in the Konza Prairie. The black lines represent total site-level values across all plots.}
 \label{knz-grasshoppers}
 \end{figure}
 
@@ -796,7 +789,7 @@ Data are shown in Figure \ref{jrn-lizards}.
 \includegraphics[scale = 0.4]{jrn-lizards-hope_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{jrn-lizards-hope_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{jrn-lizards-hope_spp_shared.pdf}
-\caption{{\bf JRN-lizards:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for 20 lizard species observed at 9 plots in the Jornada LTER (1990-2005). The black lines represent total site-level values across all plots.}
+\caption{{\bf JRN-lizards:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for 20 lizard species observed at 9 plots in the Jornada LTER (1990-2005). The black lines represent total site-level values across all plots.}
 \label{jrn-lizards}
 \end{figure}
 
@@ -820,7 +813,7 @@ Data are shown in Figure \ref{cap-herps}.
 \includegraphics[scale = 0.4]{cap-herps-banville_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{cap-herps-banville_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{cap-herps-banville_spp_shared.pdf}
-\caption{{\bf CAP-herps:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom)  for species observed in the Central Area Phoenix LTER (1990-2005). The black lines represent total site-level values across all plots.}
+\caption{{\bf CAP-herps:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for species observed in the Central Area Phoenix LTER (1990-2005). The black lines represent total site-level values across all plots.}
 \label{cap-herps}
 \end{figure}
 
@@ -838,7 +831,7 @@ Data are shown in Figure \ref{and-birds}.
 \includegraphics[scale = 0.4]{and-birds-wisnoski_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{and-birds-wisnoski_species_accumulation_space.pdf}
 %\includegraphics[scale = 0.4]{and-birds-wisnoski_spp_shared.pdf}
-\caption{{\bf AND-birds:} }
+\caption{{\bf AND-birds:} Species accumulation curves (top left),  annual richness (top right), and sampling effort (bottom) for bird species in the Andrews Forest. The black lines represent total site-level values across all plots.}
 \label{and-birds}
 \end{figure}
 
@@ -862,7 +855,7 @@ Data are shown in Figure \ref{cap-birds}.
 \includegraphics[scale = 0.4]{cap-birds-banville_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{cap-birds-banville_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{cap-birds-banville_spp_shared.pdf}
-\caption{{\bf CAP-birds:} }
+\caption{{\bf CAP-birds:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for birds in the Phoenix urban LTER site. The black lines represent total site-level values across all plots.}
 \label{cap-birds}
 \end{figure}
 
@@ -879,7 +872,7 @@ Data are shown in (Figure \ref{bes-birds}).
 \includegraphics[scale = 0.4]{bes-birds-nilon_spatiotemporal_sampling_effort.pdf}
 %\includegraphics[scale = 0.4]{bes-birds-nilon_species_accumulation_space.pdf}
 \includegraphics[scale = 0.4]{bes-birds-nilon_spp_shared.pdf}
-\caption{{\bf BES-birds:} }
+\caption{{\bf BES-birds:} Species accumulation curves (top left),  annual richness (top right), sampling effort (bottom left), and shared taxa between sites (bottom right) for birds in the Baltimore urban LTER site. The black lines represent total site-level values across all plots.}
 \label{bes-birds}
 \end{figure}
 

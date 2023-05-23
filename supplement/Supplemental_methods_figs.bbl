@@ -127,12 +127,20 @@ Bishop, T.~D. (2014i).
 \newblock Environmental Data Initiative.
   https://doi.org/10.6073/PASTA/C019340FFF23394BF773C4A1653D932B.
 
-\bibitem[Carpenter, 2023]{mcr-algae}
-Carpenter, R. (2023).
+\bibitem[Carpenter, 2015]{mcr-algae}
+Carpenter, R. (2015).
 \newblock Mcr lter: Coral reef: Long-term population and community dynamics:
-  Benthic algae and other community components, ongoing since 2005 ver 34.
+  Benthic algae and other community components, ongoing since 2005 ver 28.
 \newblock Environmental Data Initiative.
-  https://doi.org/10.6073/pasta/840b2f0f38b3f8546d2b2f6d3ab3a0d5.
+  https://doi.org/10.6073/pasta/79a6edbcf3aa2380d43deed778856416.
+\newblock Dataset accessed 4/18/2023.
+
+\bibitem[Carpenter, 2022]{mcr-inverts}
+Carpenter, R. (2022).
+\newblock Mcr lter: Coral reef: Long-term population and community dynamics:
+  Other benthic invertebrates, ongoing since 2005 ver 33.
+\newblock Environmental Data Initiative.
+  https://doi.org/10.6073/pasta/d1be9c183291549e43236c3f7872ec28.
 \newblock Dataset accessed 4/18/2023.
 
 \bibitem[Chapline, 2017]{chapline_jornada_2017}
@@ -148,12 +156,12 @@ del Moral, R. (2010).
   {Washington}, {USA}.
 \newblock {\em Ecology}, 91(7):2185--2185.
 
-\bibitem[Edmunds, 2022]{mcr-coral}
-Edmunds, P. (2022).
+\bibitem[Edmunds, 2018]{mcr-coral}
+Edmunds, P. (2018).
 \newblock Mcr lter: Coral reef: Long-term population and community dynamics:
-  Corals, ongoing since 2005 ver 39.
+  Corals, ongoing since 2005 ver 35.
 \newblock Environmental Data Initiative.
-  https://doi.org/10.6073/pasta/913b1532594fcaf02de7671ed940b4c5.
+  https://doi.org/10.6073/pasta/263faa48b520b7b2c964f158c184ef96.
 \newblock Dataset accessed 4/18/2023.
 
 \bibitem[Gaiser, 2017]{fce-diatoms}
