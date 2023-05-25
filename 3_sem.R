@@ -4,7 +4,6 @@ library(tidyverse)
 library(lavaan)
 library(lme4)
 library(here)
-library(semEff)
 
 env_var <- read_csv(here("data/lter_centroid_satdata.csv")) %>% 
   rename("lter_site" = site)
@@ -83,23 +82,8 @@ sem_path_sigonly$edges_df <- sem_path_sigonly$edges_df %>%
 sem_plot_sigonly <- DiagrammeR::render_graph(sem_path_sigonly)
 sem_plot_sigonly
 
-## effects
-tot_mod_boot_effs <- bootEff(tot_mod, R = 1000)
-tot_mod_effects <- semEff(tot_mod_boot_effs, ci.conf = 0.95)
-summary(tot_mod_effects)
 
 
-# indirect paths
-0.991*0.089
-0.594 * 0.089
--.62*.525
-
--.407*.683
-.398*.835
-
-
-
- 
 #############
 dsr_env <- env_var %>%
   group_by(lter_site) %>%
