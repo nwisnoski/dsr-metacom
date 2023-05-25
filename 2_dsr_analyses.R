@@ -115,10 +115,14 @@ summary(local_div_stab_agg_alpha_mod)
 local_comp_mod_lmm.0 <- lmer(BD ~ alpha_div_scaled + (alpha_div_scaled||dataset_id), data = local_dataset_for_mods)
 # correlated random intercept and slope
 local_comp_mod_lmm.1 <- lmer(BD ~ alpha_div_scaled + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
-#random intercept fixed mean
+# random intercept fixed mean
 local_comp_mod_lmm.2 <- lmer(BD ~ alpha_div_scaled + (1|dataset_id), data = local_dataset_for_mods)
+# nonlinear
+local_comp_mod_lmm.3 <- lmer(BD ~ alpha_div_scaled + I(alpha_div_scaled^2) + (1|dataset_id), data = local_dataset_for_mods)
+local_comp_mod_lmm.4 <- lmer(BD ~ alpha_div_scaled + I(alpha_div_scaled^2) + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
 
-AIC(local_comp_mod_lmm.0, local_comp_mod_lmm.1, local_comp_mod_lmm.2)
+
+AIC(local_comp_mod_lmm.0, local_comp_mod_lmm.1, local_comp_mod_lmm.2, local_comp_mod_lmm.3, local_comp_mod_lmm.4)
 local_comp_mod_lmm <- local_comp_mod_lmm.1
 summary(local_comp_mod_lmm)
 
@@ -130,9 +134,13 @@ coef(local_comp_mod_lmm)
 local_agg_mod_lmm.0 <- lmer(CV ~ alpha_div_scaled + (alpha_div_scaled||dataset_id), data = local_dataset_for_mods)
 # correlated random intercept and slope
 local_agg_mod_lmm.1 <- lmer(CV ~ alpha_div_scaled + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
-#random intercept fixed mean
+# random intercept fixed mean
 local_agg_mod_lmm.2 <- lmer(CV ~ alpha_div_scaled + (1|dataset_id), data = local_dataset_for_mods)
-AIC(local_agg_mod_lmm.0, local_agg_mod_lmm.1, local_agg_mod_lmm.2)
+# nonlinear
+local_agg_mod_lmm.3 <- lmer(CV ~ alpha_div_scaled + I(alpha_div_scaled^2) + (1|dataset_id), data = local_dataset_for_mods)
+local_agg_mod_lmm.4 <- lmer(CV ~ alpha_div_scaled + I(alpha_div_scaled^2) + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
+
+AIC(local_agg_mod_lmm.0, local_agg_mod_lmm.1, local_agg_mod_lmm.2, local_agg_mod_lmm.3, local_agg_mod_lmm.4)
 local_agg_mod_lmm <- local_agg_mod_lmm.1
 summary(local_agg_mod_lmm)
 plot(local_agg_mod_lmm)
@@ -227,6 +235,15 @@ dsrc_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), da
 dsrc_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
 dsrc_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
 
+
+# nonlinear
+dsrc_g_b_2 <- stan_lmer(gamma_var ~ gamma_div_mean + I(gamma_div_mean^2) + (gamma_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+dsrc_ga_b_2 <- stan_lmer(gamma_var ~ alpha_div_mean + I(alpha_div_mean^2) + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+dsrc_gb_b_2 <- stan_lmer(gamma_var ~ beta_div_mean + I(beta_div_mean^2) + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+dsrc_b_b_2  <- stan_lmer(phi_var ~ beta_div_mean + I(beta_div_mean^2) + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+dsrc_a_b_2  <- stan_lmer(alpha_var ~ alpha_div_mean + I(alpha_div_mean^2) + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+
+
 # div_stab_agg_gamma_mod <- (lm(gamma_var ~ gamma_div_mean, data = metacom_divstab_agg_dat))
 # div_stab_agg_beta_mod <- (lm(phi_var ~ beta_div_mean, data = metacom_divstab_agg_dat))
 # div_stab_agg_alpha_mod <- (lm(alpha_var ~ alpha_div_mean, data = metacom_divstab_agg_dat))
@@ -250,6 +267,46 @@ dsra_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), 
 dsra_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
 dsra_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
 dsra_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+
+dsra_g_b_2  <- stan_lmer(gamma_var ~ gamma_div_mean + I(gamma_div_mean^2) + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+dsra_ga_b_2 <- stan_lmer(gamma_var ~ alpha_div_mean + I(alpha_div_mean^2) + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+dsra_gb_b_2 <- stan_lmer(gamma_var ~ beta_div_mean + I(beta_div_mean^2) + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+dsra_b_b_2  <- stan_lmer(phi_var ~ beta_div_mean + I(beta_div_mean^2) + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+dsra_a_b_2  <- stan_lmer(alpha_var ~ alpha_div_mean + I(alpha_div_mean^2) + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+
+
+loo1 <- loo(dsrc_g_b, k_threshold = 0.7)
+loo2 <- loo(dsrc_g_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2) # quad better
+loo1 <- loo(dsrc_ga_b, k_threshold = 0.7)
+loo2 <- loo(dsrc_ga_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2) # linear better
+loo1 <- loo(dsrc_gb_b, k_threshold = 0.7)
+loo2 <- loo(dsrc_gb_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2) # linear better
+loo1 <- loo(dsrc_b_b, k_threshold = 0.7)
+loo2 <- loo(dsrc_b_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2) # quad better
+loo1 <- loo(dsrc_a_b, k_threshold = 0.7)
+loo2 <- loo(dsrc_a_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2)# linear better
+
+loo1 <- loo(dsra_g_b, k_threshold = 0.7)
+loo2 <- loo(dsra_g_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2) # linear better
+loo1 <- loo(dsra_ga_b, k_threshold = 0.7)
+loo2 <- loo(dsra_ga_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2) # linear better
+loo1 <- loo(dsra_gb_b, k_threshold = 0.7)
+loo2 <- loo(dsra_gb_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2) # linear better
+loo1 <- loo(dsra_b_b, k_threshold = 0.7)
+loo2 <- loo(dsra_b_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2) # quad
+loo1 <- loo(dsra_a_b, k_threshold = 0.7)
+loo2 <- loo(dsra_a_b_2, k_threshold = 0.7)
+loo_compare(loo1, loo2) # linear 
+
 
 median(bayes_R2(dsrc_g_b ))
 median(bayes_R2(dsrc_ga_b))
