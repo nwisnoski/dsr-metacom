@@ -802,21 +802,31 @@ ggsave(plot = values_by_taxa_fig,
        width = 6, height = 6, dpi = 1000, bg = "white")
 
 
-values_by_dataset_fig <- metacom_var %>% 
+metacom_var_renamed <- str_split(metacom_var$dataset_id, pattern = "-", simplify = T)
+colnames(metacom_var_renamed) <- c("site", "org", "person")
+metacom_var_renamed <- metacom_var_renamed %>% as_tibble() %>% bind_cols(metacom_var) %>% 
+  mutate(org = paste0(org, 
+      ifelse(site == "sgs" & org == "plants" & person == "compagnoni", 2, 
+      ifelse(site == "sgs" & org == "plants" & person == "catano", 1, "")))) %>% 
+  mutate(dataset_id = paste0(site,"-",org))
+
+values_by_dataset_fig <- metacom_var_renamed %>% 
   filter(metric %in% c("gamma_var", "alpha_var", "phi_var")) %>% 
   mutate(metric = ifelse(metric == "gamma_var", "Metacommunity",
                          ifelse(metric == "phi_var", "Spatial synchrony", "Local"))) %>% 
   mutate(metric = factor(metric, levels = c("Metacommunity", "Spatial synchrony", "Local"))) %>% 
   mutate(variability_type = ifelse(variability_type == "agg", 
                                    "Aggregate", "Compositional")) %>% 
-  ggplot(aes(x = dataset_id, y = metric_value, color = organism_group)) + 
+  ggplot(aes(x = dataset_id, y = metric_value, label = round(metric_value, 2), color = organism_group)) + 
   geom_point() + 
+  geom_text_repel(nudge_x = 0.1) +
   scale_color_manual(values = pal, drop = FALSE) +
   facet_grid(variability_type ~ metric) +
   coord_flip() +
   #theme(legend.position = "none") + 
   theme(panel.grid.major.x = element_line(color = "grey90")) +
   labs(x = "", y = "", color = "Organism group")
+#values_by_dataset_fig
 ggsave(plot = values_by_dataset_fig,
        filename = "figs/variability_dataset.png",
-       width = 10, height = 12, dpi = 1000, bg = "white")
+       width = 12, height = 12, dpi = 1000, bg = "white")
