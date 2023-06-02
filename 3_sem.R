@@ -131,7 +131,8 @@ env_path <- plot(
 
 env_path$edges_df <- env_path$edges_df %>% 
   mutate(color = ifelse(as.numeric(label) < 0, "red", "blue"),
-         penwidth = abs(coefs(env_mod)$Std.Estimate) * 5) 
+         penwidth = abs(coefs(env_mod)$Std.Estimate) * 5,
+         color = ifelse(style == "dashed", "grey", color)) 
 
 env_path$edges_df
 
@@ -165,8 +166,8 @@ env_plot
 
 
 
-env_path_sigonly$edges_df <- env_path_sigonly$edges_df %>% 
-  mutate(style = ifelse(as.numeric(label) < 0, "dashed", "solid"))
+# env_path_sigonly$edges_df <- env_path_sigonly$edges_df %>% 
+#   mutate(style = ifelse(as.numeric(label) < 0, "dashed", "solid"))
 
 env_plot_sigonly <- DiagrammeR::render_graph(env_path_sigonly)
 env_plot_sigonly
