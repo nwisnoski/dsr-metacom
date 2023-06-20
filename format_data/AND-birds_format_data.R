@@ -1,5 +1,5 @@
 library(tidyverse)
-
+library(here)
 
 ##########################
 #read in data from EDI
@@ -16,36 +16,33 @@ library(tidyverse)
 
                
 #THIS FILE CONTAINS THE OBSERVATION DATA 
-#infile2  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-and/4781/2/3f989833925816bf1dfc8cf7844afed4" 
-#infile2 <- sub("^https","http",infile2) 
-#data <-read.csv(infile2,header=F 
-#          ,skip=1
-#            ,sep=","  
-#                ,quot='"' 
-#        , col.names=c(
-#                    "DBCODE",     
-#                    "ENTITY",     
-#                    "YEAR",     
-#                    "PLOT",     
-#                    "REPLICATE",     
-#                    "SURVEY_DATE",     
-#                    "RECORD",     
-#                    "PERIOD",     
-#                    "MINUTE",     
-#                    "SPECIES",     
-#                    "SEX",     
-#                    "DET_METH1",     
-#                    "DET_METH2",     
-#                    "DISTANCE",     
-#                    "NEW_RECORD",     
-#                    "COUNTER_SING",     
-#                    "ALT_SONG",     
-#                    "COMMENTS"    ), check.names=TRUE, stringsAsFactors = FALSE)
-               
-  
-#Google Drive File Stream alternative:
-data <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/AND-birds/archive_knb-lter-and/SA02402.csv")
+infile2  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-and/4781/2/3f989833925816bf1dfc8cf7844afed4"
+infile2 <- sub("^https","http",infile2)
+data <-read.csv(infile2,header=F
+         ,skip=1
+           ,sep=","
+               ,quot='"'
+       , col.names=c(
+                   "DBCODE",
+                   "ENTITY",
+                   "YEAR",
+                   "PLOT",
+                   "REPLICATE",
+                   "SURVEY_DATE",
+                   "RECORD",
+                   "PERIOD",
+                   "MINUTE",
+                   "SPECIES",
+                   "SEX",
+                   "DET_METH1",
+                   "DET_METH2",
+                   "DISTANCE",
+                   "NEW_RECORD",
+                   "COUNTER_SING",
+                   "ALT_SONG",
+                   "COMMENTS"    ), check.names=TRUE, stringsAsFactors = FALSE)
 
+  
 str(data)
 
 
@@ -88,10 +85,5 @@ out <- cbind.data.frame(OBSERVATION_TYPE = as.character("TAXON_COUNT"),
 
 #write directly to the L3 folder
 write.csv(out, 
-          file = "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-and-birds-wisnoski.csv",
-          row.names = F)
-
-# or via local google drive
-write.csv(out, 
-          file = "~/Google Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-and-birds-wisnoski.csv",
+          file = here("data/L3-and-birds-wisnoski.csv"),
           row.names = F)

@@ -1,27 +1,16 @@
-
-library(tidyr)
-library(dplyr)
+library(tidyverse)
 
 
 # your working directory
-source("Group1-finding-data/util.R")
+source(here("format_data/util.R"))
 
 # read data online
-spp_abundance <- read.csv('http://esapubs.org/archive/ecol/E091/152/MSH_SPECIES_PLOT_YEAR.csv', stringsAsFactors=F) %>%
+spp_abundance <- read_csv('https://figshare.com/ndownloader/files/5613783') %>%
                    gather(species, cover, Abilas:Xerten) %>%
                    setNames( tolower(names(.)) )
-plot_d <- read.csv('http://esapubs.org/archive/ecol/E091/152/MSH_PLOT_DESCRIPTORS.csv', fileEncoding = "ISO-8859-1") %>%
+plot_d <- read.csv('https://figshare.com/ndownloader/files/5613792', fileEncoding = "ISO-8859-1") %>%
                    setNames( tolower(names(.)) )
-taxa_d  <- read.csv('http://esapubs.org/archive/ecol/E091/152/MSH_SPECIES_DESCRIPTORS.csv', fileEncoding = "ISO-8859-1")
-
-# #ALTERNATIVE: read in from version cached on Google Drive
- spp_abundance <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/AND-plants-mtStHelen/MSH_SPECIES_PLOT_YEAR.csv", stringsAsFactors=F) %>% 
-                     gather(species, cover, Abilas:Xerten) %>% 
-                     setNames( tolower(names(.)) )
-# 
- plot_d <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/AND-plants-mtStHelen/MSH_PLOT_DESCRIPTORS.csv",fileEncoding = "ISO-8859-1", stringsAsFactors=F) %>% 
-                     setNames( tolower(names(.)) )
-
+taxa_d  <- read.csv('https://figshare.com/ndownloader/files/5613789', fileEncoding = "ISO-8859-1")
 
 
 # Format data ----------------------------------------------------------------------
@@ -141,4 +130,4 @@ delmoral_data <- rbind(plot_coord,spp_abundance,env_vars) %>%
                     # This is the longest swath of continuous data
                     subset( grepl('PUPL', SITE_ID) )
 
-write.csv(delmoral_data, "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-and-plants-mtStHelens.csv", row.names = F)
+write.csv(delmoral_data, here("data/L3-and-plants-mtStHelens.csv"), row.names = F)

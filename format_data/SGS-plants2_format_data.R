@@ -10,18 +10,18 @@ options(stringsAsFactors = FALSE)
 rm(list = ls())
 
 
-#Check to make sure working directory is set to the ltermetacommunities github
-if(basename(getwd())!="ltermetacommunities"){cat("Plz change your working directory. It should be 'ltermetacommunities'")}
-
-# Check for and install required packages
-for (package in c('googledrive','dplyr', 'tidyr', 'vegetarian', 'vegan', 'metacom', 'ggplot2')) {
-  if (!require(package, character.only=T, quietly=T)) {
-    install.packages(package)
-    library(package, character.only=T)
-  }
-}
+library(tidyverse)
 
 # read data from EDI portal
+# Package ID: knb-lter-sgs.527.1 Cataloging System:https://pasta.lternet.edu.
+# Data set title: SGS-LTER Effects of grazing on ecosystem structure and function (GZTX): Vegetation basal cover on the Central Plains Experimental Range, Nunn, Colorado, USA 1992-2011, ARS Study Number 32.
+# Data set creator:  Daniel Milchunas - Natural Resource Ecology Lab 
+# Metadata Provider:    - Colorado State University 
+# Contact:    - Information Manager LTER Network Office  - tech-support@lternet.edu
+# Contact:  Daniel Milchunas -  Natural Resource Ecology Lab  - daniel.milchunas@colostate.edu
+# Metadata Link: https://portal.lternet.edu/nis/metadataviewer?packageid=knb-lter-sgs.527.1
+# Stylesheet v2.11 for metadata conversion into program: John H. Porter, Univ. Virginia, jporter@virginia.edu 
+
 infile1 <- "https://pasta.lternet.edu/package/data/eml/knb-lter-sgs/527/1/c3dc7ed391a6f6c6eca4512d27d0d091" 
 infile1 <- sub("^https","http",infile1) 
 dt1     <-read.csv(infile1,header=F 
@@ -36,7 +36,7 @@ dt1     <-read.csv(infile1,header=F
                     "Basal_Cover"    ), check.names=TRUE)
                
 # format based on ltermetacomm data format
-sgs   <- dt1 %>% 
+sgs  <- dt1 %>% 
             # only retain sites that WERE ALWAYS GRAZED
             subset( Treatment == 'GZGZ' ) %>% 
             # data gap before 1995
@@ -56,22 +56,14 @@ sgs   <- dt1 %>%
             spread(key = VARIABLE_NAME, value = VALUE, fill = 0) %>% 
             gather(key = VARIABLE_NAME, value = VALUE, -DATE, -SITE_ID, -OBSERVATION_TYPE, -VARIABLE_UNITS) 
           
-# check taxonomy using popler's information
-library(popler)
+sgs_out <- sgs %>% 
+  filter(VARIABLE_NAME != "ASOX",
+         VARIABLE_NAME != "BARE",
+         VARIABLE_NAME != "LICH",
+         VARIABLE_NAME != "LITT",
+         VARIABLE_NAME != "UNFB")
 
-# get the sppcodes where genus/species == NA
-sgs_pplr  <- pplr_get_data( proj_metadata_key == 74 )
-na_taxa   <- sgs_pplr %>% 
-                as.data.frame() %>% 
-                dplyr::select(sppcode, genus, species) %>% 
-                subset( species =='NA' | genus == 'NA') %>% 
-                .$sppcode %>% 
-                unique()
-
-# remove na_taxa
-sgs_out <- subset(sgs, !(VARIABLE_NAME %in% na_taxa) ) 
-
-# write it down 
+# write it
 write.csv(sgs_out, 
-          'C:/L3-sgs-plants-compagnoni.csv',
+          "data/L3-sgs-plants-compagnoni.csv",
           row.names=F)

@@ -14,43 +14,7 @@ options(stringsAsFactors = FALSE)
 # Clear environment
 rm(list = ls())
 
-# user vars
-#data_product_directory_name <- 'SEV-53pinonJuniper-popler'
-
-
-#Check to make sure working directory is set to the ltermetacommunities github
-if(basename(getwd())!="ltermetacommunities"){cat("Plz change your working directory. It should be 'ltermetacommunities'")}
-
-# Check for and install required packages
-for (package in c('googledrive','dplyr', 'tidyr', 'vegetarian', 'vegan', 'metacom', 'ggplot2')) {
-  if (!require(package, character.only=T, quietly=T)) {
-    install.packages(package)
-    library(package, character.only=T)
-  }
-}
-
-#set up googe drive for R
-#ecocom_dp_dir <- googledrive::drive_ls(paste0('~/LTER Metacommunities/LTER-DATA/L0-raw/',
-                                              data_product_directory_name,
-                                              '/ecocomDP_export/'))
-
-# ---------------------------------------------------------------------------------------------------
-#IMPORT AND FORMAT DATA FROM GOOGLE DRIVE - via popler:
-
-#get google_id for Observation table
-#google_id <- ecocom_dp_dir %>% filter(grepl('observation',name)) %>% select(id) %>% unlist()
-#dt1 <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", google_id))
-             
-  
-#sampling location table      
-#google_id <- ecocom_dp_dir %>% filter(grepl('location',name)) %>% select(id) %>% unlist()
-#dt4 <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", google_id))
-
-#taxon table
-#google_id <- ecocom_dp_dir %>% filter(grepl('taxon',name)) %>% select(id) %>% unlist()
-#dt5 <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", google_id))
-
-
+library(tidyverse)
 
 # ---------------------------------------------------------------------------------------------------
 #IMPORT AND FORMAT DATA FROM EDI
@@ -114,27 +78,4 @@ sev <- dt1 %>%
           unique
 
 # write it out
-write.csv(sev, '~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-sev-plants-compagnoni.csv', row.names=F)
- 
- 
- 
-
-
-### not data_product_directory_name is not the same as L3 data name here.
-# Write CSV file for cleaned data (L3)
-#write_path <- '~/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/'
-#drive_ls(write_path)
-
-#write_filename <- paste0('L3-',tolower(data_product_directory_name),'.csv')
-
-# temp write local
-#readr::write_csv(dat.long, write_filename)
-#drive_upload(write_filename, 
-#             path = write_path, 
-#             name = write_filename, 
-#             type = NULL,
-#             verbose = TRUE)
-
-#remove local file
-#file.remove(write_filename)
-
+write.csv(sev, 'data/L3-sev-plants-compagnoni.csv', row.names=F)

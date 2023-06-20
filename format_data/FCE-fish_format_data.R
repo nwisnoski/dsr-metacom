@@ -4,48 +4,21 @@ library(lattice)
 library(car)
 library(reshape2)
 library(reshape)
-#library(TSA)
 library(plyr)
 library(dplyr)
-#library(visreg)
-#library(MASS)
-#library(modEvA) 
-#library(BiodiversityR)
-#library(gridExtra)
-#library(AICcmodavg)
-#library(nlme)
-#library(mgcv)
-#library(lme4)
-#library(VTrack)
-#library(igraph)
-#library(MARSS)
 library(splitstackshape) ###package to use cSplit and do text to column like excel
-#library(chron)
-#library(rgdal)#package for geospatial data
-#library(RInSp)#package for intraspecific niche variation
-#library(boot)#package for boostrapping operations
-
-#library(cowplot)
+library(googledrive)
+library(here)
 
 # Check for and install required packages
 #library()
-
-for (package in c('splitstackshape', 'dplyr', 'reshape', 'reshape2', 'car', 'ggplot2')) {
-  if (!require(package, character.only=T, quietly=T)) {
-    install.packages(package)
-    library(package, character.only=T)
-  }
-} 
-
 # 
-
-
-#setwd("E:/metacommunity_papers")
 
 ####Data preparation####
 #Data - CPUE of fish collected via electrofishing
 #data obtained from Jen Rahage and are not available on EDI. See citation for knb id with metadata.
-fish.raw<-read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/FCE-fish-Rehage/fce_fish_rehage_raw.csv")
+fish.raw <- googledrive::drive_read_string("https://drive.google.com/file/d/1-b7yGt0HSFse4kB-hx1FbmSyakfiz4Nh/view?usp=drive_link") %>% 
+  read_csv()
 
 #Eliminating the sites that could not be sampled due to issues in the field
 fish.raw<-subset(fish.raw, Sample %in% c("Yes"))
@@ -101,7 +74,8 @@ fish.agg2<-transform(fish.agg2, MEAN.VALUE = rowMeans(fish.agg2[,6:8], na.rm = T
 
 
 #fish.agg2 with functional classfication for species#this is a CSV from ROlando containing functional groups for each fish species
-sp.function<-read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/FCE-fish-Rehage/species_function1.csv")
+sp.function<- googledrive::drive_read_string("https://drive.google.com/file/d/173AJDgfkKhdJVXGCOMiSrCZPYUfnzTs5/view?usp=drive_link") %>% 
+  read_csv()
 fish.agg3<-merge(fish.agg2, sp.function, by = "VARIABLE_NAME", all.x = TRUE)
 
 
@@ -188,8 +162,8 @@ colnames(envi.wet)[6]<-c("VALUE")
 final.fce.fish.dry <- as.data.frame(rbind(fish.dry, envi.dry))
 final.fce.fish.wet <- as.data.frame(rbind(fish.wet, envi.wet))
 
-write.csv(final.fce.fish.dry, "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-fce-fish-rehageDry.csv")
-write.csv(final.fce.fish.wet, "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-fce-fish-rehageWet.csv")
+write.csv(final.fce.fish.dry, file = "data/L3-fce-fish-rehageDry.csv", row.names = F)
+write.csv(final.fce.fish.wet, file = "data/L3-fce-fish-rehageWet.csv", row.names = F)
 
 
 

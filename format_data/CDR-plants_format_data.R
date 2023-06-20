@@ -10,7 +10,7 @@ library(testthat)
 
 # your working directory
 # setwd('C:/CODE/ltermetacommunities')
-source("Group1-finding-data/util.R")
+source("format_data/util.R")
 
 
 # Package ID: knb-lter-cdr.14.8 Cataloging System:https://pasta.edirepository.org.
@@ -39,9 +39,6 @@ dt1      <-read.csv(infile1,header=F ,skip=1
               # remove duplicates!!!
               unique
 
-
-#ALTERNATIVE: read from cached version on Google Drive          
-# dt1 <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/CDR-plants/archive_knb-lter-cdr/e001_Plant aboveground biomass data.txt", sep="\t")  
 
 
 # format data ---------------------------------------------------
@@ -208,5 +205,5 @@ cdr_abc  <- subset(form_cdr, !grepl('D_', SITE_ID) )
 cdr_d    <- subset(form_cdr, grepl('D_', SITE_ID) )
 
 # Write CSV file for cleaned data (L3)
-write.csv(cdr_abc, file = "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-cdr-plantsABC-compagnoni.csv", row.names = F)
-write.csv(cdr_d,   file = "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-cdr-plantsD-compagnoni.csv", row.names = F)
+write.csv(cdr_abc, file = here("data/L3-cdr-plantsABC-compagnoni.csv"), row.names = F)
+write.csv(cdr_d,   file = here("data/L3-cdr-plantsD-compagnoni.csv"), row.names = F)

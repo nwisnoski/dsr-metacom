@@ -29,10 +29,6 @@ site_df <- dt1
 count_df <- dt2
 
 
-# Alternately, read raw data from copy cached on Google Drive by Nina Lany Nov 7, 2018: information on sites, and information on species counts
-#site_df   <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/KNZ-grasshoppers/archive_knb-lter-knz/CGR021.csv") 
-#count_df  <- read.csv("~/Google Drive FIle Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/KNZ-grasshoppers/archive_knb-lter-knz/CGR022.csv")
-
 names(count_df) <- toupper(names(count_df))
 names(site_df) <- toupper(names(site_df))
 
@@ -191,4 +187,4 @@ out <- out %>% spread(VARIABLE_NAME, VALUE, fill = 0) %>%
 tapply(out$VALUE, list(out$SITE_ID, out$DATE), length)
 
 
-write.csv(out, '~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-knz-grasshopper-compagnoni.csv', row.names=F)
+write.csv(out, 'data/L3-knz-grasshopper-compagnoni.csv', row.names=F)

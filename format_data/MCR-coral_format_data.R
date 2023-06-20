@@ -39,13 +39,6 @@ mcr.coral <-read.csv(infile1,header=F
                 "Percent_Cover"    ), check.names=TRUE, stringsAsFactors = FALSE)
 rm(infile1)
 
-## Read in the data
-# mcr.coral <- read_csv_gdrive("0BxUZSA1Gn1HZSW1tREd4T21BWms") %>%
-#   tbl_df()
-
-#Google Drive File Stream:
-# mcr.coral <- read.csv("~/Google Drive FIle Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/MCR-coral/knb-lter-mcr.4_1_20151209.csv", stringsAsFactors = FALSE)
-
 # Replace underscores with dots for convenience. Also convert to lowercase.
 colnames(mcr.coral) <- tolower(gsub("_", ".", colnames(mcr.coral)))
 
@@ -118,8 +111,6 @@ mcr.coral_reformat <- mcr.coral_clean %>%
                 VARIABLE_UNITS,
                 VALUE)
 
-# Write CSV file for cleaned data (L2. Skipping L1 because data are already aggregated by year)
-#write.csv(mcr.coral_reformat, file = "~/Google Drive FIle Stream/My Drive/LTER Metacommunities/LTER-DATA/L2-mcr-coral-castorani.csv", row.names = F)
 
 # --------------------------------------------------------------------------------------------------------------------------------
 # Aggregate by site, then add spatial information
@@ -136,35 +127,7 @@ mcr.coral_L3 <- mcr.coral_reformat %>%
 mcr.coral_L3$SITE_ID <- gsub("_", "", mcr.coral_L3$SITE_ID)
 
 
-
-spatial.coords <- data.frame(
-  "OBSERVATION_TYPE" = rep("SPATIAL_COORDINATE", length(unique(mcr.coral_L3$SITE_ID))*2),
-  "SITE_ID" = rep(unique(mcr.coral_L3$SITE_ID), times = 2),
-  "DATE" = rep("NA", length(unique(mcr.coral_L3$SITE_ID))*2),
-  "VARIABLE_NAME" = c(rep("LAT", length(unique(mcr.coral_L3$SITE_ID))),
-                      rep("LONG", length(unique(mcr.coral_L3$SITE_ID)))
-  ),
-  "VARIABLE_UNITS" = rep("dec. degrees", length(unique(mcr.coral_L3$SITE_ID))*2),
-  "VALUE" = c(-17.47913579,
-              -17.47354064,
-              -17.51234592,
-              -17.54184642,
-              -17.58000273,
-              -17.51787861,
-              -149.8377064,
-              -149.8039267,
-              -149.7614294,
-              -149.7669862,
-              -149.8715382,
-              -149.9230353)
-) %>%
-  dplyr::mutate(OBSERVATION_TYPE = as.character(OBSERVATION_TYPE),
-                DATE = as.numeric(DATE),
-                VARIABLE_NAME = as.character(VARIABLE_NAME),
-                VARIABLE_UNITS = as.character(VARIABLE_UNITS)) %>%
-  dplyr::mutate(DATE = NA)
-
-mcr.coral_L3_final <- rbind(spatial.coords, mcr.coral_L3)
+mcr.coral_L3_final <- rbind(mcr.coral_L3)
 
 # Write CSV file for cleaned data (L3)
-write.csv(mcr.coral_L3_final, file = "data/L3_datasets/L3-mcr-coral-castorani.csv", row.names = F)
+write.csv(mcr.coral_L3_final, file = "data/L3-mcr-coral-castorani.csv", row.names = F)

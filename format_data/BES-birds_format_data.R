@@ -30,19 +30,8 @@
 # directly. 
 
 # Clear environment
-rm(list = ls())
 
-#Check to make sure working directory is set to the ltermetacommunities github
-if(basename(getwd())!="ltermetacommunities"){cat("Plz change your working directory. It should be 'ltermetacommunities'")}
-
-# Check for and install required packages
-for (package in c('dplyr', 'tidyr', 'vegetarian', 'vegan', 'metacom', 'ggplot2','readr')) {
-  if (!require(package, character.only=T, quietly=T)) {
-    install.packages(package)
-    library(package, character.only=T)
-  }
-}
-
+require(tidyverse)
 # ---------------------------------------------------------------------------------------------------
 #IMPORT AND FORMAT DATA 
 
@@ -54,20 +43,10 @@ for (package in c('dplyr', 'tidyr', 'vegetarian', 'vegan', 'metacom', 'ggplot2',
 
 # Baltimore Urban LTER
 data.set <- "BES-birds-Nilon"
-observations_key <- "1Xt842O5tFBIJxyv-cYnCYtnIuX3atKFw" # Google Drive file ID 
-sites_key <- '1WpQlHuXaSxCyjodJDvtnlfJXeCLAe3D7'
-surveys_key <- '1TB3g1MTfbZEhR-sP94ZZhAoTAxZXNNd0'
-species_list_key <- '1v63ffCluV9sF6wON8Xuzp41VAtC16niN'
-
-get_gdrive_file = function(gdrive_key){
-  readr::read_csv(sprintf("https://docs.google.com/uc?id=%s&export=download", gdrive_key),
-                  col_types = readr::cols(survey_id = 'c', site_id = 'c'))
-}
-
-observations<-  get_gdrive_file(observations_key)
-sites <- get_gdrive_file(sites_key)
-surveys <- get_gdrive_file(surveys_key)
-species_list <- get_gdrive_file(species_list_key)
+observations <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-bes.543.170&entityid=0329310e827da4f12986224abad4d0a8")
+sites <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-bes.543.170&entityid=7197e52c126c5881c69c194b0d4f5edd")
+surveys <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-bes.543.170&entityid=88715faecbee458c7c16b7db47bd8a41")
+species_list <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-bes.543.170&entityid=494044ed31ec80c9d751d491929b71fc")
 
 surveys$survey_date <- as.Date(surveys$survey_date, format='%m/%d/%Y')
 
@@ -75,52 +54,6 @@ surveys$survey_date <- as.Date(surveys$survey_date, format='%m/%d/%Y')
 surveys <- surveys %>%
   distinct()
 
-# ##############################
-# # Get coordinates for all the sites. Currently not implemented.
-# ##############################
-# # Sites in this dataset do not have lat/longs, only place names such as "Stoney Run Park". 
-# # This function geolocations using OpenStreetMap
-# # and returns a 1 row dataframe with columns c('lon','lat'), or an empty data.frame if
-# # the location couldn't be resolved
-# #######################
-# # geocoding function using OSM Nominatim API
-# ## details: http://wiki.openstreetmap.org/wiki/Nominatim
-# ## made by: D.Kisler, from https://datascienceplus.com/osm-nominatim-with-r-getting-locations-geo-coordinates-by-its-address/
-# 
-# geolocate_address <- function(address = NULL)
-# {
-#   if(suppressWarnings(is.null(address)) | address == '')
-#     return(data.frame())
-#   d<- tryCatch(
-#     jsonlite::fromJSON( 
-#       gsub('\\@addr\\@', gsub('\\s+', '\\%20', address), 
-#            'http://nominatim.openstreetmap.org/search/@addr@?format=json&addressdetails=0&limit=1')
-#     ), error = function(c) return(data.frame())
-#   )
-#   if(length(d) == 0){
-#     return(data.frame())
-#   } else {
-#     return(data.frame(longitude = as.numeric(d$lon), latitude = as.numeric(d$lat)))
-#   }
-# }
-# #######################################
-# sites$latitude = NA
-# sites$longitude = NA
-# for(site_row in 1:nrow(sites)){
-#   park_name = as.character(sites$park_name[site_row])
-#   
-#   if(park_name == ''){
-#     next()
-#   }
-#   
-#   site_coordinates <- geolocate_address(paste0(park_name, ', Baltimore, Maryland'))
-#   if(nrow(site_coordinates) == 0){
-#     next()
-#   }
-# 
-#   sites$longitude[site_row] <- site_coordinates$longitude
-#   sites$latitude[site_row] <- site_coordinates$latitude
-# }
 
 
 ########################################
@@ -228,6 +161,6 @@ final_format <- observations_aggregated %>%
 
 
 write.csv(final_format, 
-          file = "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-bes-birds-nilon.csv",
+          file = here("data/L3-bes-birds-nilon.csv"),
           row.names = F)
 

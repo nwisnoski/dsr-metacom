@@ -42,19 +42,6 @@ mcr.algae <-read.csv(infile1,header=F
                "Quadrat",
                 "Taxonomy_Substrate_Functional_Group",
                 "Percent_Cover"), check.names=TRUE, stringsAsFactors = FALSE)
-#rm(infile1)
-
-# 
-
-
-## Read in the data
-# mcr.algae <- read_csv_gdrive("0BxUZSA1Gn1HZRGRYQXVIckdKQjA") %>%
-#   as_tibble()
-
-#Google Drive File Stream path
-#mcr.algae <- read.csv("~/Google Drive FIle Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/MCR-algae/MCR_LTER_Annual_Survey_Benthic_Cover_20151023.csv", stringsAsFactors = FALSE)
-
-
 
 # Replace underscores with dots for convenience. Also convert to lowercase.
 colnames(mcr.algae) <- tolower(gsub("_", ".", colnames(mcr.algae)))
@@ -133,9 +120,6 @@ mcr.algae_reformat <- mcr.algae_clean %>%
                 VARIABLE_UNITS,
                 VALUE)
 
-# Write CSV file for cleaned data (L2. Skipping L1 because data are already aggregated by year)
-#write.csv(mcr.algae_reformat, file = "~/Google Drive FIle Stream/My Drive/LTER Metacommunities/LTER-DATA/L2-mcr-algae-castorani.csv", row.names = F)
-
 # --------------------------------------------------------------------------------------------------------------------------------
 # Aggregate by site, then add spatial information
 mcr.algae_L3 <- mcr.algae_reformat %>%
@@ -150,34 +134,8 @@ mcr.algae_L3 <- mcr.algae_reformat %>%
 # Replace underscores with dots in location IDs for future plotting. 
 mcr.algae_L3$SITE_ID <- gsub("_", "", mcr.algae_L3$SITE_ID)
 
-spatial.coords <- data.frame(
-  "OBSERVATION_TYPE" = rep("SPATIAL_COORDINATE", length(unique(mcr.algae_L3$SITE_ID))*2),
-  "SITE_ID" = rep(unique(mcr.algae_L3$SITE_ID), times = 2),
-  "DATE" = rep("NA", length(unique(mcr.algae_L3$SITE_ID))*2),
-  "VARIABLE_NAME" = c(rep("LAT", length(unique(mcr.algae_L3$SITE_ID))),
-                      rep("LONG", length(unique(mcr.algae_L3$SITE_ID)))
-                      ),
-  "VARIABLE_UNITS" = rep("dec. degrees", length(unique(mcr.algae_L3$SITE_ID))*2),
-  "VALUE" = c(-17.47913579,
-              -17.47354064,
-              -17.51234592,
-              -17.54184642,
-              -17.58000273,
-              -17.51787861,
-              -149.8377064,
-              -149.8039267,
-              -149.7614294,
-              -149.7669862,
-              -149.8715382,
-              -149.9230353)
-) %>%
-  dplyr::mutate(OBSERVATION_TYPE = as.character(OBSERVATION_TYPE),
-                DATE = as.numeric(DATE),
-                VARIABLE_NAME = as.character(VARIABLE_NAME),
-                VARIABLE_UNITS = as.character(VARIABLE_UNITS)) %>%
-  dplyr::mutate(DATE = NA)
 
-mcr.algae_L3_final <- rbind(spatial.coords, mcr.algae_L3)
+mcr.algae_L3_final <- rbind(mcr.algae_L3)
 
 # Write CSV file for cleaned data (L3)
-write.csv(mcr.algae_L3_final, file = "data/L3_datasets//L3-mcr-algae-castorani.csv", row.names = F)
+write.csv(mcr.algae_L3_final, file = "data/L3-mcr-algae-castorani.csv", row.names = F)

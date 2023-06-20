@@ -29,20 +29,7 @@ dt1     <-read.csv(infile1,header=F ,skip=1,sep="," ,quot='"'
                     "Count",     
                     "BURNED",     
                     "Comments"), check.names=TRUE, stringsAsFactors=FALSE) 
-#Alternately, read in using Google Drive File Stream
-dt1 <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/SEV-106-grasshoppers/archive_knb-lter-sev/sev106_hopperdynamics_20150826.txt", col.names=c(
-                    "Date",     
-                    "PER",     
-                    "Site",     
-                    "Web",     
-                    "Transect",     
-                    "Species",     
-                    "AGE",     
-                    "gender",     
-                    "substrate",     
-                    "Count",     
-                    "BURNED",     
-                    "Comments"),stringsAsFactors=FALSE) 
+
 
 
 # format 
@@ -72,21 +59,6 @@ count_d <- dt1 %>%
             subset( grepl('LATR|BOER',SITE_ID) ) %>% 
             subset( !(VARIABLE_NAME %in% 'NONE') )
 
-
-# species codes (Aldo put this file in Google Drive L0). Not used here.
-spp_d <- read.csv('~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/SEV-106-grasshoppers/sev106_spp_codes.csv',
-                  sep=',', header=T)
-
-
-# site_d <- data.frame(OBSERVATION_TYPE=rep("SPATIAL_COORDINATE",8),
-#                      SITE_ID=c(),
-#                         DATE=rep(NA,4),
-#                         VARIABLE_NAME=c(rep("latitude",4),rep("longitude",4)),
-#                         VARIABLE_UNITS=rep("dec. degrees",8),
-#                         VALUE=c(rep(45.4038890,4),rep(-93.2680560,4))
-#                     )
-
-# lat/lon  Five Points Black Grama (BOER) -----------------------------------
 
 # function that creates a data frame of lat/lon for the sites
 create_coord <- function(site_name, coord_val, coord_val_name){
@@ -120,4 +92,4 @@ site_d <- Reduce(function(...) rbind(...),
 
 # out file
 out   <- rbind(count_d, site_d)
-write.csv(out, '~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-sev-grasshopper-compagnoni.csv', row.names=F)
+write.csv(out, 'data/L3-sev-grasshopper-compagnoni.csv', row.names=F)

@@ -20,7 +20,7 @@ library(stringi)
 
 
 # read data directly from the portal (no idea why this is not in popler.....)
-cdr_raw <- read.csv('https://portal.lternet.edu/nis/dataviewer?packageid=knb-lter-cdr.106.8&entityid=3405c2e271929b0c537492a9ddde102b',
+cdr_raw <- read.csv('https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cdr.106.8&entityid=3405c2e271929b0c537492a9ddde102b',
                 sep = '\t') 
 
 # clean up dataset
@@ -86,4 +86,4 @@ taxa <- cdr_raw %>%
  
           
 # write file out
-write.csv(cdr, '~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-cdr-grasshopper-compagnoni.csv', row.names=F)
+write.csv(cdr, here("data/L3-cdr-grasshopper-compagnoni.csv"), row.names=F)

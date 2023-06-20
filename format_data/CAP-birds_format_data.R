@@ -3,14 +3,7 @@
 # RKA 05/15/2018                                    
 #################################################################################################
 
-rm(list = ls())
-# Check for and install required packages
-for (package in c('dplyr', 'tidyverse', 'tidyr')) {
-  if (!require(package, character.only=T, quietly=T)) {
-    install.packages(package, dependencies=TRUE, repos='http://cran.rstudio.com/')
-    library(package, character.only=T)
-  }
-}
+library(tidyverse)
 
 # Package ID: knb-lter-cap.46.15 Cataloging System:https://pasta.edirepository.org.
 # Data set title: Point-count bird censusing: long-term monitoring of bird abundance and diversity in       central Arizona-Phoenix, ongoing since 2000.
@@ -23,46 +16,42 @@ for (package in c('dplyr', 'tidyverse', 'tidyr')) {
 # Contact:    - Data Manager Julie Ann Wrigley Global Institute of Sustainability, Arizona State University  - caplter.data@asu.edu
 # Stylesheet for metadata conversion into program: John H. Porter, Univ. Virginia, jporter@virginia.edu 
 
-#infile1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-cap/46/15/1ac975d0d3272f2eabe68a66e9f908ad" 
-#infile1 <- sub("^https","http",infile1) 
-#dt1 <-read.csv(infile1,header=F 
-#               ,skip=1
-#               ,sep=","  
-#               ,quot='"' 
-#               , col.names=c(
-#                 "site_code",     
-#                 "location_type",     
-#                 "survey_date",     
-#                 "time_start",     
-#                 "time_end",     
-#                 "observer_name_part",     
-#                 "wind_speed",     
-#                 "wind_dir",     
-#                 "air_temp",     
-#                 "cloud_cover",     
-#                 "survey_notes",     
-#                 "human_activity_notes",     
-#                 "wind",     
-#                 "precipitation",     
-#                 "disturbances",     
-#                 "sight_obstruct",     
-#                 "noise_level",     
-#                 "site_condition",     
-#                 "non_bird_species",     
-#                 "code",     
-#                 "common_name",     
-#                 "distance",     
-#                 "bird_count",     
-#                 "observation_notes",     
-#                 "seen",     
-#                 "heard",     
-#                 "direction",     
-#                 "QCcomment"    ), check.names=TRUE, stringsAsFactors=F)
+infile1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-cap/46/15/1ac975d0d3272f2eabe68a66e9f908ad"
+infile1 <- sub("^https","http",infile1)
+dt1 <-read.csv(infile1,header=F
+              ,skip=1
+              ,sep=","
+              ,quot='"'
+              , col.names=c(
+                "site_code",
+                "location_type",
+                "survey_date",
+                "time_start",
+                "time_end",
+                "observer_name_part",
+                "wind_speed",
+                "wind_dir",
+                "air_temp",
+                "cloud_cover",
+                "survey_notes",
+                "human_activity_notes",
+                "wind",
+                "precipitation",
+                "disturbances",
+                "sight_obstruct",
+                "noise_level",
+                "site_condition",
+                "non_bird_species",
+                "code",
+                "common_name",
+                "distance",
+                "bird_count",
+                "observation_notes",
+                "seen",
+                "heard",
+                "direction",
+                "QCcomment"    ), check.names=TRUE, stringsAsFactors=F)
 
-
-
-#alternately, use Google Drive File Stream:
-dt1 <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/CAP-birds-Banville/archive_knb-lter-cap/46_core_birds_ee23527b9fad8b2ead1a6f0b4471ab1e.csv", stringsAsFactors=FALSE)  
 
 # Looking at the input data frame
 str(dt1) 
@@ -151,4 +140,4 @@ tapply(out_long$VARIABLE_NAME, list(out_long$SITE_ID, out_long$DATE), en)
 tapply(out_long$SITE_ID, out_long$DATE, en) 
 
 # Write CSV file for cleaned data (L3)
-write.csv(out_long, file = "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-cap-birds-banville.csv", row.names = F)
+write.csv(out_long, file = here("data/L3-cap-birds-banville.csv"), row.names = F)

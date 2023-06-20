@@ -9,46 +9,8 @@
 # Clear environment
 rm(list = ls())
 
-# Set your working environment to the GitHub repository, e.g.: 
-#setwd("~/Documents/ltermetacommunities")
+library(tidyverse)
 
-#Check to make sure working directory is correct
-if(basename(getwd())!="ltermetacommunities"){cat("Plz change your working directory. It should be 'ltermetacommunities'")}
-
-# Check for and install required packages
-for (package in c('dplyr', 'tidyr', 'vegetarian', 'vegan', 'metacom', 'ggplot2')) {
-  if (!require(package, character.only=T, quietly=T)) {
-    install.packages(package)
-    library(package, character.only=T)
-  }
-}
-
-# ---------------------------------------------------------------------------------------------------
-# IMPORT ***OLD DATA*** FROM GOOGLE DRIVE
-#plot coordinates and wave height data will be merged in from this file.
-
-# Assign data set of interest
-# NOTE: Google Drive file ID is different for each dataset
-# 
-# # SBC LTER (Santa Barbara Coastal): Macroalgae
-# data.set <- "SBC-algae"
-# data.key <- "0BxUZSA1Gn1HZRUxaNmV1Y21abmc" # Google Drive file ID for 'LTER-DATA/L0-raw/SBC/sbc_algae_dat_long.csv'
-# 
-# dat.long.old <-  read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", data.key), stringsAsFactors=F) %>%
-#   dplyr::select(-X) # Remove column that contains rownames
-# 
-# # Get spatial coordinates
-# sbc.xy <- dat.long.old[dat.long.old$OBSERVATION_TYPE == "SPATIAL_COORDINATE", ] %>%
-#   droplevels()
-# 
-# # Get wave data
-# sbc.wave.dat <- dat.long.old[dat.long.old$VARIABLE_NAME == "WAVE_HT_MEAN" | 
-#                                dat.long.old$VARIABLE_NAME == "WAVE_HT_WINTER_MEAN" , ] %>%
-#   droplevels()
-# 
-# rm(dat.long.old)
-# 
-# # ---------------------------------------------------------------------------------------------------
 
 # Import community data from EDI
 
@@ -117,8 +79,7 @@ summary(comm.dat.unformatted)
 #which taxa have NA values in which years? 
 how.many.na <- function(x) {length(which(is.na(x)))}
 Tbl <- tapply(comm.dat.unformatted$DM_GM2, list(comm.dat.unformatted$SCIENTIFIC_NAME, comm.dat.unformatted$YEAR), how.many.na)
-#problem of many NA values in early years for some taxa that was present in knb.sbc.50.6 now appears to be fixed. A few NA in a few years only.
- 
+
 # ---------------------------------------------------------------------------------------------------
 
 # Import temperature data from EDI
@@ -204,11 +165,6 @@ comm.dat.long$TAXON_GROUP <- dplyr::recode(comm.dat.long$TAXON_GROUP,
 
 comm.dat.long <- comm.dat.long[, c("OBSERVATION_TYPE", "SITE_ID", "DATE", "VARIABLE_NAME", "VARIABLE_UNITS", "VALUE", "TAXON_GROUP")] # Reorder columns
 
-# # Spread from long to wide and then gather back to long to ensure equal observations across sites and time
-# comm.dat.wide <- comm.dat.long %>%
-#   dplyr::select(-TAXON_GROUP) %>%
-#   spread(key = VARIABLE_NAME,  value = VALUE, fill = 0)
-
 rm(comm.dat.unformatted)
 
 # ---------------------------------------------------------------------------------------------------
@@ -252,10 +208,10 @@ sbc.fish <- rbind(sbc.env, sbc.fish.temp); rm(sbc.fish.temp)
 
 
 # Write CSV file for each cleaned (L3) dataset
-write.csv(sbc.algae.w.kelp, file = "data/L3_datasets/L3-sbc-algae-castorani.csv", row.names = F)
+write.csv(sbc.algae.w.kelp, file = "data/L3-sbc-algae-castorani.csv", row.names = F)
 
-write.csv(sbc.sessile, file = "data/L3_datasets/L3-sbc-sessileInverts-castorani.csv", row.names = F)
+write.csv(sbc.sessile, file = "data/L3-sbc-sessileInverts-castorani.csv", row.names = F)
 
-write.csv(sbc.mobile, file = "data/L3_datasets/L3-sbc-mobileInverts-castorani.csv", row.names = F)
+write.csv(sbc.mobile, file = "data/L3-sbc-mobileInverts-castorani.csv", row.names = F)
 
-write.csv(sbc.fish, file = "data/L3_datasets/L3-sbc-fish-castorani.csv", row.names = F)
+write.csv(sbc.fish, file = "data/L3-sbc-fish-castorani.csv", row.names = F)

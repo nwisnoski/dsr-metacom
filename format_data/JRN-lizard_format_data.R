@@ -9,44 +9,94 @@
 # Clear environment
 rm(list = ls())
 
-# Make sure your working environment is set to the GitHub repository ltermetacommunities. 
-
-#Check to make sure working directory is correct
-if(basename(getwd())!="ltermetacommunities"){cat("Plz change your working directory. It should be 'ltermetacommunities'")}
-
-# Check for and install required packages
-for (package in c('dplyr', 'tidyr', 'vegetarian', 'vegan', 'metacom', 'ggplot2')) {
-  if (!require(package, character.only=T, quietly=T)) {
-    install.packages(package)
-    library(package, character.only=T)
-  }
-}
+library(tidyverse)
 
 # ---------------------------------------------------------------------------------------------------
 
-# Assign data set of interest
-# NOTE: Google Drive file ID is different for each dataset
 
-# JRN LTER (Jornada lizards from lter repository download in L0 directory; knb-lter-jrn.2100007001.13)
-#data.set <- "JRN-lizard"
-#data.key <- "0B7o8j0RLpcxiemtYVjF0ZGVxaVE" # Google Drive file ID
-
-#data <-  read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", data.key), skip = 47, stringsAsFactors = F)
-
-#Google Drive File Stream method:
-data <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/JRN-lizards/JornadaStudy_007_npp_lizard_pitfall_trap_data.csv", skip = 47, stringsAsFactors=F)
-
-# direct download from LTER Data Portal
-# Package ID: knb-lter-jrn.210007001.36 Cataloging System:https://pasta.edirepository.org.
-# Data set title: Lizard pitfall trap data (LTER-II, LTER-III).
-# Data set creator:  David Lightfoot -  
+# Package ID: knb-lter-jrn.210007001.38 Cataloging System:https://pasta.edirepository.org.
+# Data set title: Lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site, 1989-2006.
+# Data set creator:  David C Lightfoot - Jornada Basin LTER (now at Univ. of NM) 
+# Data set creator:  Walter G Whitford - Jornada Basin LTER/New Mexico State University 
 # Metadata Provider:    - Jornada Basin LTER 
-# Contact:    - Data Manager Jornada Basin LTER  - datamanager@jornada-vmail.nmsu.edu
-# Contact:  John Anderson -    - 
-#data <- read.csv('https://portal.lternet.edu/nis/dataviewer?packageid=knb-lter-jrn.210007001.36&entityid=21cc9e0b7c5d27d1efd8d5e1db3ac4f1', skip = 47, stringsAsFactors = F)
+# Contact:    - Information Manager Jornada Basin LTER  - jornada.data@nmsu.edu
+# Stylesheet v2.11 for metadata conversion into program: John H. Porter, Univ. Virginia, jporter@virginia.edu 
+
+inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-jrn/210007001/38/731f52d77045dfc5957589d35c2e6227" 
+infile1 <- tempfile()
+try(download.file(inUrl1,infile1,method="curl"))
+if (is.na(file.size(infile1))) download.file(inUrl1,infile1,method="auto")
+
+
+dt1 <-read.csv(infile1,header=F 
+               ,skip=1
+               ,sep=","  
+               ,quot='"' 
+               , col.names=c(
+                 "date",     
+                 "zone",     
+                 "site",     
+                 "plot",     
+                 "pit",     
+                 "spp",     
+                 "sex",     
+                 "rcap",     
+                 "toe_num",     
+                 "SV_length",     
+                 "total_length",     
+                 "weight",     
+                 "tail",     
+                 "pc"    ), check.names=TRUE)
+
+unlink(infile1)
+
+# Fix any interval or ratio columns mistakenly read in as nominal and nominal columns read as numeric or dates read as strings
+
+# attempting to convert dt1$date dateTime string to R date structure (date or POSIXct)                                
+tmpDateFormat<-"%Y-%m-%d"
+tmp1date<-as.Date(dt1$date,format=tmpDateFormat)
+# Keep the new dates only if they all converted correctly
+if(length(tmp1date) == length(tmp1date[!is.na(tmp1date)])){dt1$date <- tmp1date } else {print("Date conversion failed for dt1$date. Please inspect the data and do the date conversion yourself.")}                                                                    
+rm(tmpDateFormat,tmp1date) 
+if (class(dt1$zone)!="factor") dt1$zone<- as.factor(dt1$zone)
+if (class(dt1$site)!="factor") dt1$site<- as.factor(dt1$site)
+if (class(dt1$plot)!="factor") dt1$plot<- as.factor(dt1$plot)
+if (class(dt1$pit)=="factor") dt1$pit <-as.numeric(levels(dt1$pit))[as.integer(dt1$pit) ]               
+if (class(dt1$pit)=="character") dt1$pit <-as.numeric(dt1$pit)
+if (class(dt1$spp)!="factor") dt1$spp<- as.factor(dt1$spp)
+if (class(dt1$sex)!="factor") dt1$sex<- as.factor(dt1$sex)
+if (class(dt1$rcap)!="factor") dt1$rcap<- as.factor(dt1$rcap)
+if (class(dt1$toe_num)=="factor") dt1$toe_num <-as.numeric(levels(dt1$toe_num))[as.integer(dt1$toe_num) ]               
+if (class(dt1$toe_num)=="character") dt1$toe_num <-as.numeric(dt1$toe_num)
+if (class(dt1$SV_length)=="factor") dt1$SV_length <-as.numeric(levels(dt1$SV_length))[as.integer(dt1$SV_length) ]               
+if (class(dt1$SV_length)=="character") dt1$SV_length <-as.numeric(dt1$SV_length)
+if (class(dt1$total_length)=="factor") dt1$total_length <-as.numeric(levels(dt1$total_length))[as.integer(dt1$total_length) ]               
+if (class(dt1$total_length)=="character") dt1$total_length <-as.numeric(dt1$total_length)
+if (class(dt1$weight)=="factor") dt1$weight <-as.numeric(levels(dt1$weight))[as.integer(dt1$weight) ]               
+if (class(dt1$weight)=="character") dt1$weight <-as.numeric(dt1$weight)
+if (class(dt1$tail)!="factor") dt1$tail<- as.factor(dt1$tail)
+if (class(dt1$pc)!="factor") dt1$pc<- as.factor(dt1$pc)
+
+# Convert Missing Values to NA for non-dates
+
+dt1$plot <- as.factor(ifelse((trimws(as.character(dt1$plot))==trimws("NA")),NA,as.character(dt1$plot)))
+dt1$pit <- ifelse((trimws(as.character(dt1$pit))==trimws("NA")),NA,dt1$pit)               
+suppressWarnings(dt1$pit <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt1$pit))==as.character(as.numeric("NA"))),NA,dt1$pit))
+dt1$sex <- as.factor(ifelse((trimws(as.character(dt1$sex))==trimws("NA")),NA,as.character(dt1$sex)))
+dt1$rcap <- as.factor(ifelse((trimws(as.character(dt1$rcap))==trimws("NA")),NA,as.character(dt1$rcap)))
+dt1$toe_num <- ifelse((trimws(as.character(dt1$toe_num))==trimws("NA")),NA,dt1$toe_num)               
+suppressWarnings(dt1$toe_num <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt1$toe_num))==as.character(as.numeric("NA"))),NA,dt1$toe_num))
+dt1$SV_length <- ifelse((trimws(as.character(dt1$SV_length))==trimws("NA")),NA,dt1$SV_length)               
+suppressWarnings(dt1$SV_length <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt1$SV_length))==as.character(as.numeric("NA"))),NA,dt1$SV_length))
+dt1$total_length <- ifelse((trimws(as.character(dt1$total_length))==trimws("NA")),NA,dt1$total_length)               
+suppressWarnings(dt1$total_length <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt1$total_length))==as.character(as.numeric("NA"))),NA,dt1$total_length))
+dt1$weight <- ifelse((trimws(as.character(dt1$weight))==trimws("NA")),NA,dt1$weight)               
+suppressWarnings(dt1$weight <- ifelse(!is.na(as.numeric("NA")) & (trimws(as.character(dt1$weight))==as.character(as.numeric("NA"))),NA,dt1$weight))
+dt1$tail <- as.factor(ifelse((trimws(as.character(dt1$tail))==trimws("NA")),NA,as.character(dt1$tail)))
+
 
 #in this table, each row represents a lizard. Remove columns with data measured on indivudal lizards (i.e. svl, sex, toe number)
-data <- data %>%
+data <- dt1 %>%
 	select(date, zone, site, plot, spp,toe_num, pc)
 
 data$datetime <- as.POSIXct(data$date, format = "%m/%d/%Y")
@@ -58,15 +108,6 @@ str(data)
 #remove first and last years due to incomplete sampling
 data <- subset(data, data$year > 1989 & data$year < 2006)
 
-#remove the monthly sampling (1990 and 1991 only) so that only quarterly data remain and sampling effort is equal across years
-#read in and merge on the data file Andrew Hope provided (that does not contain the toe_num needed to calculate abundance of unique individuals per species per site per year) 
-Hope_data <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/JRN-lizards/JRN_Lizard_spp.csv", stringsAsFactors=F)
-
-Hope_data <- Hope_data %>%
-	mutate(datetime = as.POSIXct(Hope_data$date, format = "%m/%d/%y")) %>%
-	select(datetime)
-
-data <- merge(data, Hope_data, by = "datetime", all.x=F, all.y=T)
 
 #Look at sampling:
 ss <- function(x) {length(unique(x))}
@@ -81,10 +122,10 @@ data <- data %>%
 data <- data %>%
 	filter(spp != "NONE")
 	
-#Now remove the rows where no lizards were observed.  Can't find apecies codes at (http://jornada.nmsu.edu/data-catalogs/species/lter-plants), but I'm guessing UKLI is 'unkown lizard' and UKCN is 'unknown ctenosaur'.
+#Now remove unknown lizards
 
 data <- data %>%
-	filter(spp != "UKLI" & spp != "UKCN")
+	filter(spp != "UKLI" & spp != "UKCN" & spp != "UKPH")
 	
 
 	#NOTE: pc is a problem code. Look it up. 
@@ -120,38 +161,10 @@ comm.long$VALUE <- as.numeric(comm.long$VALUE)
 comm.long <- na.omit(comm.long)
 str(comm.long)
 
-### COORDINATE DATA ### 
-# read in coordinate data
-dat.coord <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/JRN-lizards/JRN_Lizard_meta.csv", stringsAsFactors=F, skip = 38) %>%
-  tbl_df() %>%
-  gather(VARIABLE_NAME, VALUE, Latitude:Longitude) %>%
-  mutate(VARIABLE_NAME = tolower(VARIABLE_NAME),
-         VARIABLE_UNITS = "dec degrees",
-         OBSERVATION_TYPE = "SPATIAL_COORDINATE",
-         SITE_ID = Site, 
-         DATE = NA) %>%
-  select(-Site) %>%
-  select(-Zone.Site)
-str(dat.coord)
-
-
-### ENVIRONMENTAL DATA ###
-dat.env <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/JRN-lizards/JRN_Lizard_precip.csv", skip = 11, stringsAsFactors=F) %>%
-  tbl_df() %>%
-  mutate(VARIABLE_NAME = "precip",
-         VARIABLE_UNITS = "mm",
-         OBSERVATION_TYPE = "TAXON_COUNT",
-         SITE_ID = paste(zone, site, sep = "-"), 
-         DATE = date,
-         OBSERVATION_TYPE = "ENV_VAR", 
-         VALUE = est_precp) %>%
-  select(OBSERVATION_TYPE, SITE_ID, DATE, VARIABLE_NAME, VARIABLE_UNITS, VALUE)
-
-
 #rbind the L3 dataset
-dat.tog <- rbind(dat.coord, comm.long, dat.env) %>%
+dat.tog <- rbind(comm.long) %>%
   select(OBSERVATION_TYPE, SITE_ID, DATE, VARIABLE_NAME, VARIABLE_UNITS, VALUE)
 
 #Write out the L3 dataset
-write.csv(dat.tog, "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-jrn-lizards-hope.csv", row.names=F)
+write.csv(dat.tog, "data/L3-jrn-lizards-hope.csv", row.names=F)
 

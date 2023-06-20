@@ -3,14 +3,7 @@
 # RA 05/15/2018                                    
 #################################################################################################
 
-rm(list = ls())
-# Check for and install required packages
-for (package in c('dplyr', 'tidyverse', 'tidyr')) {
-  if (!require(package, character.only=T, quietly=T)) {
-    install.packages(package, dependencies=TRUE, repos='http://cran.rstudio.com/')
-    library(package, character.only=T)
-  }
-}
+library(tidyverse)
 
 # Package ID: knb-lter-cap.627.3 Cataloging System:https://pasta.edirepository.org.
 # Data set title: Long-term monitoring of herpetofauna along the Salt and Gila Rivers in and near the greater Phoenix metropolitan area, ongoing since 2012.
@@ -68,10 +61,6 @@ infile2 <- sub("^https","http",infile2)
                
             
         
-
-#alternately, use Google Drive File Stream:
-#this is the correct file to read in
-dt2 <- read.csv("~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L0-raw/CAP-herps-Banville/archive_knb-lter-cap.627.3_152642411917174235/627_herp_survey_observations_3bfc57f795b316b581f110042dff4230.csv", stringsAsFactors=FALSE) 
 
 #subset species data (NOTE THAT URBANIZED, RESTORED, AND WATER CATEGORIES COULD POTENTIALLY BE ENV COVARIATES)
 dt2 <- dt2 %>% select(reach,urbanized,restored,water,observation_date,common_name,scientific_name,quantity)
@@ -151,5 +140,5 @@ tapply(out_long$VARIABLE_NAME, list(out_long$SITE_ID, out_long$DATE), en)
 tapply(out_long$SITE_ID, out_long$DATE, en) 
 
 # Write CSV file for cleaned data (L3)
-write.csv(out_long, file = "~/Google Drive File Stream/My Drive/LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space/L3-cap-herps-banville.csv", row.names = F)
+write.csv(out_long, file = here("data/L3-cap-herps-banville.csv"), row.names = F)
 
