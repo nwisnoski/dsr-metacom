@@ -18,7 +18,6 @@ options(stringsAsFactors = FALSE)
 # libraries
 #########################
 library(tidyverse)
-library(googledrive)
 library(here)
 
 # install ltmc package from github
@@ -29,16 +28,9 @@ library(here)
 
 library(ltmc)
 
-#######################################################
-# -- download list of data sets off google drive using google-id
-#######################################################
-
-# working_dir <- drive_ls(path = as_id("0BxUZSA1Gn1HZamlITk9DZzc1c1E"))
-working_dir <- googledrive::drive_ls('LTER Metacommunities/LTER-DATA/L3-aggregated_by_year_and_space') #human readable path to directory
-data_list <- working_dir %>% filter(grepl('(?i)\\.csv', name)) %>% filter(name != "L3-ntl-zooplankton-stanleyLottig.csv",
-                                                                          name != "L3-ntl-fish-stanleyLottig.csv")
-save_data_dir <- here("data/L3_datasets_local/")
-setwd(save_data_dir)
+data_list <- list.files(path = here("data/")) %>% as_tibble() %>% 
+  filter(str_detect(value, "L3-")) %>% 
+  filter(str_detect(value, ".csv"))
 
 ######################################################
 # -- Loop through data sets and call functions
@@ -49,8 +41,6 @@ setwd(save_data_dir)
 # data_ALL <- data.frame()
 analysis_results <- data.frame()
 local_analysis_results <- data.frame()
-# i = 6 -- should work
-# i = 14 -- L3-and-plants-mtStHelens.csv is problem record
 
 
 for(i in 1:nrow(data_list)){
@@ -61,18 +51,7 @@ for(i in 1:nrow(data_list)){
   
   try_result <- try({
     
-    # get record
-    i_data_record <- data_list[i,]
-    
-    # get google id used to download data
-    data_id_googledrive <- i_data_record$id
-    
-    # link to read in spreadsheet from google drive
-    download.link <- paste0("https://drive.google.com/uc?export=download&id=",
-                            data_id_googledrive)
-    file.i <- drive_download(file = as_id(data_id_googledrive), 
-                   type = "csv.",
-                   overwrite = TRUE)
+    file.i <- paste0("data/",data_list[i,1])
     
     # blank data frame
     d.in.long <- data.frame()
@@ -81,7 +60,7 @@ for(i in 1:nrow(data_list)){
     # read data into data.frame and filter out non-taxon data, spp names that are NAs, and negative VALUES
     # make SITE_ID and DATE chars
     try({
-      d.in.long.raw <- read.csv(file = file.i$local_path, header = T,
+      d.in.long.raw <- read.csv(file = file.i, header = T,
                             stringsAsFactors = FALSE) 
       
       names(d.in.long.raw) <- toupper(names(d.in.long.raw))
@@ -97,7 +76,7 @@ for(i in 1:nrow(data_list)){
       if(length(missing_col_names) > 0){
         msg_tmp <- paste0('WARNING: missing column names: ', 
                           paste(missing_col_names, collapse = ', '), 
-                          ' for ', i_data_record$name)
+                          ' for ', file.i)
         message(msg_tmp)
         messages_i <- paste(c(messages_i, msg_tmp), collapse = ' | ')
         # next
@@ -114,17 +93,17 @@ for(i in 1:nrow(data_list)){
     
     # some error messaging
     if(nrow(d.in.long.raw) == 0){
-      msg_tmp <- paste0('WARNING: no data for ',i_data_record$name)
+      msg_tmp <- paste0('WARNING: no data for ',file.i)
       message(msg_tmp)
       messages_i <- paste(c(messages_i, msg_tmp), collapse = ' | ')
 
     }else if(nrow(d.in.long) == 0){
-      msg_tmp <- paste0('WARNING: data not formatted correctly for ',i_data_record$name)
+      msg_tmp <- paste0('WARNING: data not formatted correctly for ',file.i)
       message(msg_tmp)
       messages_i <- paste(c(messages_i, msg_tmp), collapse = ' | ')
 
     }else if(length(d.in.long$VARIABLE_UNITS %>% unique()) > 1){
-      msg_tmp <- paste0('WARNING: more than one unit used to report TAXON_COUNTs for ',i_data_record$name)
+      msg_tmp <- paste0('WARNING: more than one unit used to report TAXON_COUNTs for ',file.i)
       message(msg_tmp)
       messages_i <- paste(c(messages_i, msg_tmp), collapse = ' | ')
 
@@ -135,7 +114,7 @@ for(i in 1:nrow(data_list)){
           filter(TREATMENT %in% c(NA, 'NA', '', 'control', 'Control','CONTROL'))
         
         # messaging
-        msg_tmp <- paste0('WARNING: treatment plots removed from data for ',i_data_record$name)
+        msg_tmp <- paste0('WARNING: treatment plots removed from data for ',file.i)
         message(msg_tmp)
         messages_i <- paste(c(messages_i, msg_tmp), collapse = ' | ')
       }
@@ -155,7 +134,7 @@ for(i in 1:nrow(data_list)){
         d.in.long <- data.frame(d.in.long[-rows2check,], row.names = NULL)
         
         # messaging
-        msg_tmp <- paste0('WARNING: exact duplicates removed from data for ',i_data_record$name)
+        msg_tmp <- paste0('WARNING: exact duplicates removed from data for ',file.i)
         message(msg_tmp)
         messages_i <- paste(c(messages_i, msg_tmp), collapse = ' | ')
       }
@@ -282,8 +261,7 @@ for(i in 1:nrow(data_list)){
       
       # combine results in one long-fromat dataframe
       analysis_results_i <- data.frame(
-        dataset_file_name = i_data_record$name,
-        dataset_google_id = i_data_record$id,
+        dataset_file_name = str_remove(file.i, "data/"),
         start_year = start_year,
         end_year= end_year,
         n_years_observed = n_years_observed,
@@ -298,8 +276,7 @@ for(i in 1:nrow(data_list)){
       ) 
       
       local_analysis_results_i <- data.frame(
-        dataset_file_name = i_data_record$name,
-        dataset_google_id = i_data_record$id,
+        dataset_file_name = str_remove(file.i, "data/"),
         start_year = start_year,
         end_year= end_year,
         n_years_observed = n_years_observed,
@@ -320,8 +297,7 @@ for(i in 1:nrow(data_list)){
   # add a messages column if necessary
   if(length(messages_i) > 0 & nrow(analysis_results_i) == 0){
     analysis_results_i <- data.frame(
-      dataset_file_name = i_data_record$name,
-      dataset_google_id = i_data_record$id,
+      dataset_file_name = file.i,
       messages = messages_i)
   }else if(length(messages_i) > 0 & nrow(analysis_results_i) > 0){
     analysis_results_i[,'messages'] <- messages_i
@@ -336,14 +312,9 @@ for(i in 1:nrow(data_list)){
     local_analysis_results,
     local_analysis_results_i)
   
-  print(i_data_record$name)
+  print(file.i)
 }
 
-# #write results locally
-# write.csv(analysis_results, 
-#           file.path("Group3-diversity-metrics", 
-#                     paste0('analysis_results_', Sys.Date(), '.csv')),
-#           row.names = FALSE)
 
 #####################################
 
@@ -351,77 +322,5 @@ write_filename <- paste0('L4_metacommunity_variability_analysis_results_', Sys.D
 write_filename_local <- paste0('L4_local_variability_analysis_results_', Sys.Date(), '.csv')
 
 # temp write local
-readr::write_csv(analysis_results, file = here(paste0("data/",write_filename)))
-readr::write_csv(local_analysis_results, file = here(paste0("data/",write_filename_local)))
-
-setwd(here())
-#
-
-# #######################################################
-# # -- Make figures
-# #######################################################
-# env_data <- read_csv(file = "Group3-diversity-metrics/l3_data.csv")
-# 
-# data_ALL <- data_ALL %>% mutate(l3_filename = name)
-# # how do alpha, gamma, and beta variability over a metacom richness gradient?
-# 
-# left_join(data_ALL, env_data)  %>% filter(gamma_mean < 100) %>% 
-#   gather(gamma_temporal_bd, mean_alpha_temporal_bd, phi_bd, key = "scale", value = "bd") %>% 
-#   ggplot(aes(x = gamma_mean, y = bd, color = biome, fill = biome)) + 
-#   facet_grid(scale ~ ., scales = "free_y") +
-#   geom_point(alpha = 0.5) + 
-#   geom_smooth(method = 'lm', formula = y ~ x, alpha = 0.15) + 
-#   theme_minimal() +
-#   ggsave("Group3-diversity-metrics/figures/gammadiv-stability.png",
-#          width = 7, height = 7, dpi = 300, units = "in")
-# 
-# left_join(data_ALL, biomes) %>% filter(alpha_mean < 100) %>% 
-#   gather(gamma_temporal_bd, mean_alpha_temporal_bd, phi_bd, key = "scale", value = "bd") %>% 
-#   ggplot(aes(x = alpha_mean, y = bd, color = biome, fill = biome)) + 
-#   facet_grid(scale ~ ., scales = "free_y") +
-#   geom_point(alpha = 0.5) + 
-#   geom_smooth(method = 'lm', formula = y ~ x, alpha = 0.15) + 
-#   theme_minimal() + 
-#   ggsave("Group3-diversity-metrics/figures/alphadiv-stability.png",
-#          width = 7, height = 7, dpi = 300, units = "in")
-# 
-# left_join(data_ALL, env_data)  %>% 
-#   gather(gamma_temporal_bd, mean_alpha_temporal_bd, phi_bd, key = "scale", value = "bd") %>% 
-#   ggplot(aes(x = `mobility`, y = bd, color = `dispersal habit`, fill = `dispersal habit`)) + 
-#   facet_grid(scale ~ ., scales = "free_y") +
-#   geom_boxplot(alpha = 0.5) + 
-#   geom_point(alpha = 0.25) +
-#   theme_minimal() +
-#   ggsave("Group3-diversity-metrics/figures/dispersaltype-stability.png",
-#          width = 7, height = 7, dpi = 300, units = "in")
-# 
-# left_join(data_ALL, env_data)  %>% 
-#   gather(gamma_temporal_bd, mean_alpha_temporal_bd, phi_bd, key = "scale", value = "bd") %>% 
-#   ggplot(aes(x = `trophic group`, y = bd, color = `trophic group`, fill = `trophic group`)) + 
-#   facet_grid(scale ~ ., scales = "free_y") +
-#   geom_boxplot(alpha = 0.5) + 
-#   geom_point(alpha = 0.25) +
-#   theme_minimal() +
-#   ggsave("Group3-diversity-metrics/figures/trophicgroup-stability.png",
-#          width = 7, height = 7, dpi = 300, units = "in")
-# 
-# left_join(data_ALL, env_data)  %>% filter(gamma_mean < 100) %>% 
-#   gather(gamma_temporal_bd, mean_alpha_temporal_bd, phi_bd, key = "scale", value = "bd") %>% 
-#   ggplot(aes(x = `body size`, y = bd, color = `body size`, fill = `body size`)) + 
-#   facet_grid(scale ~ ., scales = "free_y") +
-#   geom_boxplot(alpha = 0.5) + 
-#   geom_point(alpha = 0.25) +
-#   theme_minimal() +
-#   ggsave("Group3-diversity-metrics/figures/bodytype-stability.png",
-#          width = 7, height = 7, dpi = 300, units = "in")
-# 
-# left_join(data_ALL, env_data)  %>% filter(gamma_mean < 100) %>% 
-#   gather(gamma_temporal_bd, mean_alpha_temporal_bd, phi_bd, key = "scale", value = "bd") %>% 
-#   ggplot(aes(x = `organism`, y = bd)) + 
-#   facet_grid(scale ~ ., scales = "free_y") +
-#   geom_boxplot(alpha = 0.5) + 
-#   geom_point(alpha = 0.25) +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-#   ggsave("Group3-diversity-metrics/figures/organism-stability.png",
-#          width = 7, height = 7, dpi = 300, units = "in")
+readr::write_csv(analysis_results, file = here(paste0("results/",write_filename)))
+readr::write_csv(local_analysis_results, file = here(paste0("results/",write_filename_local)))
