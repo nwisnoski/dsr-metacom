@@ -16,9 +16,8 @@ library(here)
 
 ####Data preparation####
 #Data - CPUE of fish collected via electrofishing
-#data obtained from Jen Rahage and are not available on EDI. See citation for knb id with metadata.
-fish.raw <- googledrive::drive_read_string("https://drive.google.com/file/d/1-b7yGt0HSFse4kB-hx1FbmSyakfiz4Nh/view?usp=drive_link") %>% 
-  read_csv()
+#data obtained from Jen Rehage and are not available on EDI. See citation for knb id with metadata.
+fish.raw <- read_csv()
 
 #Eliminating the sites that could not be sampled due to issues in the field
 fish.raw<-subset(fish.raw, Sample %in% c("Yes"))
@@ -73,9 +72,8 @@ colnames(fish.agg2)[6:8]<-c("DRY", "TRANS", "WET")
 fish.agg2<-transform(fish.agg2, MEAN.VALUE = rowMeans(fish.agg2[,6:8], na.rm = TRUE))
 
 
-#fish.agg2 with functional classfication for species#this is a CSV from ROlando containing functional groups for each fish species
-sp.function<- googledrive::drive_read_string("https://drive.google.com/file/d/173AJDgfkKhdJVXGCOMiSrCZPYUfnzTs5/view?usp=drive_link") %>% 
-  read_csv()
+#fish.agg2 with functional classification for species#this is a CSV from Rolando containing functional groups for each fish species
+sp.function<- read_csv()
 fish.agg3<-merge(fish.agg2, sp.function, by = "VARIABLE_NAME", all.x = TRUE)
 
 
