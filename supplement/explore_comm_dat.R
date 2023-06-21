@@ -19,11 +19,9 @@ library(here)
 # NOTE: Google Drive file ID is different for each dataset
 
 #marine
-#data.set <- "usvi-coral-castorani"
 data.set <- "mcr-coral-castorani"
 data.set <- "mcr-algae-castorani"
 data.set <- "mcr-inverts-castorani"
-data.set <- "mcr-fish-castorani"
 data.set <- "sbc-algae-castorani"
 data.set <- "sbc-fish-castorani"
 data.set <- "sbc-mobileInverts-castorani"
@@ -31,8 +29,6 @@ data.set <- "sbc-sessileInverts-castorani"
 data.set <- "gce-mollusc-compagnoni"
 
 #freshwater
-data.set <- "ntl-zooplankton-stanleyLottig"
-data.set <- "ntl-fish-stanleyLottig"
 data.set <- "fce-fish-rehageWet"
 data.set <- "fce-fish-rehageDry"
 data.set <- "fce-diatoms-catano"
@@ -51,9 +47,7 @@ data.set <- "sev-arthropods-compagnoni"
 data.set <- "sev-grasshopper-compagnoni"
 data.set <- "cdr-grasshopper-compagnoni"
 data.set <- "knz-grasshopper-compagnoni"
-data.set <- "knz-fish-compagnoni"
 data.set <- "luq-snails-compagnoni"
-data.set <- "jrn-lizards-hope"
 data.set <- "cap-herps-banville"
 data.set <- "bes-birds-nilon"
 data.set <- "and-birds-wisnoski"
@@ -63,7 +57,7 @@ data.set <- "cap-birds-banville"
 #----------------------------------------------------------------------------------------------------
 # IMPORT DATA
 
-L3dat <- read.csv(here(paste("data/L3_datasets/L3-", data.set, ".csv", sep="")), stringsAsFactors=F)
+L3dat <- read.csv(here(paste("data/L3-", data.set, ".csv", sep="")), stringsAsFactors=F)
 str(L3dat)
 summary(L3dat)
 
