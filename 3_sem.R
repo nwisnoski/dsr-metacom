@@ -1,5 +1,8 @@
 library(piecewiseSEM)
 library(DiagrammeR)
+require(DiagrammeRsvg)
+require(xml2)
+library(rsvg)
 library(tidyverse)
 library(lavaan)
 library(lme4)
@@ -77,9 +80,9 @@ sem_path_sigonly$edges_df <- sem_path_sigonly$edges_df %>%
   mutate(style = ifelse(as.numeric(label) < 0, "dashed", "solid"))
 
 sem_plot_sigonly <- DiagrammeR::render_graph(sem_path_sigonly)
-sem_plot_sigonly
-
-
+sem_plot_sigonly %>%
+  export_svg() %>%
+  charToRaw %>% rsvg_pdf("figs/sem_plot.pdf", width = 800, height = 1000)
 
 #############
 # here, let's look at another SEM but include some contextual data
