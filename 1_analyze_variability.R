@@ -229,7 +229,8 @@ for(i in 1:nrow(data_list)){
           site_id_col_name = 'SITE_ID',
           time_step_col_name = 'DATE',
           taxon_id_col_name = 'VARIABLE_NAME',
-          biomass_col_name = 'VALUE')) 
+          biomass_col_name = 'VALUE',
+          q_value = 0))  # change to 1 or 2 for other hill numbers
       
       div.part.var <- data.frame(
         variability_type = 'divpart_time_series',
