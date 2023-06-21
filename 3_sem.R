@@ -13,7 +13,7 @@ data_list <- read_csv(here("data/L3_DATA_list.csv")) %>%
     dataset_id, `LTER site`, mobility, `trophic group`, biome, organism_group, n.plots
   ) %>% 
   rename("lter_site" = "LTER site")
-dsr_tot <- as.data.frame(read_csv(file = "dsr_results_table.csv"))
+dsr_tot <- as.data.frame(read_csv(file = "results/dsr_results_table.csv"))
 
 # build model
 tot_mod <- psem(

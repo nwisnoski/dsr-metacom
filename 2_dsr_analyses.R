@@ -516,7 +516,7 @@ dsr_com <- metacom_divstab_comp_dat %>%
   select(dataset_id, bd_gamma, bd_phi, bd_alpha, alpha_div_mean, beta_div_mean, gamma_div_mean)
 dsr_tot <- left_join(dsr_ag, dsr_com)
 
-write_csv(dsr_tot, file = "dsr_results_table.csv")
+write_csv(dsr_tot, file = "results/dsr_results_table.csv")
 
 
 # 6. ENVIRONMENTS AND TRAITS -------------------------------------------------
