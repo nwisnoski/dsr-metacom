@@ -1,6 +1,8 @@
 # Diversity-Stability Relationships in Metacommunities
 
-This repository contains code to replicate the analysis of Wisnoski et al. (2023) Diversity-stability relationships across organism groups and ecosystem types become decoupled across spatial scales. Ecology. 
+This repository contains code to replicate the analysis of 
+
+Wisnoski, N.I., R. Andrade, M.C.N. Castorani, C.P. Catano, A. Compagnoni, T. Lamy, N.K. Lany, L. Marazzi, S. Record, A.C. Smith, C.M. Swan, J.D. Tonkin, N.M. Voelker, P.L. Zarnetske, E.R. Sokol. Diversity-stability relationships become decoupled across spatial scales: a synthesis of organism and ecosystem types. Ecology. 
 
 The project is part of a broader synthesis working group funded by NSF Long-Term Ecological Research (LTER) Network and supported by NCEAS. The main respository for the broader working group can be found here: https://github.com/sokole/ltermetacommunities.
 
