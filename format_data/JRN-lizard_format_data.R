@@ -101,10 +101,12 @@ data <- dt1 %>%
 
 data$datetime <- as.POSIXct(data$date, format = "%m/%d/%Y")
 data$year <- as.numeric(format(data$datetime,"%Y"))
+data <- data %>% 
+  mutate(date = as_date(date))
 str(data)
 
 ############################
-#re-do the data cleaning that Andrew Hope did (descibed in his metadata sheet)
+#re-do the data cleaning that Andrew Hope did 
 #remove first and last years due to incomplete sampling
 data <- subset(data, data$year > 1989 & data$year < 2006)
 
@@ -128,7 +130,42 @@ data <- data %>%
 	filter(spp != "UKLI" & spp != "UKCN" & spp != "UKPH")
 	
 
-	#NOTE: pc is a problem code. Look it up. 
+# years 1990 and 1991 were sampled monthly, while remaining years quarterly. 
+# we will make sampling effort equal and use quarterly samples for the first two years
+dates_to_keep <- c(
+  "1990-03-24", 
+  "1990-03-30", 
+  "1990-06-19", 
+  "1990-06-22", 
+  "1990-06-25",
+  "1990-06-26",
+  "1990-06-29", 
+  "1990-08-14",
+  "1990-08-17",
+  "1990-08-21",
+  "1990-08-24",
+  "1990-10-23",
+  "1990-10-26",
+  "1990-10-30",
+  "1990-11-02",
+  "1991-03-04",
+  "1991-03-08",
+  "1991-06-18",
+  "1991-06-21",
+  "1991-06-25",
+  "1991-06-28",
+  "1991-08-13",
+  "1991-08-16",
+  "1991-08-20",
+  "1991-08-23",
+  "1991-11-07",
+  "1991-11-13"
+)
+dates_to_keep <- as_date(dates_to_keep)
+
+keep_index <- (year(data$date) >= 1992) | data$date %in% dates_to_keep
+
+data <- data[keep_index,] # 1953 rows
 
 #assume equal sampling effort (Pitfall traps were opened for 2 week sessions  4x per year (quarterly) at each site; trapping began at sites XXXX and XXXX in 1996) and calculate the number of unique individuals of each species captured per year: 
 length(unique(data$spp))  

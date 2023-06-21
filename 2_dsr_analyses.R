@@ -28,8 +28,8 @@ set.seed(39759)
 options(mc.cores = parallel::detectCores())
 
 # 1. IMPORT DATA SETS ------------------------------------------------------------
-metacom_var <- read_csv(here("results/L4_metacommunity_variability_analysis_results_2023-06-20.csv"))
-local_var <- read_csv(here("results/L4_local_variability_analysis_results_2023-06-20.csv"))
+metacom_var <- read_csv(here("results/L4_metacommunity_variability_analysis_results_2023-06-21.csv"))
+local_var <- read_csv(here("results/L4_local_variability_analysis_results_2023-06-21.csv"))
 env_var <- read_csv(here("data/lter_centroid_satdata.csv"))
 data_list <- read_csv(here("data/L3_DATA_list.csv"))
 data_list$organism_group[which(data_list$organism_group=="coral")] <- "invertebrates"
@@ -143,8 +143,8 @@ tab_model(local_agg_mod_lmm, local_comp_mod_lmm, file = "tables/DSR_local_models
 (r2c_agg <- r.squaredGLMM(local_agg_mod_lmm)[2])
 
 # make figures for DSRs
-R2m_expression <- expression(paste(" ", R[m]^2 , "= ", 0.013))
-R2c_expression <- expression(paste(" ", R[c]^2 , "= ", 0.726))
+R2m_expression <- expression(paste(" ", R[m]^2 , "= ", 0.014))
+R2c_expression <- expression(paste(" ", R[c]^2 , "= ", 0.725))
 
 local_divstab_comp_fig <- local_dataset_for_mods %>% 
   ggplot(aes(x = alpha_div_scaled, y = BD)) + 
@@ -157,8 +157,8 @@ local_divstab_comp_fig <- local_dataset_for_mods %>%
   annotate("text", x = 2.5, y = 0.8, label = R2m_expression) +
   annotate("text", x = 2.5, y = 0.7, label = R2c_expression)
 
-R2m_expression <- expression(paste(" ", R[m]^2 , "= ", 0.025))
-R2c_expression <- expression(paste(" ", R[c]^2 , "= ", 0.715))
+R2m_expression <- expression(paste(" ", R[m]^2 , "= ", 0.024))
+R2c_expression <- expression(paste(" ", R[c]^2 , "= ", 0.717))
 
 local_divstab_agg_fig <- local_dataset_for_mods %>% 
   ggplot(aes(x = alpha_div_scaled, y = CV)) + 
@@ -185,7 +185,7 @@ ggsave(filename = here("figs/local_divstab_fig.png"), plot = local_divstab_fig, 
 # bayesian mixed effects models
 # compositional
 dsrc_g_b <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
-dsrc_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
+dsrc_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.999)
 dsrc_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
 dsrc_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
 dsrc_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.999)
@@ -198,7 +198,7 @@ dsrc_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), 
 # dsrc_a_b_2  <- stan_lmer(alpha_var ~ alpha_div_mean + I(alpha_div_mean^2) + (alpha_div_mean|lter_site), data = metacom_divstab_comp_dat, iter = 5000, adapt_delta = 0.99)
 
 # aggregate
-dsra_g_b  <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
+dsra_g_b  <- stan_lmer(gamma_var ~ gamma_div_mean + (gamma_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.999)
 dsra_ga_b <- stan_lmer(gamma_var ~ alpha_div_mean + (alpha_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.999)
 dsra_gb_b <- stan_lmer(gamma_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
 dsra_b_b  <- stan_lmer(phi_var ~ beta_div_mean + (beta_div_mean|lter_site), data = metacom_divstab_agg_dat, iter = 5000, adapt_delta = 0.99)
