@@ -14,9 +14,7 @@ gc()
 # set up options
 options(stringsAsFactors = FALSE)
 
-#########################
 # libraries
-#########################
 library(tidyverse)
 library(here)
 
@@ -28,17 +26,14 @@ library(here)
 
 library(ltmc)
 
+# get data list based on data in data folder
 data_list <- list.files(path = here("data/")) %>% as_tibble() %>% 
   filter(str_detect(value, "L3-")) %>% 
   filter(str_detect(value, ".csv"))
 
-######################################################
-# -- Loop through data sets and call functions
-#######################################################
 
 
-# loop to read in data, call wrapper function, write results to data_ALL
-# data_ALL <- data.frame()
+# loop to read in data, call wrapper function, write results
 analysis_results <- data.frame()
 local_analysis_results <- data.frame()
 
@@ -238,7 +233,7 @@ for(i in 1:nrow(data_list)){
       
       div.part.var <- data.frame(
         variability_type = 'divpart_time_series',
-        standardization_method = 'q_order_0',
+        standardization_method = 'q_order_0', # richness. change to 1 or 2 for other hill numbers
         div.part %>% summarize(
           alpha_div_mean = mean(alpha_div, na.rm = TRUE),
           alpha_div_cv = ltmc::cv(alpha_div),
@@ -258,7 +253,6 @@ for(i in 1:nrow(data_list)){
         summarize(site_mean_alpha_div = mean(richness))
         
         
-      
       # combine results in one long-fromat dataframe
       analysis_results_i <- data.frame(
         dataset_file_name = str_remove(file.i, "data/"),
@@ -316,11 +310,8 @@ for(i in 1:nrow(data_list)){
 }
 
 
-#####################################
-
+# now save combined results
 write_filename <- paste0('L4_metacommunity_variability_analysis_results_', Sys.Date(), '.csv')
 write_filename_local <- paste0('L4_local_variability_analysis_results_', Sys.Date(), '.csv')
-
-# temp write local
 readr::write_csv(analysis_results, file = here(paste0("results/",write_filename)))
 readr::write_csv(local_analysis_results, file = here(paste0("results/",write_filename_local)))

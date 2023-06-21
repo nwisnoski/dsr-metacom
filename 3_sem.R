@@ -5,16 +5,17 @@ library(lavaan)
 library(lme4)
 library(here)
 
+# load DSR results from previous steps
 env_var <- read_csv(here("data/lter_centroid_satdata.csv")) %>% 
   rename("lter_site" = site)
 data_list <- read_csv(here("data/L3_DATA_list.csv")) %>% 
-  filter(l3_filename != "L3-mcr-fish-castorani.csv") %>% 
   select(
     dataset_id, `LTER site`, mobility, `trophic group`, biome, organism_group, n.plots
   ) %>% 
   rename("lter_site" = "LTER site")
 dsr_tot <- as.data.frame(read_csv(file = "dsr_results_table.csv"))
 
+# build model
 tot_mod <- psem(
   lm(cv_gamma ~ cv_alpha + phi + bd_alpha + bd_phi + bd_gamma + gamma_div_mean + alpha_div_mean + beta_div_mean, data = dsr_tot),
   lm(bd_gamma ~ bd_alpha + bd_phi + gamma_div_mean + alpha_div_mean + beta_div_mean, data = dsr_tot),
@@ -30,27 +31,27 @@ AIC_psem(tot_mod)
 sem_coefs <- coefs(tot_mod)
 rsquared(tot_mod)
 
+# make SEM plot
 sem_path <- plot(
   tot_mod,
   return = T,
-  #node_attrs = data.frame(shape = "rectangle", color = "black", fillcolor = "white"),
-  #edge_attrs = data.frame(style = "solid", color = "black"),
   ns_dashed = T,
   alpha = 0.05,
   show = "std",
   digits = 3,
   add_edge_label_spaces = TRUE)
 
+# color edges by sign of effect
 sem_path$edges_df <- sem_path$edges_df %>% 
   mutate(color = ifelse(as.numeric(label) < 0, "red", "blue"),
          penwidth = abs(coefs(tot_mod)$Std.Estimate) * 5) 
 
-sem_path$edges_df
-
+# tweak plot settings
 get_global_graph_attr_info(sem_path)
 sem_path$global_attrs[7, 2] <- "false"
 sem_path$global_attrs[1, 2] <- "dot"
-?layout_nodes_w_string
+sem_path$global_attrs[5,2] <- 10
+sem_path$global_attrs[14,2] <- 12
 sem_path$nodes_df$label <- c(
   "Agg. Metacommunity \nVariability (CV_gamma)",
   "Comp. Metacommunity \nVariability (BD_gamma)",
@@ -62,9 +63,7 @@ sem_path$nodes_df$label <- c(
   "Avg. Alpha Diversity",
   "Avg. Beta Diversity"
 )
-sem_path$edges_df
-sem_path$global_attrs[5,2] <- 10
-sem_path$global_attrs[14,2] <- 12
+
 
 # remove non significant edges
 sem_path_sigonly <- sem_path %>%
@@ -73,8 +72,6 @@ sem_path_sigonly <- sem_path %>%
 
 sem_plot <- DiagrammeR::render_graph(sem_path)
 sem_plot
-
-
 
 sem_path_sigonly$edges_df <- sem_path_sigonly$edges_df %>% 
   mutate(style = ifelse(as.numeric(label) < 0, "dashed", "solid"))
@@ -85,6 +82,7 @@ sem_plot_sigonly
 
 
 #############
+# here, let's look at another SEM but include some contextual data
 dsr_env <- env_var %>%
   group_by(lter_site) %>%
   summarize(elev_sd_mean = mean(elevation_spatial_sd_slope_60km, na.rm = T),
@@ -163,11 +161,6 @@ env_path_sigonly <- env_path %>%
 
 env_plot <- DiagrammeR::render_graph(env_path)
 env_plot
-
-
-
-# env_path_sigonly$edges_df <- env_path_sigonly$edges_df %>% 
-#   mutate(style = ifelse(as.numeric(label) < 0, "dashed", "solid"))
 
 env_plot_sigonly <- DiagrammeR::render_graph(env_path_sigonly)
 env_plot_sigonly

@@ -50,8 +50,7 @@ local_var <- data_list %>%
 unique(local_var$dataset_id) 
 unique(metacom_var$dataset_id) 
 
-# set up data frames
-
+# set up data frames for local scale DSRs
 metacom_divstab_comp_dat <- metacom_var %>% select(dataset_id, lter_site, organism_group, variability_type, standardization_method, metric, metric_value) %>% 
   filter(standardization_method == "h") %>% 
   pivot_wider(names_from = "metric", values_from = "metric_value") %>% 
@@ -84,8 +83,7 @@ unique(local_divstab_regs$dataset_id)
 # This shows patterns within metacommunities about local community richness and variability
 # Then compares across all sites, to show that sometimes these local relationships are stronger than others
 
-
-### mixed effects models
+# mixed effects models
 local_dataset_for_mods <- local_var %>% select(dataset_id, lter_site, SITE_ID, organism_group, metric, metric_value) %>% 
   pivot_wider(names_from = "metric", values_from = "metric_value") 
 local_dataset_for_mods <- local_dataset_for_mods %>% group_by(dataset_id) %>% 
@@ -102,7 +100,7 @@ local_comp_mod_lmm.2 <- lmer(BD ~ alpha_div_scaled + (1|dataset_id), data = loca
 local_comp_mod_lmm.3 <- lmer(BD ~ alpha_div_scaled + I(alpha_div_scaled^2) + (1|dataset_id), data = local_dataset_for_mods)
 local_comp_mod_lmm.4 <- lmer(BD ~ alpha_div_scaled + I(alpha_div_scaled^2) + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
 
-
+# compare models
 AIC(local_comp_mod_lmm.0, local_comp_mod_lmm.1, local_comp_mod_lmm.2, local_comp_mod_lmm.3, local_comp_mod_lmm.4)
 local_comp_mod_lmm <- local_comp_mod_lmm.1
 summary(local_comp_mod_lmm)
@@ -121,14 +119,14 @@ local_agg_mod_lmm.2 <- lmer(CV ~ alpha_div_scaled + (1|dataset_id), data = local
 local_agg_mod_lmm.3 <- lmer(CV ~ alpha_div_scaled + I(alpha_div_scaled^2) + (1|dataset_id), data = local_dataset_for_mods)
 local_agg_mod_lmm.4 <- lmer(CV ~ alpha_div_scaled + I(alpha_div_scaled^2) + (alpha_div_scaled|dataset_id), data = local_dataset_for_mods)
 
+# compare models
 AIC(local_agg_mod_lmm.0, local_agg_mod_lmm.1, local_agg_mod_lmm.2, local_agg_mod_lmm.3, local_agg_mod_lmm.4)
 local_agg_mod_lmm <- local_agg_mod_lmm.1
 summary(local_agg_mod_lmm)
 plot(local_agg_mod_lmm)
 coef(local_agg_mod_lmm)
 
-
-# make re figs
+# make figs to visualize random effects
 ggsave(filename = "figs/local_agg_randomeffects.png", 
        plot = plot_model(local_agg_mod_lmm, type = "re"),
        width = 7, height = 6, dpi = 1000, bg = "white")
@@ -137,19 +135,18 @@ ggsave(filename = "figs/local_comp_randomeffects.png",
        width = 7, height = 6, dpi = 1000, bg = "white")
 tab_model(local_agg_mod_lmm, local_comp_mod_lmm, file = "tables/DSR_local_models.html")
 
+# compare variance explained
 (r2m_comp <- r.squaredGLMM(local_comp_mod_lmm)[1])
 (r2c_comp <- r.squaredGLMM(local_comp_mod_lmm)[2])
 
 (r2m_agg <- r.squaredGLMM(local_agg_mod_lmm)[1])
 (r2c_agg <- r.squaredGLMM(local_agg_mod_lmm)[2])
 
-### make figs
-
+# make figures for DSRs
 R2m_expression <- expression(paste(" ", R[m]^2 , "= ", 0.013))
 R2c_expression <- expression(paste(" ", R[c]^2 , "= ", 0.726))
 
 local_divstab_comp_fig <- local_dataset_for_mods %>% 
-                          
   ggplot(aes(x = alpha_div_scaled, y = BD)) + 
   geom_point(mapping = aes(group = dataset_id, color = organism_group, shape = organism_group), alpha = 0.5) + 
   geom_smooth(mapping = aes(group= dataset_id, color = organism_group), method = "lm", linewidth=0.5, se = F, show.legend = FALSE) + 
@@ -160,14 +157,10 @@ local_divstab_comp_fig <- local_dataset_for_mods %>%
   annotate("text", x = 2.5, y = 0.8, label = R2m_expression) +
   annotate("text", x = 2.5, y = 0.7, label = R2c_expression)
 
-local_divstab_comp_fig
-
-
 R2m_expression <- expression(paste(" ", R[m]^2 , "= ", 0.025))
 R2c_expression <- expression(paste(" ", R[c]^2 , "= ", 0.715))
 
 local_divstab_agg_fig <- local_dataset_for_mods %>% 
-  
   ggplot(aes(x = alpha_div_scaled, y = CV)) + 
   geom_point(mapping = aes(group = dataset_id, color = organism_group, shape = organism_group), alpha = 0.5) + 
   geom_smooth(mapping = aes(group = dataset_id, color = organism_group), method = "lm", size =0.5, se = F, show.legend = FALSE) + 
@@ -177,9 +170,8 @@ local_divstab_agg_fig <- local_dataset_for_mods %>%
   #scale_y_log10() +
   annotate("text", x = 2.5, y = 1.6, label = R2m_expression) +
   annotate("text", x = 2.5, y = 1.4, label = R2c_expression)
-local_divstab_agg_fig
 
-
+# combine panels into one figure
 local_divstab_fig <- local_divstab_agg_fig + local_divstab_comp_fig + 
   plot_layout(ncol = 1, guides = "collect") + plot_annotation(tag_levels = "a", tag_prefix = "(", tag_suffix = ")")
 ggsave(filename = here("figs/local_divstab_fig.png"), plot = local_divstab_fig, dpi = 600, width = 6, height = 6*3/4*2, bg = "white")
@@ -187,7 +179,7 @@ ggsave(filename = here("figs/local_divstab_fig.png"), plot = local_divstab_fig, 
 
 
 # 3. REGIONAL DIVERSITY STABILITY ------------------------------------------------
-# What happens when we look at the regional scale?
+# Now let's look at the regional scale
 # Do we see richness-variability relationships with composition and aggregate at across metacommunities?
 
 # bayesian mixed effects models
@@ -252,7 +244,7 @@ dsra_a_b  <- stan_lmer(alpha_var ~ alpha_div_mean + (alpha_div_mean|lter_site), 
 # loo2 <- loo(dsra_a_b_2, k_threshold = 0.7)
 # loo_compare(loo1, loo2) # linear 
 
-
+# visualize predicted fits to data
 pdf(file = "figs/posterior_fits.pdf", width = 12, height = 6)
 par(mfrow = c(2, 5))
 boxplot(posterior_predict(dsrc_g_b), pch = NA, ylab = "Comp. Gamma Var")
@@ -278,7 +270,7 @@ boxplot(posterior_predict(dsra_a_b), pch = NA, ylab = "Agg. Alpha Var")
 points(metacom_divstab_agg_dat$alpha_var, pch = 16, col = "red")
 dev.off()
 
-
+# make tables for the models
 tab_model(dsrc_g_b, dsrc_gb_b, dsrc_ga_b,  dsrc_b_b, dsrc_a_b,  
           pred.labels = c("Intercept", "Mean Gamma-Diversity", 
                           "Mean Beta-Diversity", "Mean Alpha-Diversity"), 
@@ -295,9 +287,9 @@ tab_model(dsra_g_b, dsra_gb_b, dsra_ga_b,  dsra_b_b, dsra_a_b, show.re.var = T,
           file = "tables/DSRs_agg_models.html")
 
 
-# regional compositional variability
+# make figures for regional compositional variability
 
-# compositional models
+# first, compositional models
 
 # gamma variability vs. gamma diversity
 b0 <- tidy(dsrc_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
@@ -360,7 +352,7 @@ b1 <- tidy(dsrc_gb_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$est
          color = "Organism group", shape = "Organism group")
 )
 
-# regional aggregate variability
+# next, regional aggregate variability
 
 # gamma variability vs. gamma diversity
 b0 <- tidy(dsra_g_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$estimate[1]
@@ -429,7 +421,7 @@ div_stab_multipanel_fig <- div_stab_gamma_agg + div_stab_gamma_h +
   div_stab_alpha_gamma_agg + div_stab_alpha_gamma_h +
   plot_annotation(tag_levels = "a", tag_prefix = "(", tag_suffix = ")") +
   plot_layout(guides = "collect", nrow = 3)
-ggsave(filename = "figs/diversity_variability.png", plot = div_stab_multipanel_fig, width = 2.5*4, height = 3*3, units = "in", dpi = 1000, bg = "white")
+ggsave(filename = "figs/diversity_variability.pdf", plot = div_stab_multipanel_fig, width = 2.5*4, height = 3*3, units = "in", bg = "white")
 
 
 # 4. COMPARE BETA DIVERSITY WITH PHI, SYNCHRONY
@@ -471,7 +463,7 @@ b1 <- tidy(dsra_b_b, effects = "fixed", conf.int = TRUE, conf.level = 0.80)$esti
 div_stab_phi_beta_fig <- (div_stab_phi_agg) + div_stab_phi_h + 
   plot_annotation(tag_levels = "A") +
   plot_layout(guides = "collect", nrow = 2)
-ggsave(filename = "figs/beta_phi.png", plot = div_stab_phi_beta_fig, width = 1.5*4, height = 2*3, units = "in", dpi = 1000, bg = "white")
+ggsave(filename = "figs/beta_phi.pdf", plot = div_stab_phi_beta_fig, width = 1.5*4, height = 2*3, units = "in", bg = "white")
 
 
 # Combine all alpha-alpha, beta-beta panels to make Figure 1
@@ -481,7 +473,7 @@ div_stab_multiscale_partition_fig <-
   #div_stab_gamma_agg + div_stab_gamma_h +
   plot_annotation(tag_levels = "a", tag_prefix = "(", tag_suffix = ")") +
   plot_layout(guides = "collect", nrow = 2)
-ggsave(filename = "figs/diversity_variability_alpha_beta.png", plot = div_stab_multiscale_partition_fig, width = 2.7*4, height = 3.2*3, units = "in", dpi = 1000, bg = "white")
+ggsave(filename = "figs/diversity_variability_alpha_beta.pdf", plot = div_stab_multiscale_partition_fig, width = 2.7*4, height = 3.2*3, units = "in", bg = "white")
 
 
 
@@ -490,6 +482,7 @@ comp_agg_stab <- left_join(metacom_divstab_agg_dat, metacom_divstab_comp_dat, by
 
 s_rho <- cor(comp_agg_stab$phi_var_comp, comp_agg_stab$phi_var_agg, use = "pairwise.complete", method = "spearman")
 
+# make Figure 2
 phi_compare <- na.omit(comp_agg_stab) %>% 
   ggplot(aes(y = phi_var_agg,
              x = phi_var_comp,  label = lter_site, 
@@ -506,10 +499,11 @@ phi_compare <- na.omit(comp_agg_stab) %>%
   scale_y_continuous(breaks = c(0.2, 0.4, 0.6, 0.8)) + 
   theme(legend.position = "right") +
   annotate("text", x = .75, y = 0.1, size = 5, label = expression(paste(rho, "= 0.47")))
-ggsave("figs/phi_comparison.png",plot = phi_compare, bg = "white", width = 6, height = 3/4*6, dpi = 600)
+ggsave("figs/phi_comparison.pdf",plot = phi_compare, bg = "white", width = 6, height = 3/4*6)
 
 
 # 5. PARTITIONING DSRs --------------------------------------------------------
+# here, lets make a results table to be used in the Structural Equation Model
 dsr_ag <- metacom_divstab_agg_dat %>% 
   rename(cv_gamma = gamma_var, 
          phi = phi_var,
@@ -525,10 +519,9 @@ dsr_tot <- left_join(dsr_ag, dsr_com)
 write_csv(dsr_tot, file = "dsr_results_table.csv")
 
 
-# https://rpubs.com/tjmahr/sem_diagrammer
 # 6. ENVIRONMENTS AND TRAITS -------------------------------------------------
-
-
+ 
+# make supplemental figure Appendix S2, Fig S1
 values_by_taxa_fig <- metacom_var %>% 
   filter(metric %in% c("gamma_var", "alpha_var", "phi_var")) %>% 
   mutate(metric = ifelse(metric == "gamma_var", "Metacommunity",
@@ -549,7 +542,7 @@ ggsave(plot = values_by_taxa_fig,
        filename = "figs/variability_taxa.png", 
        width = 6, height = 6, dpi = 1000, bg = "white")
 
-
+# next, make supplemental figure Appendix S2, Fig S2
 metacom_var_renamed <- str_split(metacom_var$dataset_id, pattern = "-", simplify = T)
 colnames(metacom_var_renamed) <- c("site", "org", "person")
 metacom_var_renamed <- metacom_var_renamed %>% as_tibble() %>% bind_cols(metacom_var) %>% 
@@ -571,10 +564,8 @@ values_by_dataset_fig <- metacom_var_renamed %>%
   scale_color_manual(values = pal, drop = FALSE) +
   facet_grid(variability_type ~ metric) +
   coord_flip() +
-  #theme(legend.position = "none") + 
   theme(panel.grid.major.x = element_line(color = "grey90")) +
   labs(x = "", y = "", color = "Organism group")
-#values_by_dataset_fig
 ggsave(plot = values_by_dataset_fig,
        filename = "figs/variability_dataset.png",
        width = 12, height = 12, dpi = 1000, bg = "white")
